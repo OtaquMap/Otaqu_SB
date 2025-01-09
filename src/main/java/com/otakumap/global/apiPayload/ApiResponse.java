@@ -1,10 +1,10 @@
-package com.otakumap.apiPayload;
+package com.otakumap.global.apiPayload;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.otakumap.apiPayload.code.BaseCode;
-import com.otakumap.apiPayload.code.status.SuccessStatus;
+import com.otakumap.global.apiPayload.code.BaseCode;
+import com.otakumap.global.apiPayload.code.status.SuccessStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

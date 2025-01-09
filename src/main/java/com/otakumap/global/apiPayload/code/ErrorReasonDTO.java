@@ -1,4 +1,4 @@
-package com.otakumap.apiPayload.code;
+package com.otakumap.global.apiPayload.code;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,7 +1,7 @@
-package com.otakumap.apiPayload.exception;
+package com.otakumap.global.apiPayload.exception;
 
-import com.otakumap.apiPayload.code.BaseErrorCode;
-import com.otakumap.apiPayload.code.ErrorReasonDTO;
+import com.otakumap.global.apiPayload.code.BaseErrorCode;
+import com.otakumap.global.apiPayload.code.ErrorReasonDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

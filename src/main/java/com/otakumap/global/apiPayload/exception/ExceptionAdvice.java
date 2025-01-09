@@ -1,8 +1,8 @@
-package com.otakumap.apiPayload.exception;
+package com.otakumap.global.apiPayload.exception;
 
-import com.otakumap.apiPayload.ApiResponse;
-import com.otakumap.apiPayload.code.ErrorReasonDTO;
-import com.otakumap.apiPayload.code.status.ErrorStatus;
+import com.otakumap.global.apiPayload.ApiResponse;
+import com.otakumap.global.apiPayload.code.ErrorReasonDTO;
+import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
