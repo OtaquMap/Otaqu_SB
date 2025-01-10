@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public enum Genre {
-    SUNJEONG("순정"),
+    ROMANCE("순정"),
     ACTION("액션"),
     FANTASY("판타지"),
     THRILLER("스릴러"),
