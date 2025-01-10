@@ -42,9 +42,6 @@ public class User extends BaseEntity {
     @Column(length = 15)
     private String nickname;
 
-    @Column(columnDefinition = "TEXT")
-    private String profileImage;
-
     @ColumnDefault("0")
     @Column(nullable = false)
     private Integer donation;
