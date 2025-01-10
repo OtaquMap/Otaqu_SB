@@ -56,4 +56,8 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(10) DEFAULT 'USER'", nullable = false)
     private Role role;
+
+    @ColumnDefault("FALSE")
+    @Column(name = "is_email_verified")
+    private Boolean isEmailVerified;
 }
