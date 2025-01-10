@@ -21,11 +21,14 @@ public class Event extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 50) // 대표로 사용되는 이벤트 한글 제목
     private String title;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 50) // 이벤트 일본어 원제
     private String name;
+
+    @Column(nullable = false, length = 50) // 이벤트에 해당하는 애니메이션 이름
+    private String animationName;
 
     @Column(nullable = false)
     private LocalDate startDate;
@@ -51,6 +54,10 @@ public class Event extends BaseEntity {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "thumbnail_image_id", referencedColumnName = "id")
     private Image thumbnailImage;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "backgroud_image_id", referencedColumnName = "id")
+    private Image backgroudImage;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "goods_image_id", referencedColumnName = "id")
