@@ -4,6 +4,7 @@ import com.otakumap.domain.place_short_review.DTO.PlaceShortReviewResponseDTO;
 import com.otakumap.domain.place_short_review.converter.PlaceShortReviewConverter;
 import com.otakumap.domain.place_short_review.service.PlaceShortReviewQueryService;
 import com.otakumap.global.apiPayload.ApiResponse;
+import com.otakumap.global.validation.annotation.ExistPlace;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -29,7 +30,7 @@ public class PlaceShortReviewController {
     @Parameters({
             @Parameter(name = "placeId", description = "명소의 아이디입니다.")
     })
-    public ApiResponse<PlaceShortReviewResponseDTO.PlaceShortReviewListDTO> getPlaceShortReviewList(@PathVariable(name = "placeId") Long placeId, @RequestParam(name = "page") Integer page){
+    public ApiResponse<PlaceShortReviewResponseDTO.PlaceShortReviewListDTO> getPlaceShortReviewList(@ExistPlace @PathVariable(name = "placeId") Long placeId, @RequestParam(name = "page") Integer page){
         return ApiResponse.onSuccess(PlaceShortReviewConverter.placeShortReviewListDTO(placeShortReviewQueryService.getPlaceShortReviews(placeId, page)));
     }
 }
