@@ -19,9 +19,10 @@ public class PlaceShortReviewConverter {
                 .build();
     }
 
-    public static PlaceShortReview toPlaceShortReview(PlaceShortReviewRequestDTO.CreateDTO request, User user) {
+    public static PlaceShortReview toPlaceShortReview(PlaceShortReviewRequestDTO.CreateDTO request, User user, Place place) {
         return PlaceShortReview.builder()
                 .user(user)
+                .place(place)
                 .rating(request.getRating())
                 .content(request.getContent())
                 .build();

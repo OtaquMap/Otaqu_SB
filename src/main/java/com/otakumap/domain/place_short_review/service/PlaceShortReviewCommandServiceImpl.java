@@ -31,7 +31,7 @@ public class PlaceShortReviewCommandServiceImpl implements PlaceShortReviewComma
         Place place = placeRepository.findById(placeId)
                 .orElseThrow(() -> new PlaceHandler(ErrorStatus.PLACE_NOT_FOUND));
 
-        PlaceShortReview newReview = PlaceShortReviewConverter.toPlaceShortReview(request, user);
+        PlaceShortReview newReview = PlaceShortReviewConverter.toPlaceShortReview(request, user, place);
 
         return placeShortReviewRepository.save(newReview);
     }

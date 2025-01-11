@@ -14,6 +14,7 @@ public class PlaceShortReviewResponseDTO {
     @AllArgsConstructor
     public static class CreateReviewDTO {
         private Long reviewId;
+        private Long placeId;
         private Integer rating;
         private String content;
         private LocalDateTime createdAt;
