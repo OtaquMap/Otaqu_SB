@@ -1,4 +1,4 @@
-package com.otakumap.domain.User.enums;
+package com.otakumap.domain.user.enums;
 
 public enum Role {
     USER,

@@ -1,7 +1,7 @@
 package com.otakumap.domain.eventShortReview.service;
 
-import com.otakumap.domain.User.entity.User;
-import com.otakumap.domain.User.repository.UserRepository;
+import com.otakumap.domain.user.entity.User;
+import com.otakumap.domain.user.repository.UserRepository;
 import com.otakumap.domain.event.entity.Event;
 import com.otakumap.domain.event.repository.EventRepository;
 import com.otakumap.domain.eventShortReview.converter.EventShortReviewConverter;

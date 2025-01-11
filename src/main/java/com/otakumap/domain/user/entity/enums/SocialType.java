@@ -1,4 +1,4 @@
-package com.otakumap.domain.User.enums;
+package com.otakumap.domain.user.entity.enums;
 
 public enum SocialType {
     KAKAO,

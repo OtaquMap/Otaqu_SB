@@ -1,6 +1,6 @@
 package com.otakumap.domain.eventShortReview.converter;
 
-import com.otakumap.domain.User.entity.User;
+import com.otakumap.domain.user.entity.User;
 import com.otakumap.domain.event.entity.Event;
 import com.otakumap.domain.eventShortReview.dto.EventShortReviewRequestDTO;
 import com.otakumap.domain.eventShortReview.dto.EventShortReviewResponseDTO;

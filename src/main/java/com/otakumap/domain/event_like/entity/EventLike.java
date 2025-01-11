@@ -1,7 +1,7 @@
-package com.otakumap.domain.eventShortReview.entity;
+package com.otakumap.domain.event_like.entity;
 
-import com.otakumap.domain.user.entity.User;
 import com.otakumap.domain.event.entity.Event;
+import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,30 +16,20 @@ import org.hibernate.annotations.DynamicUpdate;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class EventShortReview extends BaseEntity {
-
+public class EventLike extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "event_id")
+    @ManyToOne
+    @JoinColumn(name = "event_id", nullable = false)
     private Event event;
 
-    @Column(length = 50, nullable = false)
-    private String content;
-
-    @Column(nullable = false)
-    private Float rating;
-
-    @ColumnDefault("0")
-    private int likes;
-
-    @ColumnDefault("0")
-    private int dislikes;
-
+    @Column(name = "is_favorite", nullable = false)
+    @ColumnDefault("false")
+    private Boolean isFavorite;
 }

@@ -1,9 +1,9 @@
-package com.otakumap.domain.User.entity;
+package com.otakumap.domain.user.entity;
 
-import com.otakumap.domain.User.enums.Role;
-import com.otakumap.domain.User.enums.SocialType;
-import com.otakumap.domain.User.enums.UserStatus;
 import com.otakumap.domain.image.entity.Image;
+import com.otakumap.domain.user.entity.enums.Role;
+import com.otakumap.domain.user.entity.enums.SocialType;
+import com.otakumap.domain.user.entity.enums.UserStatus;
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -33,10 +33,6 @@ public class User extends BaseEntity {
     @Column(length = 30, nullable = false)
     private String email;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "profile_image_id", referencedColumnName = "id")
-    private Image profileImage;
-
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(10)")
     private SocialType socialType;
@@ -62,4 +58,8 @@ public class User extends BaseEntity {
     @ColumnDefault("FALSE")
     @Column(name = "is_email_verified")
     private Boolean isEmailVerified;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_image_id", referencedColumnName = "id")
+    private Image profileImage;
 }

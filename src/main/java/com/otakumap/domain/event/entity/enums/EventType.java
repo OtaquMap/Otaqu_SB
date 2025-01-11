@@ -9,5 +9,4 @@ public enum EventType {
     COLLABORATION_CAFE("콜라보 카페");
 
     private final String description;
-
 }
