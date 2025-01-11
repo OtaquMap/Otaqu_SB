@@ -3,16 +3,14 @@ package com.otakumap.domain.event.entity;
 import com.otakumap.domain.event.entity.enums.EventStatus;
 import com.otakumap.domain.event.entity.enums.EventType;
 import com.otakumap.domain.event.entity.enums.Genre;
-
 import com.otakumap.domain.eventLocation.entity.EventLocation;
+import com.otakumap.domain.event_like.entity.EventLike;
 import com.otakumap.domain.image.entity.Image;
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDate;
-
-
-import com.otakumap.domain.event_like.entity.EventLike;
 import java.util.ArrayList;
 import java.util.List;
 
