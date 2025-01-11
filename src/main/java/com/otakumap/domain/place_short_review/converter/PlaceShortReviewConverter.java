@@ -9,6 +9,7 @@ import com.otakumap.domain.user.entity.User;
 public class PlaceShortReviewConverter {
     public static PlaceShortReviewResponseDTO.CreateReviewDTO toCreateReviewDTO(PlaceShortReview placeShortReview) {
         User user = placeShortReview.getUser();
+        Place place = placeShortReview.getPlace();
         return PlaceShortReviewResponseDTO.CreateReviewDTO.builder()
                 .reviewId(placeShortReview.getId())
                 .rating(placeShortReview.getRating().intValue())
@@ -16,6 +17,7 @@ public class PlaceShortReviewConverter {
                 .createdAt(placeShortReview.getCreatedAt())
                 .userId(user.getId())
                 .nickname(user.getNickname())
+                .placeId(place.getId())
                 .build();
     }
 
