@@ -12,7 +12,7 @@ public class PlaceShortReviewConverter {
         Place place = placeShortReview.getPlace();
         return PlaceShortReviewResponseDTO.CreateReviewDTO.builder()
                 .reviewId(placeShortReview.getId())
-                .rating(placeShortReview.getRating().intValue())
+                .rating(placeShortReview.getRating())
                 .content(placeShortReview.getContent())
                 .createdAt(placeShortReview.getCreatedAt())
                 .userId(user.getId())

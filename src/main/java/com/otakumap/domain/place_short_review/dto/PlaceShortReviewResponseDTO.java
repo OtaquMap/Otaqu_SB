@@ -15,7 +15,7 @@ public class PlaceShortReviewResponseDTO {
     public static class CreateReviewDTO {
         private Long reviewId;
         private Long placeId;
-        private Integer rating;
+        private Float rating;
         private String content;
         private LocalDateTime createdAt;
         private Long userId;
