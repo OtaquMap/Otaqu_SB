@@ -42,10 +42,4 @@ public class EventShortReview extends BaseEntity {
     @ColumnDefault("0")
     private int dislikes;
 
-
-
-
-
-
-
 }
