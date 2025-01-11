@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Validated
-@RequestMapping("/places")
+@RequestMapping("/api")
 public class PlaceShortReviewController {
 
 
     private final PlaceShortReviewQueryService placeShortReviewQueryService;
 
-    @GetMapping("/{placeId}/short-review")
+    @GetMapping("/places/{placeId}/short-review")
     @Operation(summary = "특정 명소의 한 줄 리뷰 목록 조회 API", description = "특정 명소의 한 줄 리뷰 목록을 조회하는 API이며, 페이징을 포함합니다. query string으로 page 번호를 함께 보내주세요.")
     @ApiResponses({
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200", description = "OK, 성공"),
