@@ -3,6 +3,7 @@ package com.otakumap.domain.User.entity;
 import com.otakumap.domain.User.enums.Role;
 import com.otakumap.domain.User.enums.SocialType;
 import com.otakumap.domain.User.enums.UserStatus;
+import com.otakumap.domain.image.entity.Image;
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,6 +32,10 @@ public class User extends BaseEntity {
 
     @Column(length = 30, nullable = false)
     private String email;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_image_id", referencedColumnName = "id")
+    private Image profileImage;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(10)")
