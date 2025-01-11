@@ -14,12 +14,10 @@ public class PlaceShortReviewResponseDTO {
     @AllArgsConstructor
     public static class CreateReviewDTO {
         private Long reviewId;
-        private Long placeId;
         private Float rating;
         private String content;
         private LocalDateTime createdAt;
         private Long userId;
-        private String nickname;
-//        private String profilePicture;
+        private Long placeId;
     }
 }

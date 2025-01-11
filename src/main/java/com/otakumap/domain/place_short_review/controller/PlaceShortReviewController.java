@@ -19,7 +19,6 @@ public class PlaceShortReviewController {
     @PostMapping("/{placeId}/short-review")
     public ApiResponse<PlaceShortReviewResponseDTO.CreateReviewDTO> createReview(
             @PathVariable Long placeId,
-            // TODO: place id validation
             @RequestBody @Valid PlaceShortReviewRequestDTO.CreateDTO request) {
         PlaceShortReview placeShortReview = placeShortReviewCommandService.createReview(placeId, request);
         return ApiResponse.onSuccess(PlaceShortReviewConverter.toCreateReviewDTO(placeShortReview));

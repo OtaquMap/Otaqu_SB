@@ -16,7 +16,6 @@ public class PlaceShortReviewConverter {
                 .content(placeShortReview.getContent())
                 .createdAt(placeShortReview.getCreatedAt())
                 .userId(user.getId())
-                .nickname(user.getNickname())
                 .placeId(place.getId())
                 .build();
     }
