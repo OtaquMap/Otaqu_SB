@@ -20,7 +20,10 @@ public enum ErrorStatus implements BaseErrorCode {
     USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "USER4001", "사용자가 없습니다."),
 
     // 이벤트 좋아요 관련 에러
-    EVENT_LIKE_NOT_FOUND(HttpStatus.BAD_REQUEST, "EVENT4001", "저장되지 않은 이벤트입니다.");
+    EVENT_LIKE_NOT_FOUND(HttpStatus.BAD_REQUEST, "EVENT4001", "저장되지 않은 이벤트입니다."),
+
+    // 이벤트 상세 정보 관련 에러
+    EVENT_NOT_FOUND(HttpStatus.BAD_REQUEST, "EVENT4002", "존재하지 않는 이벤트입니다.");
 
 
     private final HttpStatus httpStatus;
