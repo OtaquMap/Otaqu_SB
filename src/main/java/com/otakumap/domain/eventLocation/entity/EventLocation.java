@@ -1,7 +1,6 @@
 package com.otakumap.domain.eventLocation.entity;
 
 import com.otakumap.domain.event.entity.Event;
-import com.otakumap.domain.event.entity.enums.EventStatus;
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;

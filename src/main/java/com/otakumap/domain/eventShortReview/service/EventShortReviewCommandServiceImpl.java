@@ -8,8 +8,6 @@ import com.otakumap.domain.eventShortReview.converter.EventShortReviewConverter;
 import com.otakumap.domain.eventShortReview.dto.EventShortReviewRequestDTO;
 import com.otakumap.domain.eventShortReview.entity.EventShortReview;
 import com.otakumap.domain.eventShortReview.repository.EventShortReviewRepository;
-import com.otakumap.domain.image.converter.ImageConverter;
-import com.otakumap.domain.image.dto.ImageResponseDTO;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.EventHandler;
 import com.otakumap.global.apiPayload.exception.handler.UserHandler;

@@ -1,6 +1,5 @@
 package com.otakumap.domain.eventShortReview.dto;
 
-import com.otakumap.domain.User.entity.User;
 import com.otakumap.domain.image.dto.ImageResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

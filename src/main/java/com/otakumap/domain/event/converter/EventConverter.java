@@ -4,7 +4,6 @@ import com.otakumap.domain.event.dto.EventResponseDTO;
 import com.otakumap.domain.event.entity.Event;
 import com.otakumap.domain.eventLocation.converter.EventLocationConverter;
 import com.otakumap.domain.image.converter.ImageConverter;
-import com.otakumap.domain.image.dto.ImageResponseDTO;
 
 public class EventConverter {
 

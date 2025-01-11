@@ -1,8 +1,6 @@
 package com.otakumap.domain.eventShortReview.dto;
 
-import com.otakumap.domain.User.entity.User;
 import lombok.Getter;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 public class EventShortReviewRequestDTO {
 

@@ -7,8 +7,6 @@ import com.otakumap.domain.eventShortReview.dto.EventShortReviewResponseDTO;
 import com.otakumap.domain.eventShortReview.entity.EventShortReview;
 import com.otakumap.domain.image.converter.ImageConverter;
 
-import java.time.LocalDateTime;
-
 public class EventShortReviewConverter {
     public static EventShortReview toEventShortReview(EventShortReviewRequestDTO.NewEventShortReviewDTO request, Event event, User user) {
         return EventShortReview.builder()
