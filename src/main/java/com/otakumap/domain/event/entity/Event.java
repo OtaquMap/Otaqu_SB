@@ -3,6 +3,7 @@ package com.otakumap.domain.event.entity;
 import com.otakumap.domain.event.entity.enums.EventStatus;
 import com.otakumap.domain.event.entity.enums.EventType;
 import com.otakumap.domain.event.entity.enums.Genre;
+import com.otakumap.domain.eventLocation.entity.EventLocation;
 import com.otakumap.domain.image.entity.Image;
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
@@ -62,5 +63,9 @@ public class Event extends BaseEntity {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "goods_image_id", referencedColumnName = "id")
     private Image goodsImage;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "event_location_id")
+    private EventLocation eventLocation;
 
 }

@@ -26,7 +26,6 @@ public class EventLocation extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String longitude;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "event_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "eventLocation", fetch = FetchType.LAZY)
     private Event event;
 }

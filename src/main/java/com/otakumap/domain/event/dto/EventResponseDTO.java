@@ -1,5 +1,6 @@
 package com.otakumap.domain.event.dto;
 
+import com.otakumap.domain.eventLocation.dto.EventLocationResponseDTO;
 import com.otakumap.domain.image.dto.ImageResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,10 +20,12 @@ public class EventResponseDTO {
         String title;
         String animationName;
         String name;
+        String site;
         LocalDate startDate;
         LocalDate endDate;
         ImageResponseDTO.ImageDTO thumbnailImage;
         ImageResponseDTO.ImageDTO backgroundImage;
         ImageResponseDTO.ImageDTO goodsImage;
+        EventLocationResponseDTO.EventLocationDTO eventLocation;
     }
 }
