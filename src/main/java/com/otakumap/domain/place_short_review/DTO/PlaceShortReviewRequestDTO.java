@@ -1,4 +1,4 @@
-package com.otakumap.domain.place_short_review.dto;
+package com.otakumap.domain.place_short_review.DTO;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

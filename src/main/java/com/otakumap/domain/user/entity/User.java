@@ -1,5 +1,6 @@
 package com.otakumap.domain.user.entity;
 
+import com.otakumap.domain.image.entity.Image;
 import com.otakumap.domain.user.entity.enums.Role;
 import com.otakumap.domain.user.entity.enums.SocialType;
 import com.otakumap.domain.user.entity.enums.UserStatus;
@@ -57,4 +58,8 @@ public class User extends BaseEntity {
     @ColumnDefault("FALSE")
     @Column(name = "is_email_verified")
     private Boolean isEmailVerified;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_image_id", referencedColumnName = "id")
+    private Image profileImage;
 }

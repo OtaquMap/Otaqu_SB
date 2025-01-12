@@ -11,7 +11,7 @@ public class EventLikeConverter {
                 .id(eventLike.getId())
                 .eventId(eventLike.getEvent().getId())
                 .name(eventLike.getEvent().getName())
-                .thumbnail(eventLike.getEvent().getThumbnail())
+//                .thumbnail(eventLike.getEvent().getThumbnail())
                 .startDate(eventLike.getEvent().getStartDate())
                 .endDate(eventLike.getEvent().getEndDate())
                 .isFavorite(eventLike.getIsFavorite())

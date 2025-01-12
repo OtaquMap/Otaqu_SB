@@ -3,7 +3,7 @@ package com.otakumap.domain.place_short_review.service;
 import com.otakumap.domain.place.entity.Place;
 import com.otakumap.domain.place.repository.PlaceRepository;
 import com.otakumap.domain.place_short_review.converter.PlaceShortReviewConverter;
-import com.otakumap.domain.place_short_review.dto.PlaceShortReviewRequestDTO;
+import com.otakumap.domain.place_short_review.DTO.PlaceShortReviewRequestDTO;
 import com.otakumap.domain.place_short_review.entity.PlaceShortReview;
 import com.otakumap.domain.place_short_review.repository.PlaceShortReviewRepository;
 import com.otakumap.domain.user.entity.User;
