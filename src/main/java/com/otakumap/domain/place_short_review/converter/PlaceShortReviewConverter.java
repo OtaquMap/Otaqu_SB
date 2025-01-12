@@ -66,6 +66,8 @@ public class PlaceShortReviewConverter {
                 .place(place)
                 .rating(request.getRating())
                 .content(request.getContent())
+                .dislikes(0L)
+                .likes(0L)
                 .build();
     }
 }

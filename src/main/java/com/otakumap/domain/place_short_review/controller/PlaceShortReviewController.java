@@ -38,6 +38,7 @@ public class PlaceShortReviewController {
     }
 
     @PostMapping("/places/{placeId}/short-review")
+    @Operation(summary = "특정 명소의 한 줄 리뷰 목록 작성 API", description = "특정 명소의 한 줄 리뷰를 작성하는 API입니다.")
     public ApiResponse<PlaceShortReviewResponseDTO.CreateReviewDTO> createReview(
             @PathVariable Long placeId,
             @RequestBody @Valid PlaceShortReviewRequestDTO.CreateDTO request) {
