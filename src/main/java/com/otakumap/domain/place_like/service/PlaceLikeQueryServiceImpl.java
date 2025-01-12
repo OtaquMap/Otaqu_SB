@@ -2,6 +2,7 @@ package com.otakumap.domain.place_like.service;
 
 import com.otakumap.domain.place_like.converter.PlaceLikeConverter;
 import com.otakumap.domain.place_like.dto.PlaceLikeResponseDTO;
+import com.otakumap.domain.place_like.entity.PlaceLike;
 import com.otakumap.domain.place_like.repository.PlaceLikeRepository;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.domain.user.repository.UserRepository;
@@ -9,6 +10,7 @@ import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.EventHandler;
 import com.otakumap.global.apiPayload.exception.handler.UserHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,38 +28,40 @@ public class PlaceLikeQueryServiceImpl implements PlaceLikeQueryService {
 
     @Override
     public PlaceLikeResponseDTO.PlaceLikePreViewListDTO getPlaceLikeList(Long userId, Long lastId, int limit) {
-        List<PlaceLike> result;
-        Pageable pageable = PageRequest.of(0, limit + 1);
-        User user = userRepository.findById(userId).orElseThrow(() -> new UserHandler(ErrorStatus.USER_NOT_FOUND));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
 
-        if (lastId.equals(0L)) {
-            result = (eventType == null)
-                    ? eventLikeRepository.findAllByUserIsOrderByCreatedAtDesc(user, pageable).getContent()
-                    : eventLikeRepository.findAllByUserIsAndEventTypeOrderByCreatedAtDesc(user, eventType, pageable).getContent();
-        } else {
-            EventLike eventLike = eventLikeRepository.findById(lastId).orElseThrow(() -> new EventHandler(ErrorStatus.PLACE_LIKE_NOT_FOUND));
-            result =  (eventType == null)
-                    ? eventLikeRepository.findAllByUserIsAndCreatedAtLessThanOrderByCreatedAtDesc(user, eventLike.getCreatedAt(), pageable).getContent()
-                    : eventLikeRepository.findAllByUserIsAndEventTypeAndCreatedAtLessThanOrderByCreatedAtDesc(user, eventType, eventLike.getCreatedAt(), pageable).getContent();
-        }
-        return createEventLikePreviewListDTO(user, result, limit);
+        Pageable pageable = PageRequest.of(0, limit+1);
+        Page<PlaceLike> placeLikePage = placeLikeRepository.findByUserIdAndIdLessThanOrderByIdDesc(userId, lastId, pageable);
+
+        List<PlaceLikeResponseDTO.PlaceLikePreViewDTO> placeLikeDTOs = placeLikePage.getContent().stream()
+                .map(placeLike -> new PlaceLikeResponseDTO.PlaceLikePreViewDTO(
+                        placeLike.getId(),
+                        placeLike.getUser().getId(),
+                        placeLike.getPlace().getId(),
+                        placeLike.getIsFavorite()
+                ))
+                .collect(Collectors.toList());
+
+        boolean hasNext = placeLikePage.hasNext();
+        Long newLastId = placeLikeDTOs.isEmpty() ? null : placeLikeDTOs.get(placeLikeDTOs.size() - 1).getId();
+
+        return new PlaceLikeResponseDTO.PlaceLikePreViewListDTO(placeLikeDTOs, hasNext, newLastId);
     }
 
 
-    private PlaceLikeResponseDTO.PlaceLikePreViewListDTO createPlaceLikePreviewListDTO(User user, List<PlaceLike> placeLikes, int limit) {
-        boolean hasNext = placeLikes.size() > limit;
-        Long lastId = null;
-        if (hasNext) {
-            placeLikes = placeLikes.subList(0, placeLikes.size() - 1);
-            lastId = placeLikes.get(placeLikes.size() - 1).getId();
-        }
-        List<PlaceLikeResponseDTO.PlaceLikePreViewDTO> list = placeLikes
-                .stream()
+
+    private PlaceLikeResponseDTO.PlaceLikePreViewListDTO createPlaceLikePreviewListDTO(User user, Page<PlaceLike> placeLikePage) {
+        List<PlaceLikeResponseDTO.PlaceLikePreViewDTO> list = placeLikePage.getContent().stream()
                 .map(PlaceLikeConverter::placeLikePreViewDTO)
                 .collect(Collectors.toList());
 
-        return PlaceLikeConverter.placePlacePreViewListDTO(list, hasNext, lastId);
+        boolean hasNext = placeLikePage.hasNext();
+        Long lastId = list.isEmpty() ? null : list.get(list.size() - 1).getId();
+
+        return PlaceLikeConverter.placeLikePreViewListDTO(list, hasNext, lastId);
     }
+
 
     @Override
     public boolean isPlaceLikeExist(Long id) {

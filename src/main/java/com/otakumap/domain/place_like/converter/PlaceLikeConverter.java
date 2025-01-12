@@ -15,6 +15,7 @@ public class PlaceLikeConverter {
                 .build();
 
     }
+
     public static PlaceLikeResponseDTO.PlaceLikePreViewListDTO placeLikePreViewListDTO(List<PlaceLikeResponseDTO.PlaceLikePreViewDTO> placeLikes, boolean hasNext, Long lastId) {
         return PlaceLikeResponseDTO.PlaceLikePreViewListDTO.builder()
                 .placeLikes(placeLikes)
