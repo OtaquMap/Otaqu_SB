@@ -1,7 +1,10 @@
 package com.otakumap.domain.place_short_review.converter;
 
+import com.otakumap.domain.place.entity.Place;
+import com.otakumap.domain.place_short_review.DTO.PlaceShortReviewRequestDTO;
 import com.otakumap.domain.place_short_review.DTO.PlaceShortReviewResponseDTO;
 import com.otakumap.domain.place_short_review.entity.PlaceShortReview;
+import com.otakumap.domain.user.entity.User;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -41,6 +44,30 @@ public class PlaceShortReviewConverter {
                 .currentPage(reviewList.getNumber() + 1)
                 .totalPages(reviewList.getTotalPages())
                 .shortReviews(placeShortReviewDTOList)
+                .build();
+    }
+
+    public static PlaceShortReviewResponseDTO.CreateReviewDTO toCreateReviewDTO(PlaceShortReview placeShortReview) {
+        User user = placeShortReview.getUser();
+        Place place = placeShortReview.getPlace();
+        return PlaceShortReviewResponseDTO.CreateReviewDTO.builder()
+                .reviewId(placeShortReview.getId())
+                .rating(placeShortReview.getRating())
+                .content(placeShortReview.getContent())
+                .createdAt(placeShortReview.getCreatedAt())
+                .userId(user.getId())
+                .placeId(place.getId())
+                .build();
+    }
+
+    public static PlaceShortReview toPlaceShortReview(PlaceShortReviewRequestDTO.CreateDTO request, User user, Place place) {
+        return PlaceShortReview.builder()
+                .user(user)
+                .place(place)
+                .rating(request.getRating())
+                .content(request.getContent())
+                .dislikes(0L)
+                .likes(0L)
                 .build();
     }
 }

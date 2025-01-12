@@ -46,4 +46,17 @@ public class PlaceShortReviewResponseDTO {
         String nickname;
         // ImageResponseDTO.ImageDTO profileImage;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class CreateReviewDTO {
+        private Long reviewId;
+        private Float rating;
+        private String content;
+        private LocalDateTime createdAt;
+        private Long userId;
+        private Long placeId;
+    }
 }
