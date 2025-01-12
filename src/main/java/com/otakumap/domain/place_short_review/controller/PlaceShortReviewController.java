@@ -33,7 +33,7 @@ public class PlaceShortReviewController {
     @Parameters({
             @Parameter(name = "placeId", description = "명소의 아이디입니다.")
     })
-    public ApiResponse<PlaceShortReviewResponseDTO.PlaceShortReviewListDTO> getPlaceShortReviewList(@ExistPlace @PathVariable(name = "placeId") Long placeId, @RequestParam(name = "page") Integer page) {
+    public ApiResponse<PlaceShortReviewResponseDTO.PlaceShortReviewListDTO> getPlaceShortReviewList(@ExistPlace @PathVariable(name = "placeId") Long placeId, @RequestParam(name = "page")Integer page) {
         return ApiResponse.onSuccess(PlaceShortReviewConverter.placeShortReviewListDTO(placeShortReviewQueryService.getPlaceShortReviews(placeId, page)));
     }
 
