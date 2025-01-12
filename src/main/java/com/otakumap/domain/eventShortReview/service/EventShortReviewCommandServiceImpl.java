@@ -12,6 +12,8 @@ import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.EventHandler;
 import com.otakumap.global.apiPayload.exception.handler.UserHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,5 +37,13 @@ public class EventShortReviewCommandServiceImpl implements EventShortReviewComma
         EventShortReview eventShortReview = EventShortReviewConverter.toEventShortReview(request, event, user);
 
         return eventShortReviewRepository.save(eventShortReview);
+    }
+
+    @Override
+    public Page<EventShortReview> getEventShortReviewsByEventId(Long eventId, Integer page) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new EventHandler(ErrorStatus.EVENT_NOT_FOUND));
+
+        return eventShortReviewRepository.findAllByEvent(event, PageRequest.of(page, 4));
     }
 }

@@ -6,6 +6,10 @@ import com.otakumap.domain.eventShortReview.dto.EventShortReviewRequestDTO;
 import com.otakumap.domain.eventShortReview.dto.EventShortReviewResponseDTO;
 import com.otakumap.domain.eventShortReview.entity.EventShortReview;
 import com.otakumap.domain.image.converter.ImageConverter;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EventShortReviewConverter {
     public static EventShortReview toEventShortReview(EventShortReviewRequestDTO.NewEventShortReviewDTO request, Event event, User user) {
@@ -25,6 +29,26 @@ public class EventShortReviewConverter {
                 .content(eventShortReview.getContent())
                 .rating(eventShortReview.getRating())
                 .profileImage(ImageConverter.toImageDTO(eventShortReview.getUser().getProfileImage()))
+                .build();
+    }
+
+    public static EventShortReviewResponseDTO.EventShortReviewDTO toEventShortReviewDTO(EventShortReview eventShortReview) {
+        return EventShortReviewResponseDTO.EventShortReviewDTO.builder()
+                .id(eventShortReview.getId())
+                .content(eventShortReview.getContent())
+                .rating(eventShortReview.getRating())
+                .profileImage(ImageConverter.toImageDTO(eventShortReview.getUser().getProfileImage()))
+                .build();
+    }
+
+    public static EventShortReviewResponseDTO.EventShortReviewListDTO toEventShortReviewListDTO(Page<EventShortReview> reviewList) {
+        List<EventShortReviewResponseDTO.EventShortReviewDTO> reviewDTOList = reviewList.stream()
+                .map(EventShortReviewConverter::toEventShortReviewDTO).collect(Collectors.toList());
+
+        return EventShortReviewResponseDTO.EventShortReviewListDTO.builder()
+                .eventShortReviewList(reviewDTOList)
+                .currentPage(reviewList.getNumber())
+                .totalPages(reviewList.getTotalPages())
                 .build();
     }
 }
