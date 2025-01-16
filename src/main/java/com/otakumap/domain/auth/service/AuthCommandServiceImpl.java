@@ -10,12 +10,14 @@ import com.otakumap.global.util.RedisUtil;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.MailException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class AuthCommandServiceImpl implements AuthCommandService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     private final RedisUtil redisUtil;
     private final MailService mailService;
 
@@ -24,9 +26,9 @@ public class AuthCommandServiceImpl implements AuthCommandService {
         if(!request.getPassword().equals(request.getPasswordCheck())) {
             throw new AuthHandler(ErrorStatus.PASSWORD_NOT_EQUAL);
         }
-
-        User user = UserConverter.toUser(request);
-        return userRepository.save(user);
+        User newUser = UserConverter.toUser(request);
+        newUser.encodePassword(passwordEncoder.encode(request.getPassword()));
+        return userRepository.save(newUser);
     }
 
     @Override
