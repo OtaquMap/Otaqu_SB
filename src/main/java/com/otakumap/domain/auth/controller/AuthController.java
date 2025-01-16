@@ -46,7 +46,8 @@ public class AuthController {
     @Operation(summary = "이메일 인증 메일 전송", description = "이메일 인증을 위한 메일 전송 기능입니다.")
     @PostMapping("/verify-email")
     public ApiResponse<String> verifyEmail(@RequestBody @Valid AuthRequestDTO.VerifyEmailDTO request) throws MessagingException {
-        return ApiResponse.onSuccess(authCommandService.verifyEmail(request));
+        authCommandService.verifyEmail(request);
+        return ApiResponse.onSuccess("이메일 인증이 성공적으로 완료되었습니다.");
     }
 
     @Operation(summary = "이메일 코드 인증", description = "이메일 코드 인증 기능입니다.")

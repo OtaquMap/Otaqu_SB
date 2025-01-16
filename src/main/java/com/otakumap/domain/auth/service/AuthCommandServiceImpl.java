@@ -68,13 +68,15 @@ public class AuthCommandServiceImpl implements AuthCommandService {
     }
 
     @Override
-    public String verifyEmail(AuthRequestDTO.VerifyEmailDTO request) throws MessagingException {
+    public void verifyEmail(AuthRequestDTO.VerifyEmailDTO request) throws MessagingException {
         try {
+            if(userRepository.existsByEmail(request.getEmail())) {
+                throw new AuthHandler(ErrorStatus.EMAIL_ALREADY_EXISTS);
+            }
             mailService.sendEmail(request.getEmail());
         } catch (MailException e) {
             throw new AuthHandler(ErrorStatus.EMAIL_SEND_FAILED);
         }
-        return "이메일 인증이 성공적으로 완료되었습니다.";
     }
 
     @Override

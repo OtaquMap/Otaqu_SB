@@ -12,7 +12,7 @@ public interface AuthCommandService {
     AuthResponseDTO.LoginResultDTO login(AuthRequestDTO.LoginDTO request);
     boolean checkNickname(AuthRequestDTO.CheckNicknameDTO request);
     boolean checkId(AuthRequestDTO.CheckIdDTO request);
-    String verifyEmail(AuthRequestDTO.VerifyEmailDTO request) throws MessagingException;
+    void verifyEmail(AuthRequestDTO.VerifyEmailDTO request) throws MessagingException;
     boolean verifyCode(AuthRequestDTO.VerifyCodeDTO request);
     JwtDTO reissueToken(String refreshToken);
     void logout(HttpServletRequest request);
