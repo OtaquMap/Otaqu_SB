@@ -55,10 +55,6 @@ public class User extends BaseEntity {
     @Column(columnDefinition = "VARCHAR(10) DEFAULT 'USER'", nullable = false)
     private Role role;
 
-    @ColumnDefault("FALSE")
-    @Column(name = "is_email_verified")
-    private Boolean isEmailVerified;
-
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_image_id", referencedColumnName = "id")
     private Image profileImage;
