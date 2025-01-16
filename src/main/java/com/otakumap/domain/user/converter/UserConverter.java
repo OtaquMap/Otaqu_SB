@@ -28,6 +28,15 @@ public class UserConverter {
                 .build();
     }
 
+    public static AuthResponseDTO.LoginResultDTO toLoginResultDTO(User user, String accessToken, String refreshToken) {
+        return AuthResponseDTO.LoginResultDTO.builder()
+                .id(user.getId())
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+
+    }
+
     public static AuthResponseDTO.CheckNicknameResultDTO toCheckNicknameResultDTO(boolean isDuplicated) {
         return AuthResponseDTO.CheckNicknameResultDTO.builder()
                 .isDuplicated(isDuplicated)

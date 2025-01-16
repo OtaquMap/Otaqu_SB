@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 public class AuthResponseDTO {
-
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
@@ -17,6 +16,17 @@ public class AuthResponseDTO {
         Long id;
         LocalDateTime createdAt;
     }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class LoginResultDTO {
+        Long id;
+        String accessToken;
+        String refreshToken;
+    }
+
 
     @Getter
     @AllArgsConstructor
