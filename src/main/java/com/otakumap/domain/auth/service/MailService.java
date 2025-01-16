@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -52,8 +53,9 @@ public class MailService {
         body += "<p>인증번호 " + code + "</p>";
         message.setText(body, "UTF-8", "html");
 
-        // Redis 에 해당 인증코드 인증 시간 설정(30분)
-        redisUtil.setDataExpire(email, code, 60 * 30L);
+        // Redis에 해당 인증코드 인증 시간 설정(30분)
+        redisUtil.set(email, code);
+        redisUtil.expire(email, 30 * 60 * 1000L, TimeUnit.MILLISECONDS);
 
         return message;
     }
@@ -61,8 +63,8 @@ public class MailService {
     // 메일 발송
     @Async
     public void sendEmail(String sendEmail) throws MessagingException {
-        if (redisUtil.existData(sendEmail)) {
-            redisUtil.deleteData(sendEmail);
+        if (redisUtil.exists(sendEmail)) {
+            redisUtil.delete(sendEmail);
         }
         String authCode = createCode();
         MimeMessage message = createEmailForm(sendEmail, authCode); // 메일 생성
