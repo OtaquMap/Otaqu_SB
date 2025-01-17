@@ -21,12 +21,16 @@ public class EventReview extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 20, nullable = false)
     private String title;
 
+    @Column(columnDefinition = "text not null")
     private String content;
 
+    @Column(columnDefinition = "bigint default 0 not null")
     private Integer view;
 
+    @Column(nullable = false)
     private Float rating;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
