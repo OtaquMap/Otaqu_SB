@@ -81,7 +81,7 @@ public class AuthCommandServiceImpl implements AuthCommandService {
 
     @Override
     public boolean verifyCode(AuthRequestDTO.VerifyCodeDTO request) {
-        String authCode = (String) redisUtil.get(request.getEmail());
+        String authCode = (String) redisUtil.get("auth:" + request.getEmail());
         if (authCode == null) {
             throw new AuthHandler(ErrorStatus.EMAIL_CODE_EXPIRED);
         }
