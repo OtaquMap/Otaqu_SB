@@ -51,8 +51,8 @@ public class AuthCommandServiceImpl implements AuthCommandService {
         PrincipalDetails memberDetails = new PrincipalDetails(user);
 
         // 로그인 성공 시 토큰 생성
-        String accessToken = jwtProvider.createAccessToken(memberDetails);
-        String refreshToken = jwtProvider.createRefreshToken(memberDetails);
+        String accessToken = jwtProvider.createAccessToken(memberDetails, user.getId());
+        String refreshToken = jwtProvider.createRefreshToken(memberDetails, user.getId());
 
         return UserConverter.toLoginResultDTO(user, accessToken, refreshToken);
     }
@@ -111,7 +111,7 @@ public class AuthCommandServiceImpl implements AuthCommandService {
             redisUtil.set(accessToken, "logout");
             redisUtil.expire(accessToken, jwtProvider.getExpTime(accessToken), TimeUnit.MILLISECONDS);
             // RefreshToken 삭제
-            redisUtil.delete(jwtProvider.getUserId(accessToken));
+            redisUtil.delete(jwtProvider.getEmail(accessToken));
         } catch (ExpiredJwtException e) {
             throw new AuthHandler(ErrorStatus.TOKEN_EXPIRED);
         }

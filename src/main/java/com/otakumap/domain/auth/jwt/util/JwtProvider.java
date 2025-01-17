@@ -3,6 +3,7 @@ package com.otakumap.domain.auth.jwt.util;
 import com.otakumap.domain.auth.jwt.dto.JwtDTO;
 import com.otakumap.domain.auth.jwt.userdetails.PrincipalDetails;
 import com.otakumap.domain.auth.jwt.userdetails.PrincipalDetailsService;
+import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.AuthHandler;
 import com.otakumap.global.util.RedisUtil;
@@ -45,13 +46,14 @@ public class JwtProvider {
     }
 
     // AccessToken 생성
-    public String createAccessToken(PrincipalDetails userDetails) {
+    public String createAccessToken(PrincipalDetails userDetails, Long userId) {
         Instant issuedAt = Instant.now();
         Instant expiredAt = issuedAt.plusMillis(accessExpiration);
 
         return Jwts.builder()
                 .setHeader(Map.of("alg", "HS256", "typ", "JWT"))
-                .setSubject(userDetails.getUsername())
+                .setSubject(userDetails.getUsername()) // 이메일
+                .claim("id", userId)
                 .issuedAt(Date.from(issuedAt))
                 .expiration(Date.from(expiredAt))
                 .signWith(secret, SignatureAlgorithm.HS256)
@@ -59,17 +61,19 @@ public class JwtProvider {
     }
 
     // RefreshToken 생성
-    public String createRefreshToken(PrincipalDetails userDetails) {
+    public String createRefreshToken(PrincipalDetails userDetails, Long userId) {
         Instant issuedAt = Instant.now();
         Instant expiredAt = issuedAt.plusMillis(refreshExpiration);
 
         String refreshToken = Jwts.builder()
                 .setHeader(Map.of("alg", "HS256", "typ", "JWT"))
-                .setSubject(userDetails.getUsername())
+                .setSubject(userDetails.getUsername()) // 이메일
+                .claim("id", userId)
                 .issuedAt(Date.from(issuedAt))
                 .expiration(Date.from(expiredAt))
                 .signWith(secret, SignatureAlgorithm.HS256)
                 .compact();
+
         redisUtil.set(userDetails.getUsername(), refreshToken);
         redisUtil.expire(userDetails.getUsername(), refreshExpiration, TimeUnit.MILLISECONDS);
         return refreshToken;
@@ -100,7 +104,7 @@ public class JwtProvider {
 
     // RefreshToken 유효성 확인
     public void validateRefreshToken(String refreshToken) {
-        String username = getUserId(refreshToken);
+        String username = getEmail(refreshToken);
 
         //redis 확인
         if (!redisUtil.exists(username)) {
@@ -108,10 +112,13 @@ public class JwtProvider {
         }
     }
 
-    //userId 추출
-    public String getUserId(String token) {
+    //email 추출
+    public String getEmail(String token) {
         return getClaims(token).getBody().getSubject();
     }
+
+    //id(PK) 추출
+    public Long getId(String token) { return getClaims(token).getBody().get("id", Long.class); }
 
     //토큰의 클레임 가져오는 메서드
     public Jws<Claims> getClaims(String token) {
@@ -127,11 +134,12 @@ public class JwtProvider {
 
     // 토큰 재발급
     public JwtDTO reissueToken(String refreshToken) throws SignatureException {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(getUserId(refreshToken));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(getEmail(refreshToken));
+        Long userId = getId(refreshToken);
 
         return new JwtDTO(
-                createAccessToken((PrincipalDetails) userDetails),
-                createRefreshToken((PrincipalDetails)userDetails)
+                createAccessToken((PrincipalDetails) userDetails, userId),
+                createRefreshToken((PrincipalDetails)userDetails, userId)
         );
     }
 

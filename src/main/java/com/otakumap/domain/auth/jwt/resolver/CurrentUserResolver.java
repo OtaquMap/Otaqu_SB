@@ -18,7 +18,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class AuthenticatedUserResolver implements HandlerMethodArgumentResolver {
+public class CurrentUserResolver implements HandlerMethodArgumentResolver {
     private final UserQueryService userQueryService;
 
     @Override
@@ -32,7 +32,7 @@ public class AuthenticatedUserResolver implements HandlerMethodArgumentResolver 
 
         if (authentication != null) {
             PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-            return userQueryService.getUserByUserId(principalDetails.getUsername());
+            return userQueryService.getUserByEmail(principalDetails.getUsername());
         }
         return null;
     }

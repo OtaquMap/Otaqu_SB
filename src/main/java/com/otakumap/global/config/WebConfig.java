@@ -1,6 +1,6 @@
 package com.otakumap.global.config;
 
-import com.otakumap.domain.auth.jwt.resolver.AuthenticatedUserResolver;
+import com.otakumap.domain.auth.jwt.resolver.CurrentUserResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -11,7 +11,7 @@ import java.util.List;
 @Configuration
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
-    private final AuthenticatedUserResolver authenticatedUserResolver;
+    private final CurrentUserResolver authenticatedUserResolver;
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {

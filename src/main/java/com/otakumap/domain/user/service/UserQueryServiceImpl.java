@@ -13,7 +13,7 @@ public class UserQueryServiceImpl implements UserQueryService {
     private final UserRepository userRepository;
 
     @Override
-    public User getUserByUserId(String userId) {
-        return userRepository.findByUserId(userId).orElseThrow(() -> new AuthHandler(ErrorStatus.USER_NOT_FOUND));
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new AuthHandler(ErrorStatus.USER_NOT_FOUND));
     }
 }
