@@ -16,6 +16,16 @@ public enum ErrorStatus implements BaseErrorCode {
     _UNAUTHORIZED(HttpStatus.UNAUTHORIZED,"COMMON401","인증이 필요합니다."),
     _FORBIDDEN(HttpStatus.FORBIDDEN, "COMMON403", "금지된 요청입니다."),
 
+    // 인증 관련 에러
+    PASSWORD_NOT_EQUAL(HttpStatus.BAD_REQUEST, "AUTH4001", "비밀번호가 일치하지 않습니다."),
+    EMAIL_CODE_EXPIRED(HttpStatus.BAD_REQUEST, "AUTH4002", "인증 코드가 만료되었습니다. 다시 요청해주세요."),
+    CODE_NOT_EQUAL(HttpStatus.BAD_REQUEST, "AUTH4003", "인증 코드가 올바르지 않습니다."),
+    EMAIL_SEND_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "AUTH5001", "메일 발송 중 오류가 발생했습니다."),
+    EMAIL_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "AUTH4004", "이미 사용 중인 이메일입니다."),
+    INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "AUTH4005", "유효하지 않은 토큰입니다."),
+    TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "AUTH4006", "토큰이 만료되었습니다."),
+    TOKEN_LOGGED_OUT(HttpStatus.UNAUTHORIZED, "AUTH4007", "이 토큰은 로그아웃되어 더 이상 유효하지 않습니다."),
+
     // 멤버 관련 에러
     USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "USER4001", "사용자가 없습니다."),
 
@@ -30,7 +40,6 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // 명소 좋아요 관련 에러
     PLACE_LIKE_NOT_FOUND(HttpStatus.BAD_REQUEST, "PLACE4002", "저장되지 않은 명소입니다.");
-
 
     private final HttpStatus httpStatus;
     private final String code;

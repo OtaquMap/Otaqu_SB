@@ -27,7 +27,7 @@ public class User extends BaseEntity {
     @Column(length = 20, nullable = false)
     private String userId;
 
-    @Column(length = 20, nullable = false)
+    @Column(nullable = false)
     private String password;
 
     @Column(length = 30, nullable = false)
@@ -55,11 +55,11 @@ public class User extends BaseEntity {
     @Column(columnDefinition = "VARCHAR(10) DEFAULT 'USER'", nullable = false)
     private Role role;
 
-    @ColumnDefault("FALSE")
-    @Column(name = "is_email_verified")
-    private Boolean isEmailVerified;
-
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_image_id", referencedColumnName = "id")
     private Image profileImage;
+
+    public void encodePassword(String password) {
+        this.password = password;
+    }
 }
