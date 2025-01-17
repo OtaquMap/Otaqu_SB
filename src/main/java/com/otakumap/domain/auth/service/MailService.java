@@ -54,8 +54,8 @@ public class MailService {
         message.setText(body, "UTF-8", "html");
 
         // Redis에 해당 인증코드 인증 시간 설정(30분)
-        redisUtil.set(email, code);
-        redisUtil.expire(email, 30 * 60 * 1000L, TimeUnit.MILLISECONDS);
+        redisUtil.set("auth:" + email, code);
+        redisUtil.expire("auth:" + email, 30 * 60 * 1000L, TimeUnit.MILLISECONDS);
 
         return message;
     }
@@ -63,8 +63,8 @@ public class MailService {
     // 메일 발송
     @Async
     public void sendEmail(String sendEmail) throws MessagingException {
-        if (redisUtil.exists(sendEmail)) {
-            redisUtil.delete(sendEmail);
+        if (redisUtil.exists("auth:" + sendEmail)) {
+            redisUtil.delete("auth:" + sendEmail);
         }
         String authCode = createCode();
         MimeMessage message = createEmailForm(sendEmail, authCode); // 메일 생성
