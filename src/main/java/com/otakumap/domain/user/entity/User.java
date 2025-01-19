@@ -1,6 +1,7 @@
 package com.otakumap.domain.user.entity;
 
 import com.otakumap.domain.image.entity.Image;
+import com.otakumap.domain.notification.entity.Notification;
 import com.otakumap.domain.user.entity.enums.Role;
 import com.otakumap.domain.user.entity.enums.SocialType;
 import com.otakumap.domain.user.entity.enums.UserStatus;
@@ -62,4 +63,8 @@ public class User extends BaseEntity {
     public void encodePassword(String password) {
         this.password = password;
     }
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Notification notification;
+
 }

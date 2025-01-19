@@ -16,4 +16,9 @@ public class UserQueryServiceImpl implements UserQueryService {
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new AuthHandler(ErrorStatus.USER_NOT_FOUND));
     }
+
+    @Override
+    public User getUserInfo(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new AuthHandler(ErrorStatus.USER_NOT_FOUND));
+    }
 }

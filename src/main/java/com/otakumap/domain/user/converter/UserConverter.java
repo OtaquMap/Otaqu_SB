@@ -2,6 +2,7 @@ package com.otakumap.domain.user.converter;
 
 import com.otakumap.domain.auth.dto.AuthRequestDTO;
 import com.otakumap.domain.auth.dto.AuthResponseDTO;
+import com.otakumap.domain.user.dto.UserResponseDTO;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.domain.user.entity.enums.Role;
 import com.otakumap.domain.user.entity.enums.UserStatus;
@@ -52,6 +53,17 @@ public class UserConverter {
     public static AuthResponseDTO.VerifyCodeResultDTO toVerifyCodeResultDTO(boolean isVerified) {
         return AuthResponseDTO.VerifyCodeResultDTO.builder()
                 .isVerified(isVerified)
+                .build();
+    }
+
+    public static UserResponseDTO.UserInfoResponseDTO toUserInfoResponseDTO(User user) {
+        return UserResponseDTO.UserInfoResponseDTO.builder()
+                .profileImageUrl(user.getProfileImage() == null ? null : user.getProfileImage().getFileUrl())
+                .nickname(user.getNickname())
+                .email(user.getEmail())
+                .donation(user.getDonation())
+                .community_activity(user.getNotification().getCommunity_activity())
+                .event_benefits_info(user.getNotification().getEvent_benefits_info())
                 .build();
     }
 }
