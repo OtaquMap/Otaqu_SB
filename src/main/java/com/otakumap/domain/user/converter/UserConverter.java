@@ -1,9 +1,9 @@
 package com.otakumap.domain.user.converter;
 
-import com.otakumap.domain.auth.dto.AuthRequestDTO;
-import com.otakumap.domain.auth.dto.AuthResponseDTO;
+import com.otakumap.domain.auth.dto.*;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.domain.user.entity.enums.Role;
+import com.otakumap.domain.user.entity.enums.SocialType;
 import com.otakumap.domain.user.entity.enums.UserStatus;
 
 import java.time.LocalDateTime;
@@ -52,6 +52,33 @@ public class UserConverter {
     public static AuthResponseDTO.VerifyCodeResultDTO toVerifyCodeResultDTO(boolean isVerified) {
         return AuthResponseDTO.VerifyCodeResultDTO.builder()
                 .isVerified(isVerified)
+                .build();
+    }
+
+    public static User toKakaoUser(KakaoUserInfo kakaoUserInfo) {
+        return User.builder()
+                .name(kakaoUserInfo.getKakao_account().getName())
+                .nickname(kakaoUserInfo.getProperties().getNickname())
+                .email(kakaoUserInfo.getKakao_account().getEmail())
+                .socialType(SocialType.KAKAO)
+                .build();
+    }
+
+    public static User toGoogleUser(GoogleUserInfo googleUserInfo) {
+        return User.builder()
+                .name(googleUserInfo.getName())
+                .nickname(googleUserInfo.getName())
+                .email(googleUserInfo.getEmail())
+                .socialType(SocialType.GOOGLE)
+                .build();
+    }
+
+    public static User toNaverUser(NaverUserInfo naverUserInfo) {
+        return User.builder()
+                .name(naverUserInfo.getResponse().getName())
+                .nickname(naverUserInfo.getResponse().getNickname())
+                .email(naverUserInfo.getResponse().getEmail())
+                .socialType(SocialType.NAVER)
                 .build();
     }
 }
