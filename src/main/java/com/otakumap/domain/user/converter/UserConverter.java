@@ -5,6 +5,7 @@ import com.otakumap.domain.user.entity.User;
 import com.otakumap.domain.user.entity.enums.Role;
 import com.otakumap.domain.user.entity.enums.SocialType;
 import com.otakumap.domain.user.entity.enums.UserStatus;
+import com.otakumap.global.util.UuidGenerator;
 
 import java.time.LocalDateTime;
 
@@ -58,7 +59,7 @@ public class UserConverter {
     public static User toKakaoUser(KakaoUserInfo kakaoUserInfo) {
         return User.builder()
                 .name(kakaoUserInfo.getKakao_account().getName())
-                .nickname(kakaoUserInfo.getProperties().getNickname())
+                .nickname(UuidGenerator.generateUuid())
                 .email(kakaoUserInfo.getKakao_account().getEmail())
                 .socialType(SocialType.KAKAO)
                 .build();
@@ -67,7 +68,7 @@ public class UserConverter {
     public static User toGoogleUser(GoogleUserInfo googleUserInfo) {
         return User.builder()
                 .name(googleUserInfo.getName())
-                .nickname(googleUserInfo.getName())
+                .nickname(UuidGenerator.generateUuid())
                 .email(googleUserInfo.getEmail())
                 .socialType(SocialType.GOOGLE)
                 .build();
@@ -76,7 +77,7 @@ public class UserConverter {
     public static User toNaverUser(NaverUserInfo naverUserInfo) {
         return User.builder()
                 .name(naverUserInfo.getResponse().getName())
-                .nickname(naverUserInfo.getResponse().getNickname())
+                .nickname(UuidGenerator.generateUuid())
                 .email(naverUserInfo.getResponse().getEmail())
                 .socialType(SocialType.NAVER)
                 .build();

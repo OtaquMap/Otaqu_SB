@@ -9,7 +9,6 @@ public class NaverUserInfo {
     @Getter
     public static class Response {
         private String name;
-        private String nickname;
         private String email;
     }
 }
