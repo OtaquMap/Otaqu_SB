@@ -1,5 +1,6 @@
 package com.otakumap.domain.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.otakumap.domain.image.entity.Image;
 import com.otakumap.domain.user.entity.enums.Role;
 import com.otakumap.domain.user.entity.enums.SocialType;
@@ -24,10 +25,10 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 20)
     private String userId;
 
-    @Column(nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Column(length = 30, nullable = false)
