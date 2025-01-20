@@ -17,6 +17,8 @@ public class UserConverter {
                 .userId(request.getUserId())
                 .email(request.getEmail())
                 .password(request.getPassword())
+                .isCommunityActivityNotified(true)
+                .isEventBenefitsNotified(true)
                 .role(Role.USER)
                 .status(UserStatus.ACTIVE)
                 .build();
@@ -62,8 +64,8 @@ public class UserConverter {
                 .nickname(user.getNickname())
                 .email(user.getEmail())
                 .donation(user.getDonation())
-                .community_activity(user.getNotification().getCommunity_activity())
-                .event_benefits_info(user.getNotification().getEvent_benefits_info())
+                .community_activity(user.getIsCommunityActivityNotified())
+                .event_benefits_info(user.getIsEventBenefitsNotified())
                 .build();
     }
 }

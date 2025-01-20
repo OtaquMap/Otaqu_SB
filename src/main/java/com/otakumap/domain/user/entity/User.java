@@ -48,6 +48,12 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private Integer donation;
 
+    @Column(nullable = false)
+    private Boolean isCommunityActivityNotified = true;
+
+    @Column(nullable = false)
+    private Boolean isEventBenefitsNotified = true;
+
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(10) DEFAULT 'ACTIVE'", nullable = false)
     private UserStatus status;
@@ -63,8 +69,4 @@ public class User extends BaseEntity {
     public void encodePassword(String password) {
         this.password = password;
     }
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Notification notification;
-
 }
