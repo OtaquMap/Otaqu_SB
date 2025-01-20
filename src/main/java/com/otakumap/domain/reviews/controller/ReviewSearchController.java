@@ -21,7 +21,7 @@ public class ReviewSearchController {
 
     private final ReviewQueryService reviewQueryService;
 
-    @GetMapping("/api/reviews/search")
+    @GetMapping("/reviews/search")
     @Operation(summary = "키워드로 여행 후기 검색", description = "키워드로 여행 후기를 검색해서 조회합니다.")
     @ApiResponses({
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200", description = "OK, 성공"),
