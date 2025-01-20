@@ -1,17 +1,15 @@
 package com.otakumap.domain.place.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-
 import java.time.LocalDateTime;
 
-@Getter
-@Builder
-public class PlaceResponseDTO {
-    private Long id;
-    private String name;
-    private Double lat;
-    private Double lng;
-    private String description;
-    private LocalDateTime savedAt;
+
+public record PlaceResponseDTO(
+        Long id,
+        String name,
+        Double lat,
+        Double lng,
+        String description,
+        LocalDateTime savedAt
+) {
+    // 필요한 경우, 추가적인 메서드를 여기에 정의할 수 있습니다.
 }

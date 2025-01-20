@@ -16,15 +16,16 @@ public class PlaceService {
 
     public List<PlaceResponseDTO> getSavedPlaces(Long userId) {
         return placeRepository.findByUserId(userId).stream()
-                .map(place -> PlaceResponseDTO.builder()
-                        .id(place.getId())
-                        .name(place.getName())
-                        .lat(place.getLat())
-                        .lng(place.getLng())
-                        .description(place.getDescription())
-                        .savedAt(place.getSavedAt())
-                        .build())
+                .map(place -> new PlaceResponseDTO(
+                        place.getId(),
+                        place.getName(),
+                        place.getLat(),
+                        place.getLng(),
+                        place.getDescription(),
+                        place.getSavedAt()
+                ))
                 .collect(Collectors.toList());
     }
+
 }
 
