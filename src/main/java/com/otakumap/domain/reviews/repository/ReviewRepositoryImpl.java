@@ -77,14 +77,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
         // 정렬 (최신순, 조회수)
         sortReviews(searchedReviews, sort);
 
-        // 페이징
-        int start = page * size;
-        int end = Math.min(start + size, searchedReviews.size());
-        if (start > end) {
-            return new PageImpl<>(new ArrayList<>(), PageRequest.of(page, size), searchedReviews.size());
-        }
-
-        return new PageImpl<>(searchedReviews.subList(start, end), PageRequest.of(page, size), searchedReviews.size());
+        return paginateReviews(searchedReviews, page, size);
     }
 
     private BooleanBuilder createSearchCondition(StringPath title, StringPath content, StringPath animationName, String keyword) {
@@ -104,5 +97,16 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
         } else {
             reviews.sort(Comparator.comparing(ReviewResponseDTO.SearchedReviewPreViewDTO::getCreatedAt).reversed());
         }
+    }
+
+    private Page<ReviewResponseDTO.SearchedReviewPreViewDTO> paginateReviews(
+            List<ReviewResponseDTO.SearchedReviewPreViewDTO> reviews, int page, int size) {
+        int start = page * size;
+        int end = Math.min(start + size, reviews.size());
+        if (start > end) {
+            return new PageImpl<>(new ArrayList<>(), PageRequest.of(page, size), reviews.size());
+        }
+
+        return new PageImpl<>(reviews.subList(start, end), PageRequest.of(page, size), reviews.size());
     }
 }
