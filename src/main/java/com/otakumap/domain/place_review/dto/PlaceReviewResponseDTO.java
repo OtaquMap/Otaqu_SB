@@ -55,4 +55,17 @@ public class PlaceReviewResponseDTO {
         private List<AnimationReviewGroupDTO> animationGroups;
     }
 
+
+//    @Builder
+//    @Getter
+//    @NoArgsConstructor
+//    @AllArgsConstructor
+//    public static class PlaceAnimationReviewListDTO {
+//        private Long placeId;
+//        private Integer currentPage;
+//        private Integer totalPages;
+//        private Integer totalElements;
+//        private List<PlaceAnimationReviewDTO> animationReviews;
+//    }
+
 }
