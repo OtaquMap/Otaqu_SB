@@ -3,7 +3,7 @@ package com.otakumap.domain.auth.controller;
 import com.otakumap.domain.auth.dto.AuthRequestDTO;
 import com.otakumap.domain.auth.dto.AuthResponseDTO;
 import com.otakumap.domain.auth.jwt.dto.JwtDTO;
-import com.otakumap.domain.auth.service.AuthCommandService;
+import com.otakumap.domain.auth.service.*;
 import com.otakumap.domain.user.converter.UserConverter;
 import com.otakumap.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthCommandService authCommandService;
+    private final SocialAuthService socialAuthService;
 
     @Operation(summary = "회원가입", description = "회원가입 기능입니다.")
     @PostMapping("/signup")
@@ -67,5 +68,23 @@ public class AuthController {
     public ApiResponse<String> logout(HttpServletRequest request) {
         authCommandService.logout(request);
         return ApiResponse.onSuccess("로그아웃 되었습니다.");
+    }
+
+    @Operation(summary = "카카오 로그인", description = "카카오 인가 코드를 입력받아 로그인을 처리합니다.")
+    @PostMapping("/social/kakao")
+    public ApiResponse<AuthResponseDTO.LoginResultDTO> kakaoLogin(@Valid @RequestBody AuthRequestDTO.SocialLoginDTO request) {
+        return ApiResponse.onSuccess(socialAuthService.login("kakao", request));
+    }
+
+    @Operation(summary = "구글 로그인", description = "구글 인가 코드를 입력받아 로그인을 처리합니다.")
+    @PostMapping("/social/google")
+    public ApiResponse<AuthResponseDTO.LoginResultDTO> googleLogin(@Valid @RequestBody AuthRequestDTO.SocialLoginDTO request) {
+        return ApiResponse.onSuccess(socialAuthService.login("google", request));
+    }
+
+    @Operation(summary = "네이버 로그인", description = "네이버 인가 코드를 입력받아 로그인을 처리합니다.")
+    @PostMapping("/social/naver")
+    public ApiResponse<AuthResponseDTO.LoginResultDTO> naverLogin(@Valid @RequestBody AuthRequestDTO.SocialLoginDTO request) {
+        return ApiResponse.onSuccess(socialAuthService.login("naver", request));
     }
 }
