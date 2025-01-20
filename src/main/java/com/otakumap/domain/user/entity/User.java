@@ -2,6 +2,7 @@ package com.otakumap.domain.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.otakumap.domain.image.entity.Image;
+import com.otakumap.domain.notification.entity.Notification;
 import com.otakumap.domain.user.entity.enums.Role;
 import com.otakumap.domain.user.entity.enums.SocialType;
 import com.otakumap.domain.user.entity.enums.UserStatus;
@@ -47,6 +48,12 @@ public class User extends BaseEntity {
     @ColumnDefault("0")
     @Column(nullable = false)
     private Integer donation;
+
+    @Column(nullable = false)
+    private Boolean isCommunityActivityNotified = true;
+
+    @Column(nullable = false)
+    private Boolean isEventBenefitsNotified = true;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(10) DEFAULT 'ACTIVE'", nullable = false)

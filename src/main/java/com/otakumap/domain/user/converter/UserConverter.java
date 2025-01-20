@@ -1,6 +1,7 @@
 package com.otakumap.domain.user.converter;
 
 import com.otakumap.domain.auth.dto.*;
+import com.otakumap.domain.user.dto.UserResponseDTO;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.domain.user.entity.enums.Role;
 import com.otakumap.domain.user.entity.enums.SocialType;
@@ -17,6 +18,8 @@ public class UserConverter {
                 .userId(request.getUserId())
                 .email(request.getEmail())
                 .password(request.getPassword())
+                .isCommunityActivityNotified(true)
+                .isEventBenefitsNotified(true)
                 .role(Role.USER)
                 .status(UserStatus.ACTIVE)
                 .build();
@@ -80,6 +83,17 @@ public class UserConverter {
                 .nickname(UuidGenerator.generateUuid())
                 .email(naverUserInfo.getResponse().getEmail())
                 .socialType(SocialType.NAVER)
+                .build();
+    }
+
+    public static UserResponseDTO.UserInfoResponseDTO toUserInfoResponseDTO(User user) {
+        return UserResponseDTO.UserInfoResponseDTO.builder()
+                .profileImageUrl(user.getProfileImage() == null ? null : user.getProfileImage().getFileUrl())
+                .nickname(user.getNickname())
+                .email(user.getEmail())
+                .donation(user.getDonation())
+                .community_activity(user.getIsCommunityActivityNotified())
+                .event_benefits_info(user.getIsEventBenefitsNotified())
                 .build();
     }
 }
