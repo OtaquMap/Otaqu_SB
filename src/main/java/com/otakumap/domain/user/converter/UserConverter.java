@@ -1,6 +1,7 @@
 package com.otakumap.domain.user.converter;
 
 import com.otakumap.domain.auth.dto.*;
+import com.otakumap.domain.user.dto.UserResponseDTO;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.domain.user.entity.enums.Role;
 import com.otakumap.domain.user.entity.enums.SocialType;
