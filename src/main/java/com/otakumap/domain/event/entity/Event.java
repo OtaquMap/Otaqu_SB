@@ -6,6 +6,7 @@ import com.otakumap.domain.event.entity.enums.Genre;
 import com.otakumap.domain.eventLocation.entity.EventLocation;
 import com.otakumap.domain.event_like.entity.EventLike;
 import com.otakumap.domain.image.entity.Image;
+import com.otakumap.domain.mapping.entity.EventAnimation;
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -74,4 +75,7 @@ public class Event extends BaseEntity {
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<EventLike> eventLikeList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<EventAnimation> eventAnimationList = new ArrayList<>();
 }

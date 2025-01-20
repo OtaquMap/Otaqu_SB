@@ -1,5 +1,6 @@
 package com.otakumap.domain.place.entity;
 
+import com.otakumap.domain.mapping.entity.PlaceAnimation;
 import com.otakumap.domain.place_short_review.entity.PlaceShortReview;
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
@@ -27,4 +28,7 @@ public class Place extends BaseEntity {
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
     private List<PlaceShortReview> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
+    private List<PlaceAnimation> placeAnimationList = new ArrayList<>();
 }
