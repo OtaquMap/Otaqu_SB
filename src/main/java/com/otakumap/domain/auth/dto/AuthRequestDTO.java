@@ -70,4 +70,10 @@ public class AuthRequestDTO {
         @NotNull
         String email;
     }
+
+    @Getter
+    public static class SocialLoginDTO {
+        @NotNull
+        String code;
+    }
 }
