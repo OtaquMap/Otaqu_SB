@@ -1,5 +1,6 @@
 package com.otakumap.domain.place_review.entity;
 
+import com.otakumap.domain.image.entity.Image;
 import com.otakumap.domain.place.entity.Place;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.common.BaseEntity;
@@ -28,6 +29,10 @@ public class PlaceReview extends BaseEntity {
 
     @Column(columnDefinition = "bigint default 0 not null")
     private Long view;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
+    private Image image;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
