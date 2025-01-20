@@ -1,7 +1,8 @@
 package com.otakumap.domain.reviews.repository;
 
-import java.util.List;
+import com.otakumap.domain.reviews.dto.ReviewResponseDTO;
+import org.springframework.data.domain.Page;
 
 public interface ReviewsRepositoryCustom {
-    List<Object> getReviewsByKeyword(String keyword);
+    Page<ReviewResponseDTO.SearchedReviewPreViewDTO> getReviewsByKeyword(String keyword, int page, int size, String sort);
 }

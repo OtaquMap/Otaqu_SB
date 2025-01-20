@@ -1,7 +1,8 @@
 package com.otakumap.domain.reviews.service;
 
-import java.util.List;
+import com.otakumap.domain.reviews.dto.ReviewResponseDTO;
+import org.springframework.data.domain.Page;
 
-public interface reviewQueryService {
-    List<Object> searchReviewsByKeyword(String keyword);
+public interface ReviewQueryService {
+    Page<ReviewResponseDTO.SearchedReviewPreViewDTO> searchReviewsByKeyword(String keyword, int page, int size, String sort);
 }
