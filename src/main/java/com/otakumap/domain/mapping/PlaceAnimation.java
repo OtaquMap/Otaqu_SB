@@ -1,4 +1,4 @@
-package com.otakumap.domain.mapping.entity;
+package com.otakumap.domain.mapping;
 
 import com.otakumap.domain.animation.entity.Animation;
 import com.otakumap.domain.place.entity.Place;

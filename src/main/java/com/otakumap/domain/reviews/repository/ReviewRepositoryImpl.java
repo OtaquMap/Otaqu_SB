@@ -27,7 +27,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class ReviewsRepositoryImpl implements ReviewsRepositoryCustom{
+public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 

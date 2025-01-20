@@ -1,6 +1,6 @@
 package com.otakumap.domain.place.entity;
 
-import com.otakumap.domain.mapping.entity.PlaceAnimation;
+import com.otakumap.domain.mapping.PlaceAnimation;
 import com.otakumap.domain.place_short_review.entity.PlaceShortReview;
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
