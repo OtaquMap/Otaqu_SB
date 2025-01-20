@@ -14,6 +14,7 @@ import com.otakumap.domain.reviews.dto.ReviewResponseDTO;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.SearchHandler;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -40,18 +41,10 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
         QAnimation animation = QAnimation.animation;
 
         // 이벤트 리뷰 검색 : EventReview 제목, 내용, 또는 연관된 애니메이션 이름
-        BooleanBuilder eventCondition = new BooleanBuilder();
-        eventCondition.or(eventReview.title.containsIgnoreCase(keyword)
-                .or(eventReview.content.containsIgnoreCase(keyword))
-                .or(eventAnimation.animation.name.containsIgnoreCase(keyword))
-        );
+        BooleanBuilder eventCondition = createSearchCondition(eventReview.title, eventReview.content, eventAnimation.animation.name, keyword);
 
         // 장소 리뷰 검색 : PlaceReview 제목, 내용, 또는 연관된 애니메이션 이름
-        BooleanBuilder placeCondition = new BooleanBuilder();
-        placeCondition.or(placeReview.title.containsIgnoreCase(keyword)
-                .or(placeReview.content.containsIgnoreCase(keyword))
-                .or(placeAnimation.animation.name.containsIgnoreCase(keyword))
-        );
+        BooleanBuilder placeCondition = createSearchCondition(placeReview.title, placeReview.content, placeAnimation.animation.name, keyword);
 
         List<EventReview> eventReviews = queryFactory.selectFrom(eventReview)
                 .leftJoin(eventReview.event, QEvent.event)
@@ -82,13 +75,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
         }
 
         // 정렬 (최신순, 조회수)
-        if ("views".equalsIgnoreCase(sort)) {
-            searchedReviews.sort(Comparator.comparing(ReviewResponseDTO.SearchedReviewPreViewDTO::getView).reversed()
-                    .thenComparing(ReviewResponseDTO.SearchedReviewPreViewDTO::getCreatedAt) // 조회수가 같으면 최신순을 기준으로
-            );
-        } else {
-            searchedReviews.sort(Comparator.comparing(ReviewResponseDTO.SearchedReviewPreViewDTO::getCreatedAt).reversed());
-        }
+        sortReviews(searchedReviews, sort);
 
         // 페이징
         int start = page * size;
@@ -98,5 +85,24 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
         }
 
         return new PageImpl<>(searchedReviews.subList(start, end), PageRequest.of(page, size), searchedReviews.size());
+    }
+
+    private BooleanBuilder createSearchCondition(StringPath title, StringPath content, StringPath animationName, String keyword) {
+        BooleanBuilder condition = new BooleanBuilder();
+
+        condition.or(title.containsIgnoreCase(keyword))
+                .or(content.containsIgnoreCase(keyword))
+                .or(animationName.containsIgnoreCase(keyword));
+
+        return condition;
+    }
+
+    private void sortReviews(List<ReviewResponseDTO.SearchedReviewPreViewDTO> reviews, String sort) {
+        if ("views".equalsIgnoreCase(sort)) {
+            reviews.sort(Comparator.comparing(ReviewResponseDTO.SearchedReviewPreViewDTO::getView).reversed()
+                    .thenComparing(ReviewResponseDTO.SearchedReviewPreViewDTO::getCreatedAt)); // 조회수가 같으면 최신순을 기준으로
+        } else {
+            reviews.sort(Comparator.comparing(ReviewResponseDTO.SearchedReviewPreViewDTO::getCreatedAt).reversed());
+        }
     }
 }
