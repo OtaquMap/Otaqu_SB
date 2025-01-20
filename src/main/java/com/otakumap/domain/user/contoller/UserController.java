@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 public class UserController {
     private final UserQueryService userQueryService;
 
-    @GetMapping("/users")
+    @GetMapping
     @Operation(summary = "회원 정보 조회 API", description = "회원 정보를 조회합니다.")
     public ApiResponse<UserResponseDTO.UserInfoResponseDTO> getUserInfo(@CurrentUser User user) {
         User userInfo = userQueryService.getUserInfo(user.getId());
