@@ -28,6 +28,7 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // 멤버 관련 에러
     USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "USER4001", "사용자가 없습니다."),
+    NICKNAME_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "USER4002", "이미 사용 중인 닉네임입니다."),
 
     // 명소 관련 에러
     PLACE_NOT_FOUND(HttpStatus.BAD_REQUEST, "PLACE4001", "존재하지 않는 명소입니다."),

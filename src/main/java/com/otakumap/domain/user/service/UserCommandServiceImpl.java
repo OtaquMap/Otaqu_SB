@@ -3,6 +3,8 @@ package com.otakumap.domain.user.service;
 import com.otakumap.domain.user.dto.UserRequestDTO;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.domain.user.repository.UserRepository;
+import com.otakumap.global.apiPayload.code.status.ErrorStatus;
+import com.otakumap.global.apiPayload.exception.handler.UserHandler;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ public class UserCommandServiceImpl implements UserCommandService {
     @Transactional
     public void updateNickname(User user, UserRequestDTO.UpdateNicknameDTO request) {
         if (userRepository.existsByNickname(request.getNickname())) {
-            throw new IllegalArgumentException("이미 사용중인 닉네임입니다.");
+            throw new UserHandler(ErrorStatus.NICKNAME_ALREADY_EXISTS);
         }
         user.setNickname(request.getNickname());
         userRepository.save(user);
