@@ -28,7 +28,7 @@ public class EventReview extends BaseEntity {
     private String content;
 
     @Column(columnDefinition = "bigint default 0 not null")
-    private Integer view;
+    private Long view;
 
     @Column(nullable = false)
     private Float rating;
