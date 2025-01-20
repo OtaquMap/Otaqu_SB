@@ -9,6 +9,7 @@ import com.otakumap.domain.user.service.UserCommandService;
 import com.otakumap.domain.user.service.UserQueryService;
 import com.otakumap.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,7 @@ public class UserController {
     @Operation(summary = "닉네임 변경 API", description = "회원의 닉네임을 변경합니다.")
     public ApiResponse<String> updateNickname(
             @CurrentUser User user,
-            @RequestBody UserRequestDTO.UpdateNicknameDTO request) {
+            @Valid @RequestBody UserRequestDTO.UpdateNicknameDTO request) {
         userCommandService.updateNickname(user, request);
         return ApiResponse.onSuccess("닉네임이 성공적으로 수정되었습니다.");
     }
