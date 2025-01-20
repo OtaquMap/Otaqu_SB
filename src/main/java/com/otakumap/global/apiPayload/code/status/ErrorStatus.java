@@ -25,6 +25,7 @@ public enum ErrorStatus implements BaseErrorCode {
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "AUTH4005", "유효하지 않은 토큰입니다."),
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "AUTH4006", "토큰이 만료되었습니다."),
     TOKEN_LOGGED_OUT(HttpStatus.UNAUTHORIZED, "AUTH4007", "이 토큰은 로그아웃되어 더 이상 유효하지 않습니다."),
+    UNSUPPORTED_PROVIDER(HttpStatus.BAD_REQUEST, "AUTH4008", "지원하지 않는 provider입니다."),
 
     // 멤버 관련 에러
     USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "USER4001", "사용자가 없습니다."),
