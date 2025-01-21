@@ -4,6 +4,6 @@ WORKDIR /app
 COPY ${JAR_FILE} app.jar
 
 # application.yml 복사
-COPY src/main/resources/application.yml /app/application.yml
+COPY ./src/main/resources/application.yml /app/application.yml
 
 ENTRYPOINT [ "java", "-jar", "/app/app.jar" ]
