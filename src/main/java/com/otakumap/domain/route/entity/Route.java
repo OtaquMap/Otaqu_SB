@@ -22,7 +22,7 @@ public class Route extends BaseEntity {
     @Column(length = 50, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "route")
+    @OneToMany(mappedBy = "route", cascade = CascadeType.ALL)
     private List<RouteLike> routeLikes;
 
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL, orphanRemoval = true)

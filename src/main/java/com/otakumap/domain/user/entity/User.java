@@ -71,8 +71,8 @@ public class User extends BaseEntity {
     @JoinColumn(name = "profile_image_id", referencedColumnName = "id")
     private Image profileImage;
 
-    @OneToMany(mappedBy = "user")
-    private List<RouteLike> routeLikes;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<RouteLike> routeLikes = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<PlaceLike> placeLikes = new ArrayList<>();
