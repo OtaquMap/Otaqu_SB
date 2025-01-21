@@ -3,7 +3,6 @@ package com.otakumap.domain.route_like.service;
 import com.otakumap.domain.route.entity.Route;
 import com.otakumap.domain.route.repository.RouteRepository;
 import com.otakumap.domain.route_like.entity.RouteLike;
-import com.otakumap.domain.route_like.enums.Status;
 import com.otakumap.domain.route_like.repository.RouteLikeRepository;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.domain.user.repository.UserRepository;
@@ -32,7 +31,6 @@ public class RouteLikeCommandServiceImpl implements RouteLikeCommandService {
         RouteLike routeLike = RouteLike.builder()
                 .user(user)
                 .route(route)
-                .status(Status.ACTIVE)
                 .isFavorite(Boolean.TRUE)
                 .build();
 

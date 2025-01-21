@@ -1,7 +1,6 @@
 package com.otakumap.domain.route_like.entity;
 
 import com.otakumap.domain.route.entity.Route;
-import com.otakumap.domain.route_like.enums.Status;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
@@ -35,8 +34,4 @@ public class RouteLike extends BaseEntity {
     @Column(name = "is_favorite", nullable = false)
     @ColumnDefault("false")
     private Boolean isFavorite;
-
-    @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(10) DEFAULT 'PLACE'", nullable = false)
-    private Status status;
 }
