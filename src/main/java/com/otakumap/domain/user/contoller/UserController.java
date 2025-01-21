@@ -35,4 +35,12 @@ public class UserController {
         userCommandService.updateNickname(user, request);
         return ApiResponse.onSuccess("닉네임이 성공적으로 수정되었습니다.");
     }
+
+    @PostMapping("/report-event")
+    @Operation(summary = "이벤트 제보 API", description = "이벤트를 제보합니다.")
+    public ApiResponse<String> reportEvent(
+            @Valid @RequestBody UserRequestDTO.UserReportRequestDTO request) {
+        userCommandService.reportEvent(request);
+        return ApiResponse.onSuccess("이벤트 제보가 성공적으로 전송되었습니다.");
+    }
 }
