@@ -43,4 +43,13 @@ public class UserController {
         userCommandService.reportEvent(request);
         return ApiResponse.onSuccess("이벤트 제보가 성공적으로 전송되었습니다.");
     }
+
+    @PatchMapping("/notification-settings")
+    @Operation(summary = "알림 설정 변경 API", description = "회원의 알림 설정을 변경합니다.")
+    public ApiResponse<String> updateNotificationSettings(
+            @CurrentUser User user,
+            @Valid @RequestBody UserRequestDTO.NotificationSettingsRequestDTO request) {
+        userCommandService.updateNotificationSettings(user, request);
+        return ApiResponse.onSuccess("알림 설정이 성공적으로 업데이트되었습니다.");
+    }
 }
