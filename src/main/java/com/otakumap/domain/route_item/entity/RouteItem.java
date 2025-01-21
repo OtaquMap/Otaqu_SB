@@ -24,6 +24,9 @@ public class RouteItem extends BaseEntity {
     @Column(columnDefinition = "VARCHAR(10) DEFAULT 'PLACE'", nullable = false)
     private ItemType itemType;
 
+    @Column(nullable = false)
+    private Long itemId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "route_id")
     private Route route;
