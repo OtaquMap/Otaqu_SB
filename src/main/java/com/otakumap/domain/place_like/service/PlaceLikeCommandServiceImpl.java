@@ -2,10 +2,10 @@ package com.otakumap.domain.place_like.service;
 
 import com.otakumap.domain.place.entity.Place;
 import com.otakumap.domain.place.repository.PlaceRepository;
+import com.otakumap.domain.place_like.converter.PlaceLikeConverter;
 import com.otakumap.domain.place_like.entity.PlaceLike;
 import com.otakumap.domain.place_like.repository.PlaceLikeRepository;
 import com.otakumap.domain.user.entity.User;
-import com.otakumap.domain.user.repository.UserRepository;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.PlaceHandler;
 import jakarta.persistence.EntityManager;
@@ -21,7 +21,6 @@ import java.util.List;
 public class PlaceLikeCommandServiceImpl implements PlaceLikeCommandService {
     private final PlaceLikeRepository placeLikeRepository;
     private final EntityManager entityManager;
-    private final UserRepository userRepository;
     private final PlaceRepository placeRepository;
 
     @Override
@@ -36,11 +35,7 @@ public class PlaceLikeCommandServiceImpl implements PlaceLikeCommandService {
         Place place = placeRepository.findById(placeId)
                 .orElseThrow(() -> new PlaceHandler(ErrorStatus.PLACE_NOT_FOUND));
 
-        PlaceLike placeLike = PlaceLike.builder()
-                .user(user)
-                .place(place)
-                .isFavorite(Boolean.TRUE)
-                .build();
+        PlaceLike placeLike = PlaceLikeConverter.toPlaceLike(user, place);
 
         placeLikeRepository.save(placeLike);
     }
