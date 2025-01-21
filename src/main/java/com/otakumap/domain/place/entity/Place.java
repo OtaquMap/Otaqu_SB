@@ -33,8 +33,8 @@ public class Place extends BaseEntity {
     @Column(nullable = false)
     private Double lng;
 
-    @Column(nullable = false, length = 100)
-    private String description;
+    @Column(name = "detail", nullable = false, length = 100)
+    private String detail;
 
     private LocalDateTime savedAt;
 
