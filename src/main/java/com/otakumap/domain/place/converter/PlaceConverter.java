@@ -12,7 +12,7 @@ public class PlaceConverter {
                 place.getName(),
                 place.getLat(),
                 place.getLng(),
-                place.getDescription(),
+                place.getDetail(),
                 place.getSavedAt(),
                 place.getIsFavorite()
         );
