@@ -6,6 +6,7 @@ import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -36,6 +37,10 @@ public class Place extends BaseEntity {
     private String description;
 
     private LocalDateTime savedAt;
+
+    @Column(name = "is_favorite", nullable = false)
+    @ColumnDefault("false")
+    private Boolean isFavorite;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

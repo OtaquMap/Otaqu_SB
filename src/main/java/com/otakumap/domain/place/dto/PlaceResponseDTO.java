@@ -9,7 +9,9 @@ public record PlaceResponseDTO(
         Double lat,
         Double lng,
         String description,
-        LocalDateTime savedAt
+        LocalDateTime savedAt,
+
+        Boolean isFavorite
 ) {
     // 필요한 경우, 추가적인 메서드를 여기에 정의할 수 있습니다.
 }

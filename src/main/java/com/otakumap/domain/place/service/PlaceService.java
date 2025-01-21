@@ -22,7 +22,8 @@ public class PlaceService {
                         place.getLat(),
                         place.getLng(),
                         place.getDescription(),
-                        place.getSavedAt()
+                        place.getSavedAt(),
+                        place.getIsFavorite()
                 ))
                 .collect(Collectors.toList());
     }
