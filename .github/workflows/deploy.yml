@@ -48,7 +48,7 @@ jobs:
           mkdir -p ./src/main/resources
           cd ./src/main/resources
           touch ./application.yml
-          echo "${{ secrets.APPLICATION_YML  }}" > ./application.yml
+          echo "${{ secrets.APPLICATION_YML }}" > ./application.yml
         shell: bash
 
       ## docker build & push to production
