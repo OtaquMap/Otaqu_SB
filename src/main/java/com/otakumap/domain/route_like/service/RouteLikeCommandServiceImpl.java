@@ -2,6 +2,7 @@ package com.otakumap.domain.route_like.service;
 
 import com.otakumap.domain.route.entity.Route;
 import com.otakumap.domain.route.repository.RouteRepository;
+import com.otakumap.domain.route_like.converter.RouteLikeConverter;
 import com.otakumap.domain.route_like.entity.RouteLike;
 import com.otakumap.domain.route_like.repository.RouteLikeRepository;
 import com.otakumap.domain.user.entity.User;
@@ -28,11 +29,7 @@ public class RouteLikeCommandServiceImpl implements RouteLikeCommandService {
             throw new RouteHandler(ErrorStatus.ROUTE_LIKE_ALREADY_EXISTS);
         }
 
-        RouteLike routeLike = RouteLike.builder()
-                .user(user)
-                .route(route)
-                .isFavorite(Boolean.TRUE)
-                .build();
+        RouteLike routeLike = RouteLikeConverter.toRouteLike(user, route);
 
         routeLikeRepository.save(routeLike);
     }
