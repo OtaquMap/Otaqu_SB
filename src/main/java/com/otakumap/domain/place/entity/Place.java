@@ -42,10 +42,6 @@ public class Place extends BaseEntity {
     @ColumnDefault("false")
     private Boolean isFavorite;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
     private List<PlaceShortReview> reviews = new ArrayList<>();
 
