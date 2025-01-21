@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class PlaceLikeResponseDTO {
@@ -15,8 +15,12 @@ public class PlaceLikeResponseDTO {
     @AllArgsConstructor
     public static class PlaceLikePreViewDTO {
         Long id;
-        Long userId;
         Long placeId;
+        String name;
+        String detail;
+        Double lat;
+        Double lng;
+        LocalDateTime savedAt;
         Boolean isFavorite;
     }
 
