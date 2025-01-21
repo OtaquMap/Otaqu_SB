@@ -4,7 +4,8 @@ name: CI/CD using github actions & docker
 # dev 브랜치에 push가 되었을 때 실행
 on:
   push:
-    branches: [ "dev" ]
+    # branches: [ "dev" ]
+    branches: [ "ci/#50" ]
 
 permissions:
   contents: read
@@ -51,6 +52,7 @@ jobs:
           cd ./resources
           touch ./application.yml
           echo "${{ secrets.APPLICATION_YML }}" > ./application.yml
+          cat ./src/main/resources/application.yml
         shell: bash
 
       ## docker build & push to production
