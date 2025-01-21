@@ -45,7 +45,10 @@ public enum ErrorStatus implements BaseErrorCode {
     PLACE_LIKE_NOT_FOUND(HttpStatus.BAD_REQUEST, "PLACE4002", "저장되지 않은 명소입니다."),
 
     // 후기 검색 관련 에러
-    REVIEW_SEARCH_NOT_FOUND(HttpStatus.NOT_FOUND, "SEARCH4001", "검색된 후기가 없습니다.");
+    REVIEW_SEARCH_NOT_FOUND(HttpStatus.NOT_FOUND, "SEARCH4001", "검색된 후기가 없습니다."),
+
+    // 알림 관련 에러
+    INVALID_NOTIFICATION_TYPE(HttpStatus.BAD_REQUEST, "NOTIFICATION4001", "유효하지 않은 알림 타입입니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
