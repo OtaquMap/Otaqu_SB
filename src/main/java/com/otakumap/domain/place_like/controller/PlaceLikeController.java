@@ -1,8 +1,10 @@
 package com.otakumap.domain.place_like.controller;
 
+import com.otakumap.domain.auth.jwt.annotation.CurrentUser;
 import com.otakumap.domain.place_like.dto.PlaceLikeResponseDTO;
 import com.otakumap.domain.place_like.service.PlaceLikeCommandService;
 import com.otakumap.domain.place_like.service.PlaceLikeQueryService;
+import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.apiPayload.ApiResponse;
 import com.otakumap.global.validation.annotation.ExistPlaceLike;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,5 +44,17 @@ public class PlaceLikeController {
     public ApiResponse<String> deletePlaceLike(@RequestParam(required = false) @ExistPlaceLike List<Long> placeIds) {
         placeLikeCommandService.deletePlaceLike(placeIds);
         return ApiResponse.onSuccess("저장된 장소가 성공적으로 삭제되었습니다");
+    }
+
+    @Operation(summary = "장소 저장", description = "장소를 저장합니다.")
+    @PostMapping("/places/{placeId}")
+    @Parameters({
+            @Parameter(name = "placeId", description = "장소 Id")
+    })
+    public ApiResponse<String> savePlaceLike(@PathVariable Long placeId, @CurrentUser User user) {
+
+         placeLikeCommandService.savePlaceLike(user, placeId);
+
+         return ApiResponse.onSuccess("장소가 성공적으로 저장되었습니다.");
     }
 }
