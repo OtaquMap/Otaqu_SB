@@ -44,20 +44,18 @@ jobs:
 
       ## yml 파일 생성
       - name: make application.yml
-        if: contains(github.ref, 'dev')
+        if: contains(github.ref, 'ci/#50')
         run: |
-          echo "${{ secrets.APPLICATION_YML }}"
           cd ./src/main
           mkdir -p resources
           cd ./resources
           touch ./application.yml
-          echo "${{ secrets.APPLICATION_YML }}" > ./application.yml
-          cat ./src/main/resources/application.yml
+          echo "${{ secrets.APPLICATION_YML }}" >> ./application.yml
         shell: bash
 
       ## docker build & push to production
       - name: Docker build & push to prod
-        if: contains(github.ref, 'dev')
+        if: contains(github.ref, 'ci/#50')
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}:latest .
@@ -67,7 +65,7 @@ jobs:
       - name: Deploy to prod
         uses: appleboy/ssh-action@v0.1.6
         id: deploy-prod
-        if: contains(github.ref, 'dev')
+        if: contains(github.ref, 'ci/#50')
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
