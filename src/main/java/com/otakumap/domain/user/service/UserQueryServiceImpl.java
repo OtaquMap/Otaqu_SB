@@ -29,6 +29,6 @@ public class UserQueryServiceImpl implements UserQueryService {
 
     @Override
     public Page<PlaceReview> getMyReviews(User user, Integer page) {
-        return placeReviewRepository.findAllByUserId(user.getId(), PageRequest.of(page - 1, 10));
+        return placeReviewRepository.findAllByUserId(user.getId(), PageRequest.of(page - 1, 3));
     }
 }
