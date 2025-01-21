@@ -1,6 +1,7 @@
 package com.otakumap.domain.user.contoller;
 
 import com.otakumap.domain.auth.jwt.annotation.CurrentUser;
+import com.otakumap.domain.place_review.entity.PlaceReview;
 import com.otakumap.domain.user.converter.UserConverter;
 import com.otakumap.domain.user.dto.UserRequestDTO;
 import com.otakumap.domain.user.dto.UserResponseDTO;
@@ -8,9 +9,13 @@ import com.otakumap.domain.user.entity.User;
 import com.otakumap.domain.user.service.UserCommandService;
 import com.otakumap.domain.user.service.UserQueryService;
 import com.otakumap.global.apiPayload.ApiResponse;
+import com.otakumap.global.validation.annotation.CheckPage;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -42,5 +47,16 @@ public class UserController {
             @Valid @RequestBody UserRequestDTO.UserReportRequestDTO request) {
         userCommandService.reportEvent(request);
         return ApiResponse.onSuccess("이벤트 제보가 성공적으로 전송되었습니다.");
+    }
+
+    @GetMapping("/my-reviews")
+    @Operation(summary = "내가 작성한 리뷰 조회 API", description = "내가 작성한 리뷰를 조회합니다.")
+    @Parameters({
+            @Parameter(name = "page", description = "페이지 번호 쿼리스트링입니다! (1~)")
+    })
+    public ApiResponse<UserResponseDTO.UserReviewListDTO> getMyReviews(
+            @CurrentUser User user, @CheckPage @RequestParam(name = "page") Integer page) {
+        Page<PlaceReview> reviews = userQueryService.getMyReviews(user, page);
+        return ApiResponse.onSuccess(UserConverter.reviewListDTO(reviews));
     }
 }
