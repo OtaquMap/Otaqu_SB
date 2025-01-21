@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   app:
-    image: otakumap/otaku_sb
+    image: otakumap/otaku_sb:latest
     container_name: otaku_sb-container
     restart: always
     ports:
