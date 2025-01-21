@@ -23,7 +23,7 @@ public class RouteLikeController {
     private final RouteLikeCommandService routeLikeCommandService;
 
     @Operation(summary = "루트 저장", description = "루트를 저장합니다.")
-    @PostMapping("/routes/{routeId}/save")
+    @PostMapping("/routes/{routeId}")
     @Parameters({
             @Parameter(name = "routeId", description = "루트 Id")
     })
