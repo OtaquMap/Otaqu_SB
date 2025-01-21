@@ -4,6 +4,7 @@ import com.otakumap.domain.notification.dto.NotificationResponseDTO;
 import com.otakumap.domain.notification.entity.Notification;
 import com.otakumap.domain.notification.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class NotificationQueryServiceImpl implements NotificationQueryService {
 
     @Override
     public List<Notification> getUnreadNotifications(Long userId) {
-        return notificationRepository.findAllByUserIdAndIsReadFalse(userId);
+        Sort sort = Sort.by(Sort.Order.desc("createdAt"));
+        return notificationRepository.findAllByUserIdAndIsReadFalse(userId, sort);
     }
 }
