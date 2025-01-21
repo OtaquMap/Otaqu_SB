@@ -47,7 +47,7 @@ public class PlaceLikeController {
     }
 
     @Operation(summary = "장소 저장", description = "장소를 저장합니다.")
-    @PostMapping("/places/{placeId}/save")
+    @PostMapping("/places/{placeId}")
     @Parameters({
             @Parameter(name = "placeId", description = "장소 Id")
     })
