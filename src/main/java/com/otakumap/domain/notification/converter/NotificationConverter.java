@@ -12,6 +12,7 @@ public class NotificationConverter {
                 .id(notification.getId())
                 .type(notification.getType().name())
                 .message(notification.getMessage())
+                .url(notification.getUrl())
                 .createdAt(notification.getCreatedAt())
                 .isRead(notification.isRead())
                 .build();

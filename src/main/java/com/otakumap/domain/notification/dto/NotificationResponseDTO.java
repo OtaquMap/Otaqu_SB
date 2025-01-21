@@ -25,6 +25,7 @@ public class NotificationResponseDTO {
         Long id;
         String type;
         String message;
+        String url;
         LocalDateTime createdAt;
         boolean isRead;
     }

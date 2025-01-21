@@ -14,8 +14,7 @@ public class NotificationQueryServiceImpl implements NotificationQueryService {
     private final NotificationRepository notificationRepository;
 
     @Override
-    public List<Notification> getNotifications(Long userId) {
-        List<Notification> notifications = notificationRepository.findAllByUserId(userId);
-        return notifications;
+    public List<Notification> getUnreadNotifications(Long userId) {
+        return notificationRepository.findAllByUserIdAndIsReadFalse(userId);
     }
 }

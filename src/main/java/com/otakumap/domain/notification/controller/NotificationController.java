@@ -22,9 +22,9 @@ public class NotificationController {
     private final NotificationQueryService notificationQueryService;
 
     @GetMapping
-    @Operation(summary = "알림 목록 조회 API", description = "알림 목록을 조회합니다.")
-    public ApiResponse<NotificationResponseDTO.NotificationListDTO> getNotifications(@CurrentUser User user) {
-        List<Notification> notifications = notificationQueryService.getNotifications(user.getId());
+    @Operation(summary = "알림 목록 조회 API", description = "읽지 않은 알림 목록을 조회합니다.")
+    public ApiResponse<NotificationResponseDTO.NotificationListDTO> getUnreadNotifications(@CurrentUser User user) {
+        List<Notification> notifications = notificationQueryService.getUnreadNotifications(user.getId());
         return ApiResponse.onSuccess(NotificationConverter.notificationListDTO(notifications));
     }
 }
