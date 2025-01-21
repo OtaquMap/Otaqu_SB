@@ -2,7 +2,6 @@ package com.otakumap.domain.place_review.entity;
 
 import com.otakumap.domain.image.entity.Image;
 import com.otakumap.domain.place.entity.Place;
-import com.otakumap.domain.route.entity.Route;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
@@ -43,7 +42,4 @@ public class PlaceReview extends BaseEntity {
     @JoinColumn(name = "place_id", nullable = false)
     private Place place;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "route_id", referencedColumnName = "id")
-    private Route route;
 }
