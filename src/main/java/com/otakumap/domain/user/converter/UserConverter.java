@@ -1,13 +1,18 @@
 package com.otakumap.domain.user.converter;
 
 import com.otakumap.domain.auth.dto.*;
+import com.otakumap.domain.place_review.entity.PlaceReview;
+import com.otakumap.domain.user.dto.UserResponseDTO;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.domain.user.entity.enums.Role;
 import com.otakumap.domain.user.entity.enums.SocialType;
 import com.otakumap.domain.user.entity.enums.UserStatus;
 import com.otakumap.global.util.UuidGenerator;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserConverter {
     public static User toUser(AuthRequestDTO.SignupDTO request) {
@@ -17,6 +22,8 @@ public class UserConverter {
                 .userId(request.getUserId())
                 .email(request.getEmail())
                 .password(request.getPassword())
+                .isCommunityActivityNotified(true)
+                .isEventBenefitsNotified(true)
                 .role(Role.USER)
                 .status(UserStatus.ACTIVE)
                 .build();
@@ -80,6 +87,42 @@ public class UserConverter {
                 .nickname(UuidGenerator.generateUuid())
                 .email(naverUserInfo.getResponse().getEmail())
                 .socialType(SocialType.NAVER)
+                .build();
+    }
+
+    public static UserResponseDTO.UserInfoResponseDTO toUserInfoResponseDTO(User user) {
+        return UserResponseDTO.UserInfoResponseDTO.builder()
+                .profileImageUrl(user.getProfileImage() == null ? null : user.getProfileImage().getFileUrl())
+                .nickname(user.getNickname())
+                .email(user.getEmail())
+                .donation(user.getDonation())
+                .community_activity(user.getIsCommunityActivityNotified())
+                .event_benefits_info(user.getIsEventBenefitsNotified())
+                .build();
+    }
+
+    public static UserResponseDTO.UserReviewDTO reviewDTO(PlaceReview review) {
+        return UserResponseDTO.UserReviewDTO.builder()
+                .reviewId(review.getId())
+                .title(review.getTitle())
+                .content(review.getContent())
+                .thumbnail(review.getImage() == null ? null : review.getImage().getFileUrl()) // 이미지 여러 개면 수정
+                .views(review.getView())
+                .createdAt(review.getCreatedAt().toLocalDate())
+                .build();
+    }
+
+    public static UserResponseDTO.UserReviewListDTO reviewListDTO(Page<PlaceReview> reviews) {
+        List<UserResponseDTO.UserReviewDTO> userReviewDTOS = reviews.stream()
+                .map(UserConverter::reviewDTO).collect(Collectors.toList());
+
+        return UserResponseDTO.UserReviewListDTO.builder()
+                .reviews(userReviewDTOS)
+                .listSize(userReviewDTOS.size())
+                .totalPages(reviews.getTotalPages())
+                .totalElements(reviews.getTotalElements())
+                .isFirst(reviews.isFirst())
+                .isLast(reviews.isLast())
                 .build();
     }
 }
