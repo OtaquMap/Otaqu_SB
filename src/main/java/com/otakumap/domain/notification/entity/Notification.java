@@ -4,7 +4,6 @@ import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 
@@ -28,7 +27,7 @@ public class Notification extends BaseEntity {
     private String url;
 
     @Column(nullable = false)
-    private Boolean isRead = false;
+    private boolean isRead = false;
 
     private LocalDateTime readAt;
 
