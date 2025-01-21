@@ -1,8 +1,28 @@
----
 version: '3.8'
 services:
+  app:
+    image: otakumap/otaku_sb:latest
+    container_name: otaku_sb-container
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./src/main/resources/application.yml:/app/src/main/resources/application.yml
+    networks:
+      - app_network
   redis:
     image: redis:latest
     container_name: redis
     ports:
       - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - app_network
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  redis-data:
+    driver: local
