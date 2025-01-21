@@ -2,6 +2,7 @@ package com.otakumap.domain.place.entity;
 
 import com.otakumap.domain.mapping.PlaceAnimation;
 import com.otakumap.domain.place_short_review.entity.PlaceShortReview;
+import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -40,6 +41,10 @@ public class Place extends BaseEntity {
     @Column(name = "is_favorite", nullable = false)
     @ColumnDefault("false")
     private Boolean isFavorite;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
     private List<PlaceShortReview> reviews = new ArrayList<>();
