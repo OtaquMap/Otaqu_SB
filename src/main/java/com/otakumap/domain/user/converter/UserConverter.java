@@ -96,4 +96,10 @@ public class UserConverter {
                 .event_benefits_info(user.getIsEventBenefitsNotified())
                 .build();
     }
+
+    public static AuthResponseDTO.FindIdResultDTO toFindIdResultDTO(String userId) {
+        return AuthResponseDTO.FindIdResultDTO.builder()
+                .userId(userId)
+                .build();
+    }
 }

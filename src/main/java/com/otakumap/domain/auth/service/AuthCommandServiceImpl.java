@@ -58,30 +58,24 @@ public class AuthCommandServiceImpl implements AuthCommandService {
     }
 
     @Override
-    public boolean checkNickname(AuthRequestDTO.CheckNicknameDTO request) {
-        return userRepository.existsByNickname(request.getNickname());
-    }
-
-    @Override
     public boolean checkId(AuthRequestDTO.CheckIdDTO request) {
         return userRepository.existsByUserId(request.getUserId());
     }
 
     @Override
-    public void verifyEmail(AuthRequestDTO.VerifyEmailDTO request) throws MessagingException {
+    public void verifyEmail(AuthRequestDTO.VerifyEmailDTO request) {
         try {
-            if(userRepository.existsByEmail(request.getEmail())) {
-                throw new AuthHandler(ErrorStatus.EMAIL_ALREADY_EXISTS);
-            }
-            mailService.sendEmail(request.getEmail());
+            mailService.sendEmail(request.getEmail(), "signup");
+        } catch (MessagingException e) {
+            throw new AuthHandler(ErrorStatus.EMAIL_WRITE_FAILED);
         } catch (MailException e) {
             throw new AuthHandler(ErrorStatus.EMAIL_SEND_FAILED);
         }
     }
 
     @Override
-    public boolean verifyCode(AuthRequestDTO.VerifyCodeDTO request) {
-        String authCode = (String) redisUtil.get("auth:" + request.getEmail());
+    public boolean verifyCode(AuthRequestDTO.VerifyCodeDTO request, String requestType) {
+        String authCode = (String) redisUtil.get("auth:" + request.getEmail() + ":" + requestType);
         if (authCode == null) {
             throw new AuthHandler(ErrorStatus.EMAIL_CODE_EXPIRED);
         }
@@ -114,6 +108,18 @@ public class AuthCommandServiceImpl implements AuthCommandService {
             redisUtil.delete(jwtProvider.getEmail(accessToken));
         } catch (ExpiredJwtException e) {
             throw new AuthHandler(ErrorStatus.TOKEN_EXPIRED);
+        }
+    }
+
+    @Override
+    public void findPassword(AuthRequestDTO.FindPasswordDTO request) {
+        User user = userRepository.findByNameAndUserId(request.getName(), request.getUserId()).orElseThrow(() -> new AuthHandler(ErrorStatus.USER_NOT_FOUND));
+        try {
+            mailService.sendEmail(user.getEmail(), "findPassword");
+        } catch (MessagingException e) {
+            throw new AuthHandler(ErrorStatus.EMAIL_WRITE_FAILED);
+        } catch (MailException e) {
+            throw new AuthHandler(ErrorStatus.EMAIL_SEND_FAILED);
         }
     }
 }

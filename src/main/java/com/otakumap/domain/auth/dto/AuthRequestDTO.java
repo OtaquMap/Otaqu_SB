@@ -41,6 +41,7 @@ public class AuthRequestDTO {
     public static class LoginDTO {
         @NotNull
         String userId;
+
         @NotNull
         String password;
     }
@@ -67,8 +68,18 @@ public class AuthRequestDTO {
     public static class VerifyCodeDTO {
         @NotNull
         String code;
+
         @NotNull
         String email;
+    }
+
+    @Getter
+    public static class FindPasswordDTO {
+        @NotNull
+        String name;
+
+        @NotNull
+        String userId;
     }
 
     @Getter
