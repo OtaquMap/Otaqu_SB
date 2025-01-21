@@ -1,5 +1,6 @@
 package com.otakumap.domain.place.service;
 
+import com.otakumap.domain.place.converter.PlaceConverter;
 import com.otakumap.domain.place.dto.PlaceResponseDTO;
 import com.otakumap.domain.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,15 +17,7 @@ public class PlaceService {
 
     public List<PlaceResponseDTO> getSavedPlaces(Long userId) {
         return placeRepository.findByUserId(userId).stream()
-                .map(place -> new PlaceResponseDTO(
-                        place.getId(),
-                        place.getName(),
-                        place.getLat(),
-                        place.getLng(),
-                        place.getDescription(),
-                        place.getSavedAt(),
-                        place.getIsFavorite()
-                ))
+                .map(PlaceConverter::convert)
                 .collect(Collectors.toList());
     }
 
