@@ -30,9 +30,9 @@ public class UserQueryServiceImpl implements UserQueryService {
 
     @Override
     public Page<PlaceReview> getMyReviews(User user, Integer page, String sort) {
-        Sort sortOrder = Sort.by("createdAt").descending();
+        Sort sortOrder = Sort.by(Sort.Order.desc("createdAt"));
         if ("views".equals(sort)) {
-            sortOrder = Sort.by("view").descending();
+            sortOrder = Sort.by(Sort.Order.desc("view"), Sort.Order.desc("createdAt"));
         }
         return placeReviewRepository.findAllByUserId(user.getId(), PageRequest.of(page - 1, 3, sortOrder));
     }
