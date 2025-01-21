@@ -44,4 +44,5 @@ public class EventReview extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id")
     private Event event;
+
 }

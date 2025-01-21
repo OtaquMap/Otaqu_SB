@@ -2,6 +2,8 @@ package com.otakumap.domain.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.otakumap.domain.image.entity.Image;
+
+import com.otakumap.domain.route_like.entity.RouteLike;
 import com.otakumap.domain.place_like.entity.PlaceLike;
 import com.otakumap.domain.user.entity.enums.Role;
 import com.otakumap.domain.user.entity.enums.SocialType;
@@ -12,7 +14,6 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,6 +70,9 @@ public class User extends BaseEntity {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_image_id", referencedColumnName = "id")
     private Image profileImage;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<RouteLike> routeLikes = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<PlaceLike> placeLikes = new ArrayList<>();
