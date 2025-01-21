@@ -13,6 +13,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -69,8 +70,8 @@ public class User extends BaseEntity {
     @JoinColumn(name = "profile_image_id", referencedColumnName = "id")
     private Image profileImage;
 
-    @OneToMany(mappedBy = "user")
-    private List<PlaceLike> placeLikes;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<PlaceLike> placeLikes = new ArrayList<>();
 
     public void encodePassword(String password) {
         this.password = password;
