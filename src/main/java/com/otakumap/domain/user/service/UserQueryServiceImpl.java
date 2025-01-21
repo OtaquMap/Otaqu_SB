@@ -9,6 +9,7 @@ import com.otakumap.global.apiPayload.exception.handler.AuthHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,7 +29,11 @@ public class UserQueryServiceImpl implements UserQueryService {
     }
 
     @Override
-    public Page<PlaceReview> getMyReviews(User user, Integer page) {
-        return placeReviewRepository.findAllByUserId(user.getId(), PageRequest.of(page - 1, 3));
+    public Page<PlaceReview> getMyReviews(User user, Integer page, String sort) {
+        Sort sortOrder = Sort.by("createdAt").descending();
+        if ("views".equals(sort)) {
+            sortOrder = Sort.by("view").descending();
+        }
+        return placeReviewRepository.findAllByUserId(user.getId(), PageRequest.of(page - 1, 3, sortOrder));
     }
 }

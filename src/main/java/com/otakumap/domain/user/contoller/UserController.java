@@ -52,11 +52,13 @@ public class UserController {
     @GetMapping("/my-reviews")
     @Operation(summary = "내가 작성한 리뷰 조회 API", description = "내가 작성한 리뷰를 조회합니다.")
     @Parameters({
-            @Parameter(name = "page", description = "페이지 번호 쿼리스트링입니다! (1~)")
+            @Parameter(name = "page", description = "페이지 번호 쿼리스트링입니다! (1~)"),
+            @Parameter(name = "sort", description = "정렬 기준 쿼리스트링입니다! (createdAt, views)")
     })
     public ApiResponse<UserResponseDTO.UserReviewListDTO> getMyReviews(
-            @CurrentUser User user, @CheckPage @RequestParam(name = "page") Integer page) {
-        Page<PlaceReview> reviews = userQueryService.getMyReviews(user, page);
+            @CurrentUser User user, @CheckPage @RequestParam(name = "page") Integer page,
+            @RequestParam(name = "sort", defaultValue = "createdAt") String sort) {
+        Page<PlaceReview> reviews = userQueryService.getMyReviews(user, page, sort);
         return ApiResponse.onSuccess(UserConverter.reviewListDTO(reviews));
     }
 }

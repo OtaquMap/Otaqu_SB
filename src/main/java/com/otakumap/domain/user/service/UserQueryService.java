@@ -7,5 +7,5 @@ import org.springframework.data.domain.Page;
 public interface UserQueryService {
     User getUserByEmail(String email);
     User getUserInfo(Long userId);
-    Page<PlaceReview> getMyReviews(User user, Integer page);
+    Page<PlaceReview> getMyReviews(User user, Integer page, String sort);
 }

@@ -106,7 +106,7 @@ public class UserConverter {
                 .reviewId(review.getId())
                 .title(review.getTitle())
                 .content(review.getContent())
-                .thumbnail(review.getImage() == null ? null : review.getImage().getFileUrl()) // 첫 이미지만
+                .thumbnail(review.getImage() == null ? null : review.getImage().getFileUrl()) // 이미지 여러 개면 수정
                 .views(review.getView())
                 .createdAt(review.getCreatedAt().toLocalDate())
                 .build();
