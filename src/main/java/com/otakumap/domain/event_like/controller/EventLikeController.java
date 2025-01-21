@@ -1,8 +1,10 @@
 package com.otakumap.domain.event_like.controller;
 
+import com.otakumap.domain.auth.jwt.annotation.CurrentUser;
 import com.otakumap.domain.event_like.dto.EventLikeResponseDTO;
 import com.otakumap.domain.event_like.service.EventLikeCommandService;
 import com.otakumap.domain.event_like.service.EventLikeQueryService;
+import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.apiPayload.ApiResponse;
 import com.otakumap.global.validation.annotation.ExistEventLike;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,6 +23,16 @@ import java.util.List;
 public class EventLikeController {
     private final EventLikeQueryService eventLikeQueryService;
     private final EventLikeCommandService eventLikeCommandService;
+
+    @Operation(summary = "이벤트 저장(찜하기)", description = "이벤트를 저장(찜)합니다.")
+    @GetMapping("/events/{eventId}/save")
+    @Parameters({
+            @Parameter(name = "eventId", description = "이벤트 ID")
+    })
+    public ApiResponse<String> postPlaceLike(@CurrentUser User user, @PathVariable Long eventId) {
+        eventLikeCommandService.addEventLike(user, eventId);
+        return ApiResponse.onSuccess("이벤트가 성공적으로 저장되었습니다.");
+    }
 
     // 로그인 시 엔드포인트 변경 예정
     @Operation(summary = "저장된 이벤트 목록 조회", description = "저장된 이벤트 목록을 불러옵니다.")
