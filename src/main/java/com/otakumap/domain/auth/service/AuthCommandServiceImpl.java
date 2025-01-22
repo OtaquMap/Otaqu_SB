@@ -74,8 +74,8 @@ public class AuthCommandServiceImpl implements AuthCommandService {
     }
 
     @Override
-    public boolean verifyCode(AuthRequestDTO.VerifyCodeDTO request, String requestType) {
-        String authCode = (String) redisUtil.get("auth:" + request.getEmail() + ":" + requestType);
+    public boolean verifyCode(AuthRequestDTO.VerifyCodeDTO request) {
+        String authCode = (String) redisUtil.get("auth:" + request.getEmail() + ":" + "signup");
         if (authCode == null) {
             throw new AuthHandler(ErrorStatus.EMAIL_CODE_EXPIRED);
         }
@@ -121,5 +121,18 @@ public class AuthCommandServiceImpl implements AuthCommandService {
         } catch (MailException e) {
             throw new AuthHandler(ErrorStatus.EMAIL_SEND_FAILED);
         }
+    }
+
+    @Override
+    public boolean verifyResetCode(AuthRequestDTO.VerifyResetCodeDTO request) {
+        User user = userRepository.findByUserId(request.getUserId()).orElseThrow(() -> new AuthHandler(ErrorStatus.USER_NOT_FOUND));
+        String authCode = (String) redisUtil.get("auth:" + user.getEmail() + ":" + "findPassword");
+        if (authCode == null) {
+            throw new AuthHandler(ErrorStatus.EMAIL_CODE_EXPIRED);
+        }
+        if (!authCode.equals(request.getCode())) {
+            throw new AuthHandler(ErrorStatus.CODE_NOT_EQUAL);
+        }
+        return true;
     }
 }

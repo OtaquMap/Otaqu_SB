@@ -50,7 +50,7 @@ public class AuthController {
     @Operation(summary = "이메일 코드 인증", description = "회원가입 시 이메일 코드 인증 기능입니다.")
     @PostMapping("/verify-code")
     public ApiResponse<AuthResponseDTO.VerifyCodeResultDTO> verifyEmail(@RequestBody @Valid AuthRequestDTO.VerifyCodeDTO request) {
-        return ApiResponse.onSuccess(UserConverter.toVerifyCodeResultDTO(authCommandService.verifyCode(request, "signup")));
+        return ApiResponse.onSuccess(UserConverter.toVerifyCodeResultDTO(authCommandService.verifyCode(request)));
     }
 
     @Operation(summary = "토큰 재발급", description = "accessToken이 만료 시 refreshToken을 통해 accessToken을 재발급합니다.")
@@ -99,7 +99,7 @@ public class AuthController {
 
     @Operation(summary = "비밀번호 찾기 코드 인증", description = "비밀번호 찾기 시 이메일 코드 인증 기능입니다.")
     @PostMapping("/verify-password-code")
-    public ApiResponse<AuthResponseDTO.VerifyCodeResultDTO> verifyPasswordCode(@RequestBody @Valid AuthRequestDTO.VerifyCodeDTO request) {
-        return ApiResponse.onSuccess(UserConverter.toVerifyCodeResultDTO(authCommandService.verifyCode(request, "findPassword")));
+    public ApiResponse<AuthResponseDTO.VerifyCodeResultDTO> verifyPasswordCode(@RequestBody @Valid AuthRequestDTO.VerifyResetCodeDTO request) {
+        return ApiResponse.onSuccess(UserConverter.toVerifyCodeResultDTO(authCommandService.verifyResetCode(request)));
     }
 }
