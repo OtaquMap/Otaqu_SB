@@ -40,4 +40,14 @@ public class UserCommandServiceImpl implements UserCommandService {
         // 이메일 전송
         emailUtil.sendEmail("otakumap0123@gmail.com", subject, content);
     }
+
+    @Override
+    @Transactional
+    public void updateNotificationSettings(User user, UserRequestDTO.NotificationSettingsRequestDTO request) {
+        if (request.getNotificationType() != 1 && request.getNotificationType() != 2) {
+            throw new UserHandler(ErrorStatus.INVALID_NOTIFICATION_TYPE);
+        }
+        user.setNotification(request.getNotificationType(), request.isEnabled());
+        userRepository.save(user);
+    }
 }

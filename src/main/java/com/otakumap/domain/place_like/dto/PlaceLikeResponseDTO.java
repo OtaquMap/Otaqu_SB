@@ -15,9 +15,10 @@ public class PlaceLikeResponseDTO {
     @AllArgsConstructor
     public static class PlaceLikePreViewDTO {
         Long id;
-        Long userId;
         Long placeId;
+        String name;
         Boolean isFavorite;
+        String detail;
     }
 
     @Builder

@@ -11,9 +11,10 @@ public class PlaceLikeConverter {
     public static PlaceLikeResponseDTO.PlaceLikePreViewDTO placeLikePreViewDTO(PlaceLike placeLike) {
         return PlaceLikeResponseDTO.PlaceLikePreViewDTO.builder()
                 .id(placeLike.getId())
-                .userId(placeLike.getUser().getId())
                 .placeId(placeLike.getPlace().getId())
+                .name(placeLike.getPlace().getName())
                 .isFavorite(placeLike.getIsFavorite())
+                .detail(placeLike.getPlace().getDetail())
                 .build();
 
     }

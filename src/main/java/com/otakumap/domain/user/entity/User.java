@@ -82,4 +82,9 @@ public class User extends BaseEntity {
     }
 
     public void setNickname(String nickname) { this.nickname = nickname; }
+
+    public void setNotification(Integer type, boolean isEnabled) {
+        if (type == 1) { this.isCommunityActivityNotified = isEnabled; }
+        else { this.isEventBenefitsNotified = isEnabled; }
+    }
 }
