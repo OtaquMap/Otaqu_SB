@@ -81,4 +81,13 @@ public class AuthRequestDTO {
         @NotNull
         String code;
     }
+
+    @Getter
+    public static class VerifyResetCodeDTO {
+        @NotBlank(message = "인증 코드 입력은 필수입니다.")
+        String code;
+
+        @NotBlank(message = "아이디 입력은 필수입니다.")
+        String userId;
+    }
 }
