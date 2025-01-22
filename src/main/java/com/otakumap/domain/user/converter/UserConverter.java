@@ -44,14 +44,14 @@ public class UserConverter {
 
     }
 
-    public static AuthResponseDTO.CheckNicknameResultDTO toCheckNicknameResultDTO(boolean isDuplicated) {
-        return AuthResponseDTO.CheckNicknameResultDTO.builder()
+    public static AuthResponseDTO.CheckIdResultDTO toCheckIdResultDTO(boolean isDuplicated) {
+        return AuthResponseDTO.CheckIdResultDTO.builder()
                 .isDuplicated(isDuplicated)
                 .build();
     }
 
-    public static AuthResponseDTO.CheckIdResultDTO toCheckIdResultDTO(boolean isDuplicated) {
-        return AuthResponseDTO.CheckIdResultDTO.builder()
+    public static AuthResponseDTO.CheckEmailResultDTO toCheckEmailResultDTO(boolean isDuplicated) {
+        return AuthResponseDTO.CheckEmailResultDTO.builder()
                 .isDuplicated(isDuplicated)
                 .build();
     }

@@ -38,6 +38,12 @@ public class AuthController {
         return ApiResponse.onSuccess(UserConverter.toCheckIdResultDTO(authCommandService.checkId(request)));
     }
 
+    @Operation(summary = "이메일 중복 확인", description = "이메일 중복 확인 기능입니다.")
+    @PostMapping("/check-email")
+    public ApiResponse<AuthResponseDTO.CheckEmailResultDTO> checkEmail(@RequestBody @Valid AuthRequestDTO.CheckEmailDTO request) {
+        return ApiResponse.onSuccess(UserConverter.toCheckEmailResultDTO(authCommandService.checkEmail(request)));
+    }
+
     @Operation(summary = "이메일 인증 메일 전송", description = "이메일 인증을 위한 메일 전송 기능입니다.")
     @PostMapping("/verify-email")
     public ApiResponse<String> verifyEmail(@RequestBody @Valid AuthRequestDTO.VerifyEmailDTO request) throws MessagingException {

@@ -48,6 +48,14 @@ public class AuthResponseDTO {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
+    public static class CheckEmailResultDTO {
+        boolean isDuplicated;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
     public static class VerifyCodeResultDTO {
         boolean isVerified;
     }

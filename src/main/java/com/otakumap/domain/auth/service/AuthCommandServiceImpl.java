@@ -63,6 +63,11 @@ public class AuthCommandServiceImpl implements AuthCommandService {
     }
 
     @Override
+    public boolean checkEmail(AuthRequestDTO.CheckEmailDTO request) {
+        return userRepository.existsByEmail(request.getEmail());
+    }
+
+    @Override
     public void verifyEmail(AuthRequestDTO.VerifyEmailDTO request) throws MessagingException {
         try {
             if(userRepository.existsByEmail(request.getEmail())) {

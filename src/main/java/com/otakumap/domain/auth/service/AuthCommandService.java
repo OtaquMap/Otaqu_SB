@@ -11,6 +11,7 @@ public interface AuthCommandService {
     User signup(AuthRequestDTO.SignupDTO request);
     AuthResponseDTO.LoginResultDTO login(AuthRequestDTO.LoginDTO request);
     boolean checkId(AuthRequestDTO.CheckIdDTO request);
+    boolean checkEmail(AuthRequestDTO.CheckEmailDTO request);
     void verifyEmail(AuthRequestDTO.VerifyEmailDTO request) throws MessagingException;
     boolean verifyCode(AuthRequestDTO.VerifyCodeDTO request);
     JwtDTO reissueToken(String refreshToken);
