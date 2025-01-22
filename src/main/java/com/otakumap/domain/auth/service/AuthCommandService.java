@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 public interface AuthCommandService {
     User signup(AuthRequestDTO.SignupDTO request);
     AuthResponseDTO.LoginResultDTO login(AuthRequestDTO.LoginDTO request);
-    boolean checkNickname(AuthRequestDTO.CheckNicknameDTO request);
     boolean checkId(AuthRequestDTO.CheckIdDTO request);
     void verifyEmail(AuthRequestDTO.VerifyEmailDTO request) throws MessagingException;
     boolean verifyCode(AuthRequestDTO.VerifyCodeDTO request);

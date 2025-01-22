@@ -32,12 +32,6 @@ public class AuthController {
         return ApiResponse.onSuccess(authCommandService.login(request));
     }
 
-    @Operation(summary = "닉네임 중복 확인", description = "닉네임 중복 확인 기능입니다.")
-    @PostMapping("/check-nickname")
-    public ApiResponse<AuthResponseDTO.CheckNicknameResultDTO> checkNickname(@RequestBody @Valid AuthRequestDTO.CheckNicknameDTO request) {
-        return ApiResponse.onSuccess(UserConverter.toCheckNicknameResultDTO(authCommandService.checkNickname(request)));
-    }
-
     @Operation(summary = "아이디 중복 확인", description = "아이디 중복 확인 기능입니다.")
     @PostMapping("/check-id")
     public ApiResponse<AuthResponseDTO.CheckIdResultDTO> checkId(@RequestBody @Valid AuthRequestDTO.CheckIdDTO request) {

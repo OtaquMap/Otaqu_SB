@@ -13,10 +13,6 @@ public class AuthRequestDTO {
         @Schema(description = "name", example = "오타쿠맵")
         String name;
 
-        @NotBlank(message = "닉네임 입력은 필수입니다.")
-        @Schema(description = "nickname", example = "오타쿠")
-        String nickname;
-
         @NotBlank(message = "아이디 입력은 필수입니다.")
         @Schema(description = "userId", example = "otakumap1234")
         String userId;

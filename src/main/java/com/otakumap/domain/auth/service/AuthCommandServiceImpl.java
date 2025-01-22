@@ -58,11 +58,6 @@ public class AuthCommandServiceImpl implements AuthCommandService {
     }
 
     @Override
-    public boolean checkNickname(AuthRequestDTO.CheckNicknameDTO request) {
-        return userRepository.existsByNickname(request.getNickname());
-    }
-
-    @Override
     public boolean checkId(AuthRequestDTO.CheckIdDTO request) {
         return userRepository.existsByUserId(request.getUserId());
     }
