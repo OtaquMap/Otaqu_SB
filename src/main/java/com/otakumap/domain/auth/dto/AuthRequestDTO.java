@@ -15,6 +15,7 @@ public class AuthRequestDTO {
 
         @NotBlank(message = "아이디 입력은 필수입니다.")
         @Schema(description = "userId", example = "otakumap1234")
+        @Pattern(regexp = "^(?=.*[a-zA-Z])[a-zA-Z0-9]{6,}$", message = "아이디는 최소 6자 이상이며, 영문 또는 영문과 숫자의 조합이어야 합니다.")
         String userId;
 
         @NotBlank(message = "이메일 입력은 필수입니다.")
@@ -24,8 +25,10 @@ public class AuthRequestDTO {
 
         @NotBlank(message = "비밀번호 입력은 필수입니다.")
         @Schema(description = "password", example = "otakumap1234!")
-        @Pattern(regexp = "^(?:(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*]).{8,})|(?:(?=.*[a-zA-Z])(?=.*\\d).{10,})|(?:(?=.*[a-zA-Z])(?=.*[!@#$%^&*]).{10,})|(?:(?=.*\\d)(?=.*[!@#$%^&*]).{10,})$",
-                message = "영문, 숫자, 특수문자 중 2종류 이상을 조합하여 최소 10자리 이상이거나, 영문, 숫자, 특수문자 모두를 포함하여 최소 8자리 이상 입력해야 합니다.")
+        @Pattern(
+                regexp = "^(?!.*(\\d)\\1{2})(?=(.*[A-Za-z]){1})(?=(.*\\d){1})(?!.*\\s).{10,}$|^(?!.*(\\d)\\1{2})(?=(.*[A-Za-z]){1})(?=(.*[^A-Za-z0-9]){1})(?!.*\\s).{10,}$|^(?!.*(\\d)\\1{2})(?=(.*\\d){1})(?=(.*[^A-Za-z0-9]){1})(?!.*\\s).{10,}$",
+                message = "비밀번호는 영문, 숫자, 특수문자 중 2종류 이상을 조합하여 10자리 이상이어야 하며, 동일한 숫자 3개 이상을 연속해서 사용할 수 없습니다."
+        )
         String password;
 
         @NotBlank(message = "비밀번호 재확인 입력은 필수 입니다.")
