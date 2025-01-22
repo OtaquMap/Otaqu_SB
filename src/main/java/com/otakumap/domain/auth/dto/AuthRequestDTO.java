@@ -31,22 +31,23 @@ public class AuthRequestDTO {
         )
         String password;
 
-        @NotBlank(message = "비밀번호 재확인 입력은 필수 입니다.")
+        @NotBlank(message = "비밀번호 재확인 입력은 필수입니다.")
         @Schema(description = "passwordCheck", example = "otakumap1234!")
         String passwordCheck;
     }
 
     @Getter
     public static class LoginDTO {
-        @NotNull
+        @NotBlank(message = "아이디 입력은 필수입니다.")
         String userId;
-        @NotNull
+
+        @NotBlank(message = "비밀번호 입력은 필수입니다.")
         String password;
     }
 
     @Getter
     public static class CheckIdDTO {
-        @NotNull
+        @NotBlank(message = "아이디 입력은 필수입니다.")
         String userId;
     }
 
@@ -58,21 +59,22 @@ public class AuthRequestDTO {
 
     @Getter
     public static class VerifyEmailDTO {
-        @NotNull
+        @NotBlank(message = "이메일 입력은 필수입니다.")
         String email;
     }
 
     @Getter
     public static class VerifyCodeDTO {
-        @NotNull
+        @NotBlank(message = "인증 코드 입력은 필수입니다.")
         String code;
-        @NotNull
+
+        @NotBlank(message = "이메일 입력은 필수입니다.")
         String email;
     }
 
     @Getter
     public static class SocialLoginDTO {
-        @NotNull
+        @NotBlank(message = "인가 코드 입력은 필수입니다.")
         String code;
     }
 }
