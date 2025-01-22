@@ -25,7 +25,7 @@ public class EventLikeController {
     private final EventLikeCommandService eventLikeCommandService;
 
     @Operation(summary = "이벤트 저장(찜하기)", description = "이벤트를 저장(찜)합니다.")
-    @GetMapping("/events/{eventId}/save")
+    @PostMapping("/events/{eventId}")
     @Parameters({
             @Parameter(name = "eventId", description = "이벤트 ID")
     })

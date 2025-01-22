@@ -2,7 +2,7 @@ package com.otakumap.domain.event_like.service;
 
 import com.otakumap.domain.event.entity.Event;
 import com.otakumap.domain.event.repository.EventRepository;
-import com.otakumap.domain.event_like.entity.EventLike;
+import com.otakumap.domain.event_like.converter.EventLikeConverter;
 import com.otakumap.domain.event_like.repository.EventLikeRepository;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
@@ -27,11 +27,7 @@ public class EventLikeCommandServiceImpl implements EventLikeCommandService {
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new EventHandler(ErrorStatus.EVENT_NOT_FOUND));
         eventLikeRepository.save(
-                EventLike.builder()
-                        .event(event)
-                        .user(user)
-                        .isFavorite(true)
-                        .build()
+                EventLikeConverter.eventLike(user, event)
         );
         entityManager.flush();
         entityManager.clear();
