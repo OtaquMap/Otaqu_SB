@@ -1,7 +1,9 @@
 package com.otakumap.domain.event_like.converter;
 
+import com.otakumap.domain.event.entity.Event;
 import com.otakumap.domain.event_like.dto.EventLikeResponseDTO;
 import com.otakumap.domain.event_like.entity.EventLike;
+import com.otakumap.domain.user.entity.User;
 
 import java.util.List;
 
@@ -24,6 +26,14 @@ public class EventLikeConverter {
                 .eventLikes(eventLikes)
                 .hasNext(hasNext)
                 .lastId(lastId)
+                .build();
+    }
+
+    public static EventLike eventLike(User user, Event event) {
+        return EventLike.builder()
+                .event(event)
+                .user(user)
+                .isFavorite(true)
                 .build();
     }
 }
