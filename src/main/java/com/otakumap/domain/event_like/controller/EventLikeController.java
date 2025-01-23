@@ -35,7 +35,7 @@ public class EventLikeController {
     }
 
     @Operation(summary = "저장된 이벤트 목록 조회", description = "저장된 이벤트 목록을 불러옵니다.")
-    @GetMapping( "/saved")
+    @GetMapping( "/liked")
     @Parameters({
             @Parameter(name = "type", description = "이벤트 타입 -> 1: 팝업 스토어, 2: 전시회, 3: 콜라보 카페"),
             @Parameter(name = "lastId", description = "마지막으로 조회된 저장된 이벤트 id, 처음 가져올 때 -> 0"),
@@ -46,7 +46,7 @@ public class EventLikeController {
     }
 
     @Operation(summary = "저장된 이벤트 삭제", description = "저장된 이벤트를 삭제합니다.")
-    @DeleteMapping("/saved")
+    @DeleteMapping("/liked")
     @Parameters({
             @Parameter(name = "eventIds", description = "저장된 이벤트 ID List"),
     })
