@@ -58,11 +58,6 @@ public class AuthCommandServiceImpl implements AuthCommandService {
     }
 
     @Override
-    public boolean checkId(AuthRequestDTO.CheckIdDTO request) {
-        return userRepository.existsByUserId(request.getUserId());
-    }
-
-    @Override
     public void verifyEmail(AuthRequestDTO.VerifyEmailDTO request) {
         try {
             mailService.sendEmail(request.getEmail(), "signup");

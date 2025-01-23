@@ -2,7 +2,6 @@ package com.otakumap.domain.auth.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 
@@ -12,10 +11,6 @@ public class AuthRequestDTO {
         @NotBlank(message = "이름 입력은 필수입니다.")
         @Schema(description = "name", example = "오타쿠맵")
         String name;
-
-        @NotBlank(message = "닉네임 입력은 필수입니다.")
-        @Schema(description = "nickname", example = "오타쿠")
-        String nickname;
 
         @NotBlank(message = "아이디 입력은 필수입니다.")
         @Schema(description = "userId", example = "otakumap1234")
@@ -28,33 +23,29 @@ public class AuthRequestDTO {
 
         @NotBlank(message = "비밀번호 입력은 필수입니다.")
         @Schema(description = "password", example = "otakumap1234!")
-        @Pattern(regexp = "^(?:(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*]).{8,})|(?:(?=.*[a-zA-Z])(?=.*\\d).{10,})|(?:(?=.*[a-zA-Z])(?=.*[!@#$%^&*]).{10,})|(?:(?=.*\\d)(?=.*[!@#$%^&*]).{10,})$",
-                message = "영문, 숫자, 특수문자 중 2종류 이상을 조합하여 최소 10자리 이상이거나, 영문, 숫자, 특수문자 모두를 포함하여 최소 8자리 이상 입력해야 합니다.")
+        @Pattern(
+                regexp = "^(?!.*(\\d)\\1{2})(?=(.*[A-Za-z]){1})(?=(.*\\d){1})(?!.*\\s).{10,}$|^(?!.*(\\d)\\1{2})(?=(.*[A-Za-z]){1})(?=(.*[^A-Za-z0-9]){1})(?!.*\\s).{10,}$|^(?!.*(\\d)\\1{2})(?=(.*\\d){1})(?=(.*[^A-Za-z0-9]){1})(?!.*\\s).{10,}$",
+                message = "비밀번호는 영문, 숫자, 특수문자 중 2종류 이상을 조합하여 10자리 이상이어야 하며, 동일한 숫자 3개 이상을 연속해서 사용할 수 없습니다."
+        )
         String password;
 
-        @NotBlank(message = "비밀번호 재확인 입력은 필수 입니다.")
+        @NotBlank(message = "비밀번호 재확인 입력은 필수입니다.")
         @Schema(description = "passwordCheck", example = "otakumap1234!")
         String passwordCheck;
     }
 
     @Getter
     public static class LoginDTO {
-        @NotNull
+        @NotBlank(message = "아이디 입력은 필수입니다.")
         String userId;
 
-        @NotNull
+        @NotBlank(message = "비밀번호 입력은 필수입니다.")
         String password;
     }
 
     @Getter
-    public static class CheckIdDTO {
-        @NotNull
-        String userId;
-    }
-
-    @Getter
     public static class VerifyEmailDTO {
-        @NotNull
+        @NotBlank(message = "이메일 입력은 필수입니다.")
         String email;
     }
 
@@ -78,7 +69,7 @@ public class AuthRequestDTO {
 
     @Getter
     public static class SocialLoginDTO {
-        @NotNull
+        @NotBlank(message = "인가 코드 입력은 필수입니다.")
         String code;
     }
 

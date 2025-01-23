@@ -18,7 +18,6 @@ public class UserConverter {
     public static User toUser(AuthRequestDTO.SignupDTO request) {
         return User.builder()
                 .name(request.getName())
-                .nickname(request.getNickname())
                 .userId(request.getUserId())
                 .email(request.getEmail())
                 .password(request.getPassword())
@@ -45,14 +44,14 @@ public class UserConverter {
 
     }
 
-    public static AuthResponseDTO.CheckNicknameResultDTO toCheckNicknameResultDTO(boolean isDuplicated) {
-        return AuthResponseDTO.CheckNicknameResultDTO.builder()
+    public static AuthResponseDTO.CheckIdResultDTO toCheckIdResultDTO(boolean isDuplicated) {
+        return AuthResponseDTO.CheckIdResultDTO.builder()
                 .isDuplicated(isDuplicated)
                 .build();
     }
 
-    public static AuthResponseDTO.CheckIdResultDTO toCheckIdResultDTO(boolean isDuplicated) {
-        return AuthResponseDTO.CheckIdResultDTO.builder()
+    public static AuthResponseDTO.CheckEmailResultDTO toCheckEmailResultDTO(boolean isDuplicated) {
+        return AuthResponseDTO.CheckEmailResultDTO.builder()
                 .isDuplicated(isDuplicated)
                 .build();
     }

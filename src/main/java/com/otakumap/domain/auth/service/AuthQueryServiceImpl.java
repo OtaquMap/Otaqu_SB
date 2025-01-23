@@ -12,6 +12,16 @@ public class AuthQueryServiceImpl implements AuthQueryService {
     private final UserRepository userRepository;
 
     @Override
+    public boolean checkId(String userId) {
+        return userRepository.existsByUserId(userId);
+    }
+
+    @Override
+    public boolean checkEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
     public String findId(String name, String email) {
         return userRepository.findByNameAndEmail(name, email).orElseThrow(() -> new AuthHandler(ErrorStatus.USER_NOT_FOUND)).getUserId();
     }

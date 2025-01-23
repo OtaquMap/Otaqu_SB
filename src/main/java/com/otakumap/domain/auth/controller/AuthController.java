@@ -9,6 +9,8 @@ import com.otakumap.domain.auth.service.*;
 import com.otakumap.domain.user.converter.UserConverter;
 import com.otakumap.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -35,9 +37,17 @@ public class AuthController {
     }
 
     @Operation(summary = "아이디 중복 확인", description = "아이디 중복 확인 기능입니다.")
-    @PostMapping("/check-id")
-    public ApiResponse<AuthResponseDTO.CheckIdResultDTO> checkId(@RequestBody @Valid AuthRequestDTO.CheckIdDTO request) {
-        return ApiResponse.onSuccess(UserConverter.toCheckIdResultDTO(authCommandService.checkId(request)));
+    @GetMapping("/check-id")
+    @Parameter(name = "userId", description = "아이디")
+    public ApiResponse<AuthResponseDTO.CheckIdResultDTO> checkId(@RequestParam String userId) {
+        return ApiResponse.onSuccess(UserConverter.toCheckIdResultDTO(authQueryService.checkId(userId)));
+    }
+
+    @Operation(summary = "이메일 중복 확인", description = "이메일 중복 확인 기능입니다.")
+    @GetMapping("/check-email")
+    @Parameter(name = "email", description = "이메일")
+    public ApiResponse<AuthResponseDTO.CheckEmailResultDTO> checkEmail(@RequestParam String email) {
+        return ApiResponse.onSuccess(UserConverter.toCheckEmailResultDTO(authQueryService.checkEmail(email)));
     }
 
     @Operation(summary = "이메일 인증 메일 전송", description = "이메일 인증을 위한 메일 전송 기능입니다.")
@@ -55,6 +65,7 @@ public class AuthController {
 
     @Operation(summary = "토큰 재발급", description = "accessToken이 만료 시 refreshToken을 통해 accessToken을 재발급합니다.")
     @PostMapping("/reissue")
+    @Parameter(name = "RefreshToken", description = "리프레시 토큰")
     public ApiResponse<JwtDTO> reissueToken(@RequestHeader("RefreshToken") String refreshToken) {
         return ApiResponse.onSuccess(authCommandService.reissueToken(refreshToken));
     }
@@ -86,6 +97,10 @@ public class AuthController {
 
     @Operation(summary = "아이디 찾기", description = "아이디 찾기 기능입니다.")
     @GetMapping("/find-id")
+    @Parameters({
+            @Parameter(name = "name", description = "유저 이름"),
+            @Parameter(name = "email", description = "유저 이메일")
+    })
     public ApiResponse<AuthResponseDTO.FindIdResultDTO> findId(@RequestParam String name, @RequestParam String email) {
         return ApiResponse.onSuccess(UserConverter.toFindIdResultDTO(authQueryService.findId(name, email)));
     }

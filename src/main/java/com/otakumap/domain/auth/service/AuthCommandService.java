@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 public interface AuthCommandService {
     User signup(AuthRequestDTO.SignupDTO request);
     AuthResponseDTO.LoginResultDTO login(AuthRequestDTO.LoginDTO request);
-    boolean checkId(AuthRequestDTO.CheckIdDTO request);
     void verifyEmail(AuthRequestDTO.VerifyEmailDTO request);
     boolean verifyCode(AuthRequestDTO.VerifyCodeDTO request);
     JwtDTO reissueToken(String refreshToken);
