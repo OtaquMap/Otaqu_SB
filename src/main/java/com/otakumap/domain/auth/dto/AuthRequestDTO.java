@@ -2,7 +2,6 @@ package com.otakumap.domain.auth.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 
@@ -15,7 +14,6 @@ public class AuthRequestDTO {
 
         @NotBlank(message = "아이디 입력은 필수입니다.")
         @Schema(description = "userId", example = "otakumap1234")
-        @Pattern(regexp = "^(?=.*[a-zA-Z])[a-zA-Z0-9]{6,}$", message = "아이디는 최소 6자 이상이며, 영문 또는 영문과 숫자의 조합이어야 합니다.")
         String userId;
 
         @NotBlank(message = "이메일 입력은 필수입니다.")
@@ -46,18 +44,6 @@ public class AuthRequestDTO {
     }
 
     @Getter
-    public static class CheckIdDTO {
-        @NotBlank(message = "아이디 입력은 필수입니다.")
-        String userId;
-    }
-
-    @Getter
-    public static class CheckEmailDTO {
-        @NotBlank(message = "이메일 입력은 필수입니다.")
-        String email;
-    }
-
-    @Getter
     public static class VerifyEmailDTO {
         @NotBlank(message = "이메일 입력은 필수입니다.")
         String email;
@@ -73,8 +59,26 @@ public class AuthRequestDTO {
     }
 
     @Getter
+    public static class FindPasswordDTO {
+        @NotBlank(message = "이름 입력은 필수입니다.")
+        String name;
+
+        @NotBlank(message = "아이디 입력은 필수입니다.")
+        String userId;
+    }
+
+    @Getter
     public static class SocialLoginDTO {
         @NotBlank(message = "인가 코드 입력은 필수입니다.")
         String code;
+    }
+
+    @Getter
+    public static class VerifyResetCodeDTO {
+        @NotBlank(message = "인증 코드 입력은 필수입니다.")
+        String code;
+
+        @NotBlank(message = "아이디 입력은 필수입니다.")
+        String userId;
     }
 }
