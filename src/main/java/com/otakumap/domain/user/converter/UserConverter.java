@@ -101,6 +101,12 @@ public class UserConverter {
                 .build();
     }
 
+    public static AuthResponseDTO.FindIdResultDTO toFindIdResultDTO(String userId) {
+        return AuthResponseDTO.FindIdResultDTO.builder()
+                .userId(userId)
+                .build();
+    }
+
     public static UserResponseDTO.UserReviewDTO reviewDTO(PlaceReview review) {
         return UserResponseDTO.UserReviewDTO.builder()
                 .reviewId(review.getId())

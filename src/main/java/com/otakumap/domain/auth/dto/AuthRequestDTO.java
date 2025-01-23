@@ -41,14 +41,9 @@ public class AuthRequestDTO {
     public static class LoginDTO {
         @NotNull
         String userId;
+
         @NotNull
         String password;
-    }
-
-    @Getter
-    public static class CheckNicknameDTO {
-        @NotNull
-        String nickname;
     }
 
     @Getter
@@ -65,15 +60,34 @@ public class AuthRequestDTO {
 
     @Getter
     public static class VerifyCodeDTO {
-        @NotNull
+        @NotBlank(message = "인증 코드 입력은 필수입니다.")
         String code;
-        @NotNull
+
+        @NotBlank(message = "이메일 입력은 필수입니다.")
         String email;
+    }
+
+    @Getter
+    public static class FindPasswordDTO {
+        @NotBlank(message = "이름 입력은 필수입니다.")
+        String name;
+
+        @NotBlank(message = "아이디 입력은 필수입니다.")
+        String userId;
     }
 
     @Getter
     public static class SocialLoginDTO {
         @NotNull
         String code;
+    }
+
+    @Getter
+    public static class VerifyResetCodeDTO {
+        @NotBlank(message = "인증 코드 입력은 필수입니다.")
+        String code;
+
+        @NotBlank(message = "아이디 입력은 필수입니다.")
+        String userId;
     }
 }
