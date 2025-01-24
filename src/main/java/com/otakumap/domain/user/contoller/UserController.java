@@ -70,4 +70,11 @@ public class UserController {
         Page<PlaceReview> reviews = userQueryService.getMyReviews(user, page, sort);
         return ApiResponse.onSuccess(UserConverter.reviewListDTO(reviews));
     }
+
+    @Operation(summary = "비밀번호 변경", description = "비밀번호를 변경합니다.")
+    @PostMapping("/reset-password")
+    public ApiResponse<String> resetPassword(@RequestBody @Valid UserRequestDTO.ResetPasswordDTO request) {
+        userCommandService.resetPassword(request);
+        return ApiResponse.onSuccess("비밀번호가 성공적으로 변경되었습니다.");
+    }
 }

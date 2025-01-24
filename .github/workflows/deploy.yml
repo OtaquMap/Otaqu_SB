@@ -4,7 +4,7 @@ name: CI/CD using github actions & docker
 # dev 브랜치에 push가 되었을 때 실행
 on:
   push:
-    branches: [ "dev" ]
+     branches: [ "dev" ]
 
 permissions:
   contents: read
@@ -15,6 +15,7 @@ jobs:
     steps:
       ## JDK setting - github actions에서 사용할 JDK 설정
       - uses: actions/checkout@v3
+
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -45,12 +46,11 @@ jobs:
       - name: make application.yml
         if: contains(github.ref, 'dev')
         run: |
-          echo "${{ secrets.APPLICATION_YML }}"
           cd ./src/main
           mkdir -p resources
           cd ./resources
           touch ./application.yml
-          echo "${{ secrets.APPLICATION_YML }}" > ./application.yml
+          echo "${{ secrets.APPLICATION_YML }}" >> ./application.yml
         shell: bash
 
       ## docker build & push to production
@@ -73,7 +73,7 @@ jobs:
           envs: GITHUB_SHA
           port: 22
           script: |
-            sudo docker ps
+            sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
             sudo docker rm -f $(docker ps -qa)
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}:latest
             sudo docker-compose up -d
