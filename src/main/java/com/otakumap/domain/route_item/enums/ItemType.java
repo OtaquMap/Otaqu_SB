@@ -1,4 +1,4 @@
-package com.otakumap.domain.route.enums;
+package com.otakumap.domain.route_item.enums;
 
 public enum ItemType {
     PLACE,
