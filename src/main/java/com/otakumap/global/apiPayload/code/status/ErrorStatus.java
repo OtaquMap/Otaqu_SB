@@ -54,7 +54,10 @@ public enum ErrorStatus implements BaseErrorCode {
     ROUTE_LIKE_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "ROUTE4002", "이미 좋아요를 누른 루트입니다."),
 
     // 알림 관련 에러
-    INVALID_NOTIFICATION_TYPE(HttpStatus.BAD_REQUEST, "NOTIFICATION4001", "유효하지 않은 알림 타입입니다.");
+    INVALID_NOTIFICATION_TYPE(HttpStatus.BAD_REQUEST, "NOTIFICATION4001", "유효하지 않은 알림 타입입니다."),
+    NOTIFICATION_NOT_FOUND(HttpStatus.NOT_FOUND, "NOTIFICATION4002", "존재하지 않는 알림입니다."),
+    NOTIFICATION_ALREADY_READ(HttpStatus.BAD_REQUEST, "NOTIFICATION4003", "이미 읽은 알림입니다."),
+    NOTIFICATION_ACCESS_DENIED(HttpStatus.UNAUTHORIZED, "NOTIFICATION4004", "알림에 접근할 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
