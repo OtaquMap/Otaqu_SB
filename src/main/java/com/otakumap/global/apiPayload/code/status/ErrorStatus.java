@@ -47,7 +47,10 @@ public enum ErrorStatus implements BaseErrorCode {
     REVIEW_SEARCH_NOT_FOUND(HttpStatus.NOT_FOUND, "SEARCH4001", "검색된 후기가 없습니다."),
 
     // 알림 관련 에러
-    INVALID_NOTIFICATION_TYPE(HttpStatus.BAD_REQUEST, "NOTIFICATION4001", "유효하지 않은 알림 타입입니다.");
+    INVALID_NOTIFICATION_TYPE(HttpStatus.BAD_REQUEST, "NOTIFICATION4001", "유효하지 않은 알림 타입입니다."),
+    NOTIFICATION_NOT_FOUND(HttpStatus.BAD_REQUEST, "NOTIFICATION4002", "존재하지 않는 알림입니다."),
+    NOTIFICATION_ALREADY_READ(HttpStatus.BAD_REQUEST, "NOTIFICATION4003", "이미 읽은 알림입니다."),
+    NOTIFICATION_ACCESS_DENIED(HttpStatus.BAD_REQUEST, "NOTIFICATION4004", "알림에 접근할 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

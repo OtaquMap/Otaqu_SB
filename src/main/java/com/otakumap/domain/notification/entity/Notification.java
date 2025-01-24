@@ -36,4 +36,9 @@ public class Notification extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public void setIsRead(boolean isRead) {
+        this.isRead = isRead;
+        if (isRead) { this.readAt = LocalDateTime.now(); }
+    }
 }
