@@ -7,6 +7,8 @@ import com.otakumap.domain.place_review.converter.PlaceReviewConverter;
 import com.otakumap.domain.place_review.dto.PlaceReviewResponseDTO;
 import com.otakumap.domain.place_review.entity.PlaceReview;
 import com.otakumap.domain.place_review.repository.PlaceReviewRepository;
+import com.otakumap.domain.place_short_review.entity.PlaceShortReview;
+import com.otakumap.domain.place_short_review.repository.PlaceShortReviewRepository;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.PlaceHandler;
 import lombok.RequiredArgsConstructor;
@@ -24,12 +26,21 @@ public class PlaceReviewQueryServiceImpl implements PlaceReviewQueryService {
 
     private final PlaceRepository placeRepository;
     private final PlaceReviewRepository placeReviewRepository;
+    private final PlaceShortReviewRepository placeShortReviewRepository;
 
     @Override
     public PlaceReviewResponseDTO.PlaceAnimationReviewDTO getReviewsByPlace(Long placeId, int page, int size, String sort) {
 
         Place place = placeRepository.findById(placeId)
                 .orElseThrow(() -> new PlaceHandler(ErrorStatus.PLACE_NOT_FOUND));
+
+        // 전체 한 줄 리뷰 평균 별점 구하기
+        List<PlaceShortReview> placeShortReviewList = placeShortReviewRepository.findAllByPlace(place);
+        double avgRating = placeShortReviewList.stream()
+                .mapToDouble(PlaceShortReview::getRating)
+                .average()
+                .orElse(0.0);
+        Float finalAvgRating = (float)(Math.round(avgRating * 10) / 10.0);
 
         // 전체 리뷰 리스트
         List<PlaceReview> allReviews = placeReviewRepository.findAllReviewsByPlace(placeId, sort);
@@ -57,6 +68,6 @@ public class PlaceReviewQueryServiceImpl implements PlaceReviewQueryService {
                 .mapToLong(List::size)
                 .sum();
 
-        return PlaceReviewConverter.toPlaceAnimationReviewDTO(place, totalReviews, animationGroups);
+        return PlaceReviewConverter.toPlaceAnimationReviewDTO(place, totalReviews, animationGroups, finalAvgRating);
     }
 }
