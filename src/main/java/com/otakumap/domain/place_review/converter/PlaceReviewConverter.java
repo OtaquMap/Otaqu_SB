@@ -1,6 +1,8 @@
 package com.otakumap.domain.place_review.converter;
 
 import com.otakumap.domain.animation.entity.Animation;
+import com.otakumap.domain.hash_tag.converter.HashTagConverter;
+import com.otakumap.domain.hash_tag.dto.HashTagResponseDTO;
 import com.otakumap.domain.image.converter.ImageConverter;
 import com.otakumap.domain.place.entity.Place;
 import com.otakumap.domain.place_review.dto.PlaceReviewRequestDTO;
@@ -33,6 +35,7 @@ public class PlaceReviewConverter {
 
     // PlaceReview -> PlaceReviewDTO 변환
     public static PlaceReviewResponseDTO.PlaceReviewDTO toPlaceReviewDTO(PlaceReview placeReview) {
+
         return PlaceReviewResponseDTO.PlaceReviewDTO.builder()
                 .reviewId(placeReview.getId())
                 .placeId(placeReview.getPlace().getId())
@@ -62,11 +65,17 @@ public class PlaceReviewConverter {
     // 최상위 결과 DTO 생성
     public static PlaceReviewResponseDTO.PlaceAnimationReviewDTO toPlaceAnimationReviewDTO(Place place, long totalReviews, List<PlaceReviewResponseDTO.AnimationReviewGroupDTO> animationGroups) {
 
+        List<HashTagResponseDTO.HashTagDTO> hashTagDTOs = place.getPlaceHashTagList()
+                .stream()
+                .map(placeHashTag -> HashTagConverter.toHashTagDTO(placeHashTag.getHashTag()))
+                .toList();
+
         return PlaceReviewResponseDTO.PlaceAnimationReviewDTO.builder()
                 .placeId(place.getId())
                 .placeName(place.getName())
                 .animationGroups(animationGroups)
                 .totalReviews(totalReviews)
+                .hashTags(hashTagDTOs)
                 .build();
     }
 }

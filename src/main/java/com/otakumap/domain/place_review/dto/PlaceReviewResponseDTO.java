@@ -1,5 +1,6 @@
 package com.otakumap.domain.place_review.dto;
 
+import com.otakumap.domain.hash_tag.dto.HashTagResponseDTO;
 import com.otakumap.domain.image.dto.ImageResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -53,6 +54,7 @@ public class PlaceReviewResponseDTO {
     public static class PlaceAnimationReviewDTO {
         private Long placeId;
         private String placeName;
+        List<HashTagResponseDTO.HashTagDTO> hashTags;
         private List<AnimationReviewGroupDTO> animationGroups;
         private long totalReviews;
     }
