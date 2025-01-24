@@ -6,11 +6,14 @@ import com.otakumap.domain.route_like.converter.RouteLikeConverter;
 import com.otakumap.domain.route_like.entity.RouteLike;
 import com.otakumap.domain.route_like.repository.RouteLikeRepository;
 import com.otakumap.domain.user.entity.User;
-import com.otakumap.domain.user.repository.UserRepository;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.RouteHandler;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +21,7 @@ public class RouteLikeCommandServiceImpl implements RouteLikeCommandService {
 
     private final RouteLikeRepository routeLikeRepository;
     private final RouteRepository routeRepository;
-    private final UserRepository userRepository;
+    private final EntityManager entityManager;
 
     @Override
     public void saveRouteLike(User user, Long routeId) {
@@ -29,5 +32,13 @@ public class RouteLikeCommandServiceImpl implements RouteLikeCommandService {
         }
         RouteLike routeLike = RouteLikeConverter.toRouteLike(user, route);
         routeLikeRepository.save(routeLike);
+    }
+
+    @Transactional
+    @Override
+    public void deleteRouteLike(List<Long> routeIds) {
+        routeLikeRepository.deleteAllByIdInBatch(routeIds);
+        entityManager.flush();
+        entityManager.clear();
     }
 }
