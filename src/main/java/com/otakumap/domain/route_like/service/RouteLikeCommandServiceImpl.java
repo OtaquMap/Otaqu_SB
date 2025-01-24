@@ -6,7 +6,6 @@ import com.otakumap.domain.route_like.converter.RouteLikeConverter;
 import com.otakumap.domain.route_like.entity.RouteLike;
 import com.otakumap.domain.route_like.repository.RouteLikeRepository;
 import com.otakumap.domain.user.entity.User;
-import com.otakumap.domain.user.repository.UserRepository;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.RouteHandler;
 import jakarta.persistence.EntityManager;
