@@ -54,9 +54,10 @@ public class PlaceReviewResponseDTO {
     public static class PlaceAnimationReviewDTO {
         private Long placeId;
         private String placeName;
+        private Float avgRating;
+        private long totalReviews;
         private List<HashTagResponseDTO.HashTagDTO> hashTags;
         private List<AnimationReviewGroupDTO> animationGroups;
-        private long totalReviews;
     }
 
 }

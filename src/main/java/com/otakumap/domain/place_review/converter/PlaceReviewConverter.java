@@ -63,7 +63,9 @@ public class PlaceReviewConverter {
     }
 
     // 최상위 결과 DTO 생성
-    public static PlaceReviewResponseDTO.PlaceAnimationReviewDTO toPlaceAnimationReviewDTO(Place place, long totalReviews, List<PlaceReviewResponseDTO.AnimationReviewGroupDTO> animationGroups) {
+    public static PlaceReviewResponseDTO.PlaceAnimationReviewDTO toPlaceAnimationReviewDTO(Place place, long totalReviews,
+                                                                                           List<PlaceReviewResponseDTO.AnimationReviewGroupDTO> animationGroups,
+                                                                                           Float avgRating) {
 
         List<HashTagResponseDTO.HashTagDTO> hashTagDTOs = place.getPlaceHashTagList()
                 .stream()
@@ -76,6 +78,7 @@ public class PlaceReviewConverter {
                 .animationGroups(animationGroups)
                 .totalReviews(totalReviews)
                 .hashTags(hashTagDTOs)
+                .avgRating(avgRating)
                 .build();
     }
 }
