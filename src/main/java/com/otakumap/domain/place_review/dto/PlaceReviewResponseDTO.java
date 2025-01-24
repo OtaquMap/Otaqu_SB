@@ -27,7 +27,7 @@ public class PlaceReviewResponseDTO {
     @AllArgsConstructor
     public static class PlaceReviewDTO {
         private Long reviewId;
-        private Long placeId; // 나중에 삭제
+        private Long placeId;
         String title;
         String content;
         Long view;
@@ -43,6 +43,7 @@ public class PlaceReviewResponseDTO {
         private Long animationId;
         private String animationName;
         private List<PlaceReviewDTO> reviews;
+        private long totalReviews;
     }
 
     @Builder
@@ -53,19 +54,7 @@ public class PlaceReviewResponseDTO {
         private Long placeId;
         private String placeName;
         private List<AnimationReviewGroupDTO> animationGroups;
+        private long totalReviews;
     }
-
-
-//    @Builder
-//    @Getter
-//    @NoArgsConstructor
-//    @AllArgsConstructor
-//    public static class PlaceAnimationReviewListDTO {
-//        private Long placeId;
-//        private Integer currentPage;
-//        private Integer totalPages;
-//        private Integer totalElements;
-//        private List<PlaceAnimationReviewDTO> animationReviews;
-//    }
 
 }

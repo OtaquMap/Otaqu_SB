@@ -10,7 +10,6 @@ import com.otakumap.domain.user.entity.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 public class PlaceReviewConverter {
     public static PlaceReviewResponseDTO.ReviewCreateResponseDTO toReviewCreateResponseDTO(PlaceReview placeReview) {
@@ -56,20 +55,18 @@ public class PlaceReviewConverter {
                 .animationId(animation.getId())
                 .animationName(animation.getName())
                 .reviews(reviewDTOs)
+                .totalReviews(reviews.size())
                 .build();
     }
 
     // 최상위 결과 DTO 생성
-    public static PlaceReviewResponseDTO.PlaceAnimationReviewDTO toPlaceAnimationReviewDTO(Place place, Map<Animation, List<PlaceReview>> reviewsByAnimation) {
-
-        List<PlaceReviewResponseDTO.AnimationReviewGroupDTO> animationGroups = reviewsByAnimation.entrySet().stream()
-                .map(entry -> toAnimationReviewGroupDTO(entry.getKey(), entry.getValue()))
-                .toList();
+    public static PlaceReviewResponseDTO.PlaceAnimationReviewDTO toPlaceAnimationReviewDTO(Place place, long totalReviews, List<PlaceReviewResponseDTO.AnimationReviewGroupDTO> animationGroups) {
 
         return PlaceReviewResponseDTO.PlaceAnimationReviewDTO.builder()
                 .placeId(place.getId())
                 .placeName(place.getName())
                 .animationGroups(animationGroups)
+                .totalReviews(totalReviews)
                 .build();
     }
 }
