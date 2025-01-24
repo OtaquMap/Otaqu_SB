@@ -29,11 +29,11 @@ public class PlaceReviewResponseDTO {
     public static class PlaceReviewDTO {
         private Long reviewId;
         private Long placeId;
-        String title;
-        String content;
-        Long view;
-        LocalDateTime createdAt;
-        ImageResponseDTO.ImageDTO reviewImage;
+        private String title;
+        private String content;
+        private Long view;
+        private LocalDateTime createdAt;
+        private ImageResponseDTO.ImageDTO reviewImage;
     }
 
     @Builder
@@ -54,7 +54,7 @@ public class PlaceReviewResponseDTO {
     public static class PlaceAnimationReviewDTO {
         private Long placeId;
         private String placeName;
-        List<HashTagResponseDTO.HashTagDTO> hashTags;
+        private List<HashTagResponseDTO.HashTagDTO> hashTags;
         private List<AnimationReviewGroupDTO> animationGroups;
         private long totalReviews;
     }
