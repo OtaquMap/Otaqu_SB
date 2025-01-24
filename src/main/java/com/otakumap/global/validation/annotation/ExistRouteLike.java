@@ -1,13 +1,13 @@
 package com.otakumap.global.validation.annotation;
 
-import com.otakumap.global.validation.validator.EventLikeExistValidator;
+import com.otakumap.global.validation.validator.RouteLikeExistValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = EventLikeExistValidator.class)
+@Constraint(validatedBy = RouteLikeExistValidator.class)
 @Target( { ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ExistRouteLike {

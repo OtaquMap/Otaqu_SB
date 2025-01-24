@@ -1,6 +1,6 @@
-package com.otakumap.domain.route.controller;
+package com.otakumap.domain.route_like.controller;
 
-import com.otakumap.domain.route.service.RouteCommandService;
+import com.otakumap.domain.route_like.service.RouteLikeCommandService;
 import com.otakumap.global.apiPayload.ApiResponse;
 import com.otakumap.global.validation.annotation.ExistRouteLike;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,17 +19,17 @@ import java.util.List;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 @Validated
-public class RouteController {
+public class RouteLikeController {
 
-    private final RouteCommandService routeCommandService;
+    private final RouteLikeCommandService routeLikeCommandService;
 
     @Operation(summary = "저장된 루트 삭제", description = "저장된 루트를 삭제합니다.")
-    @DeleteMapping("/saved-routes")
+    @DeleteMapping("/routes/liked")
     @Parameters({
             @Parameter(name = "routeIds", description = "저장된 루트 id List"),
     })
     public ApiResponse<String> deleteSavedRoute(@RequestParam(required = false) @ExistRouteLike List<Long> routeIds) {
-        routeCommandService.deleteRouteLike(routeIds);
+        routeLikeCommandService.deleteRouteLike(routeIds);
         return ApiResponse.onSuccess("저장된 루트가 성공적으로 삭제되었습니다.");
     }
 }

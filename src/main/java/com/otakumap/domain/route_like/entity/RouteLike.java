@@ -1,4 +1,4 @@
-package com.otakumap.domain.route.entity;
+package com.otakumap.domain.route_like.entity;
 
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Route extends BaseEntity {
+public class RouteLike extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
