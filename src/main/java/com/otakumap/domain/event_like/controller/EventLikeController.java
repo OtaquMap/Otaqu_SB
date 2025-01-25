@@ -1,6 +1,8 @@
 package com.otakumap.domain.event_like.controller;
 
 import com.otakumap.domain.auth.jwt.annotation.CurrentUser;
+import com.otakumap.domain.event_like.converter.EventLikeConverter;
+import com.otakumap.domain.event_like.dto.EventLikeRequestDTO;
 import com.otakumap.domain.event_like.dto.EventLikeResponseDTO;
 import com.otakumap.domain.event_like.service.EventLikeCommandService;
 import com.otakumap.domain.event_like.service.EventLikeQueryService;
@@ -10,6 +12,7 @@ import com.otakumap.global.validation.annotation.ExistEventLike;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +48,7 @@ public class EventLikeController {
         return ApiResponse.onSuccess(eventLikeQueryService.getEventLikeList(user, type, lastId, limit));
     }
 
-    @Operation(summary = "저장된 이벤트 삭제", description = "저장된 이벤트를 삭제합니다.")
+    @Operation(summary = "저장된 이벤트 삭제(이벤트 찜하기 취소)", description = "저장된 이벤트를 삭제합니다.")
     @DeleteMapping("")
     @Parameters({
             @Parameter(name = "eventIds", description = "저장된 이벤트 ID List"),
@@ -53,5 +56,11 @@ public class EventLikeController {
     public ApiResponse<String> deleteEventLike(@RequestParam(required = false) @ExistEventLike List<Long> eventIds) {
         eventLikeCommandService.deleteEventLike(eventIds);
         return ApiResponse.onSuccess("저장된 이벤트가 성공적으로 삭제되었습니다");
+    }
+
+    @Operation(summary = "저장된 이벤트 즐겨찾기/즐겨찾기 취소", description = "저장된 이벤트를 즐겨찾기 또는 취소합니다.")
+    @PatchMapping("/{eventLikeId}/bookmark")
+    public ApiResponse<EventLikeResponseDTO.BookmarkResultDTO> bookmarkEventLike(@PathVariable Long eventLikeId, @RequestBody @Valid EventLikeRequestDTO.BookmarkDTO request) {
+        return ApiResponse.onSuccess(EventLikeConverter.toBookmarkResultDTO(eventLikeCommandService.bookmarkEventLike(eventLikeId, request)));
     }
 }

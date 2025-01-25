@@ -21,7 +21,7 @@ public class EventLikeResponseDTO {
         String thumbnail;
         LocalDate startDate;
         LocalDate endDate;
-        Boolean isFavorite;
+        boolean isBookmarked;
         EventType eventType;
     }
 
@@ -33,5 +33,14 @@ public class EventLikeResponseDTO {
         List<EventLikeResponseDTO.EventLikePreViewDTO> eventLikes;
         boolean hasNext;
         Long lastId;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class BookmarkResultDTO {
+        Long eventLikeId;
+        Boolean isBookmarked;
     }
 }

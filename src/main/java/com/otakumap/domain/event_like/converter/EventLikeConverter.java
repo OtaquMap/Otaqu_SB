@@ -17,7 +17,7 @@ public class EventLikeConverter {
                 .thumbnail(eventLike.getEvent().getThumbnailImage().getFileUrl())
                 .startDate(eventLike.getEvent().getStartDate())
                 .endDate(eventLike.getEvent().getEndDate())
-                .isFavorite(eventLike.getIsFavorite())
+                .isBookmarked(eventLike.getIsBookmarked())
                 .eventType(eventLike.getEvent().getType())
                 .build();
 
@@ -30,11 +30,18 @@ public class EventLikeConverter {
                 .build();
     }
 
-    public static EventLike eventLike(User user, Event event) {
+    public static EventLike toEventLike(User user, Event event) {
         return EventLike.builder()
                 .event(event)
                 .user(user)
-                .isFavorite(true)
+                .isBookmarked(false)
+                .build();
+    }
+
+    public static EventLikeResponseDTO.BookmarkResultDTO toBookmarkResultDTO(EventLike eventLike) {
+        return EventLikeResponseDTO.BookmarkResultDTO.builder()
+                .eventLikeId(eventLike.getId())
+                .isBookmarked(eventLike.getIsBookmarked())
                 .build();
     }
 }
