@@ -3,6 +3,7 @@ package com.otakumap.domain.event_like.converter;
 import com.otakumap.domain.event.entity.Event;
 import com.otakumap.domain.event_like.dto.EventLikeResponseDTO;
 import com.otakumap.domain.event_like.entity.EventLike;
+import com.otakumap.domain.image.dto.ImageResponseDTO;
 import com.otakumap.domain.user.entity.User;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public class EventLikeConverter {
                 .id(eventLike.getId())
                 .eventId(eventLike.getEvent().getId())
                 .name(eventLike.getEvent().getName())
-//                .thumbnail(eventLike.getEvent().getThumbnail())
+                .thumbnail(eventLike.getEvent().getThumbnailImage().getFileUrl())
                 .startDate(eventLike.getEvent().getStartDate())
                 .endDate(eventLike.getEvent().getEndDate())
                 .isFavorite(eventLike.getIsFavorite())

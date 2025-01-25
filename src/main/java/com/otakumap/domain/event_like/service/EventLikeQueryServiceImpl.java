@@ -27,10 +27,9 @@ public class EventLikeQueryServiceImpl implements EventLikeQueryService {
     private final UserRepository userRepository;
 
     @Override
-    public EventLikeResponseDTO.EventLikePreViewListDTO getEventLikeList(Long userId, Integer type, Long lastId, int limit) {
+    public EventLikeResponseDTO.EventLikePreViewListDTO getEventLikeList(User user, Integer type, Long lastId, int limit) {
         List<EventLike> result;
         Pageable pageable = PageRequest.of(0, limit + 1);
-        User user = userRepository.findById(userId).orElseThrow(() -> new UserHandler(ErrorStatus.USER_NOT_FOUND));
         EventType eventType = (type == null || type == 0) ? null : EventType.values()[type - 1];
 
         if (lastId.equals(0L)) {
@@ -43,11 +42,11 @@ public class EventLikeQueryServiceImpl implements EventLikeQueryService {
                     ? eventLikeRepository.findAllByUserIsAndCreatedAtLessThanOrderByCreatedAtDesc(user, eventLike.getCreatedAt(), pageable).getContent()
                     : eventLikeRepository.findAllByUserIsAndEventTypeAndCreatedAtLessThanOrderByCreatedAtDesc(user, eventType, eventLike.getCreatedAt(), pageable).getContent();
         }
-        return createEventLikePreviewListDTO(user, result, limit);
+        return createEventLikePreviewListDTO(result, limit);
     }
 
 
-    private EventLikeResponseDTO.EventLikePreViewListDTO createEventLikePreviewListDTO(User user, List<EventLike> eventLikes, int limit) {
+    private EventLikeResponseDTO.EventLikePreViewListDTO createEventLikePreviewListDTO(List<EventLike> eventLikes, int limit) {
         boolean hasNext = eventLikes.size() > limit;
         Long lastId = null;
         if (hasNext) {
