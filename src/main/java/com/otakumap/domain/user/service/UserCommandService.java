@@ -7,4 +7,5 @@ public interface UserCommandService {
     void updateNickname(User user, UserRequestDTO.UpdateNicknameDTO request);
     void reportEvent(UserRequestDTO.UserReportRequestDTO request);
     void updateNotificationSettings(User user, UserRequestDTO.NotificationSettingsRequestDTO request);
+    void resetPassword(UserRequestDTO.ResetPasswordDTO request);
 }

@@ -1,13 +1,16 @@
 package com.otakumap.domain.user.service;
 
+import com.otakumap.domain.user.converter.UserConverter;
 import com.otakumap.domain.user.dto.UserRequestDTO;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.domain.user.repository.UserRepository;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
+import com.otakumap.global.apiPayload.exception.handler.AuthHandler;
 import com.otakumap.global.apiPayload.exception.handler.UserHandler;
 import com.otakumap.global.util.EmailUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class UserCommandServiceImpl implements UserCommandService {
     private final UserRepository userRepository;
     private final EmailUtil emailUtil;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
@@ -48,6 +52,18 @@ public class UserCommandServiceImpl implements UserCommandService {
             throw new UserHandler(ErrorStatus.INVALID_NOTIFICATION_TYPE);
         }
         user.setNotification(request.getNotificationType(), request.isEnabled());
+        userRepository.save(user);
+    }
+
+    @Override
+    public void resetPassword(UserRequestDTO.ResetPasswordDTO request) {
+        User user = userRepository.findByUserId(request.getUserId()).orElseThrow(() -> new UserHandler(ErrorStatus.USER_NOT_FOUND));
+
+        if(!request.getPassword().equals(request.getPasswordCheck())) {
+            throw new AuthHandler(ErrorStatus.PASSWORD_NOT_EQUAL);
+        }
+
+        user.encodePassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
     }
 }
