@@ -57,6 +57,7 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // 루트 좋아요 관련 에러
     ROUTE_LIKE_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "ROUTE4002", "이미 좋아요를 누른 루트입니다."),
+    ROUTE_LIKE_NOT_FOUND(HttpStatus.BAD_REQUEST, "ROUTE4003", "저장되지 않은 루트입니다."),
 
     // 알림 관련 에러
     INVALID_NOTIFICATION_TYPE(HttpStatus.BAD_REQUEST, "NOTIFICATION4001", "유효하지 않은 알림 타입입니다."),
