@@ -50,7 +50,19 @@ public class PlaceReviewQueryServiceImpl implements PlaceReviewQueryService {
                 .collect(Collectors.groupingBy(review -> review.getPlaceAnimation().getAnimation()));
 
         // 애니메이션 그룹마다 그 안에 속한 리뷰들 페이징 적용
-        List<PlaceReviewResponseDTO.AnimationReviewGroupDTO> animationGroups = reviewsByAnimation.entrySet().stream()
+        List<PlaceReviewResponseDTO.AnimationReviewGroupDTO> animationGroups = paginateReviews(reviewsByAnimation, page, size);
+
+        // 총 리뷰 수 계산
+        long totalReviews = reviewsByAnimation.values().stream()
+                .mapToLong(List::size)
+                .sum();
+
+        return PlaceReviewConverter.toPlaceAnimationReviewDTO(place, totalReviews, animationGroups, finalAvgRating);
+    }
+
+    private List<PlaceReviewResponseDTO.AnimationReviewGroupDTO> paginateReviews(Map<Animation, List<PlaceReview>> reviewsByAnimation, int page, int size) {
+
+        return  reviewsByAnimation.entrySet().stream()
                 .map(entry -> {
                     List<PlaceReview> reviews = entry.getValue();
                     int fromIndex = Math.min(page * size, reviews.size());
@@ -62,12 +74,5 @@ public class PlaceReviewQueryServiceImpl implements PlaceReviewQueryService {
                 })
                 .filter(group -> !group.getReviews().isEmpty()) // 빈 그룹 제외
                 .toList();
-
-        // 총 리뷰 수 계산
-        long totalReviews = reviewsByAnimation.values().stream()
-                .mapToLong(List::size)
-                .sum();
-
-        return PlaceReviewConverter.toPlaceAnimationReviewDTO(place, totalReviews, animationGroups, finalAvgRating);
     }
 }
