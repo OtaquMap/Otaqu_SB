@@ -37,15 +37,16 @@ public class EventLikeController {
         return ApiResponse.onSuccess("이벤트가 성공적으로 저장되었습니다.");
     }
 
-    @Operation(summary = "저장된 이벤트 목록 조회", description = "저장된 이벤트 목록을 불러옵니다.")
+    @Operation(summary = "저장된 이벤트 목록 조회(+ 즐겨찾기 목록 조회)", description = "저장된 이벤트 목록을 불러옵니다.")
     @GetMapping( "")
     @Parameters({
             @Parameter(name = "type", description = "이벤트 타입 -> 1: 팝업 스토어, 2: 전시회, 3: 콜라보 카페"),
+            @Parameter(name = "isBookmarked", description = "북마크 여부(필수 X) -> true: 북마크 목록 조회"),
             @Parameter(name = "lastId", description = "마지막으로 조회된 저장된 이벤트 id, 처음 가져올 때 -> 0"),
             @Parameter(name = "limit", description = "한 번에 조회할 최대 이벤트 수. 기본값은 10입니다.")
     })
-    public ApiResponse<EventLikeResponseDTO.EventLikePreViewListDTO> getEventLikeList(@CurrentUser User user, @RequestParam(required = false) Integer type, @RequestParam(defaultValue = "0") Long lastId, @RequestParam(defaultValue = "10") int limit) {
-        return ApiResponse.onSuccess(eventLikeQueryService.getEventLikeList(user, type, lastId, limit));
+    public ApiResponse<EventLikeResponseDTO.EventLikePreViewListDTO> getEventLikeList(@CurrentUser User user, @RequestParam(required = false) Integer type, @RequestParam(required = false) Boolean isBookmarked, @RequestParam(defaultValue = "0") Long lastId, @RequestParam(defaultValue = "10") int limit) {
+        return ApiResponse.onSuccess(eventLikeQueryService.getEventLikeList(user, type, isBookmarked, lastId, limit));
     }
 
     @Operation(summary = "저장된 이벤트 삭제(이벤트 찜하기 취소)", description = "저장된 이벤트를 삭제합니다.")
