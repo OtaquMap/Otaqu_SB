@@ -41,6 +41,9 @@ public class SecurityConfig {
         http
                 //crsf 보안 비활성화
                 .csrf(csrf -> csrf.disable())
+                // spring security에서 걸리는 경우
+                .cors(cors -> cors
+                        .configurationSource(CorsConfig.corsConfigurationSource()))
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(allowUrl).permitAll()
                         .anyRequest().authenticated())
