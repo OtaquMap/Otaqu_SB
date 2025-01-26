@@ -1,4 +1,4 @@
-package com.otakumap.domain.animation.entity;
+package com.otakumap.domain.hash_tag.entity;
 
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Animation extends BaseEntity {
+public class HashTag extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

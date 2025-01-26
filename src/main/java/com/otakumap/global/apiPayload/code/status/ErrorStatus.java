@@ -47,6 +47,11 @@ public enum ErrorStatus implements BaseErrorCode {
     // 후기 검색 관련 에러
     REVIEW_SEARCH_NOT_FOUND(HttpStatus.NOT_FOUND, "SEARCH4001", "검색된 후기가 없습니다."),
 
+
+    // 애니메이션 관련 에러
+    ANIMATION_NOT_FOUND(HttpStatus.NOT_FOUND, "ANIMATION4001", "존재하지 않는 애니메이션입니다"),
+    PLACE_ANIMATION_NOT_FOUND(HttpStatus.NOT_FOUND, "ANIMATION4002", "존재하지 않는 애니메이션입니다"),
+
     // 루트 관련 에러
     ROUTE_NOT_FOUND(HttpStatus.NOT_FOUND, "ROUTE4001", "존재하지 않은 루트입니다."),
 
@@ -58,7 +63,10 @@ public enum ErrorStatus implements BaseErrorCode {
     INVALID_NOTIFICATION_TYPE(HttpStatus.BAD_REQUEST, "NOTIFICATION4001", "유효하지 않은 알림 타입입니다."),
     NOTIFICATION_NOT_FOUND(HttpStatus.NOT_FOUND, "NOTIFICATION4002", "존재하지 않는 알림입니다."),
     NOTIFICATION_ALREADY_READ(HttpStatus.BAD_REQUEST, "NOTIFICATION4003", "이미 읽은 알림입니다."),
-    NOTIFICATION_ACCESS_DENIED(HttpStatus.UNAUTHORIZED, "NOTIFICATION4004", "알림에 접근할 수 없습니다.");
+    NOTIFICATION_ACCESS_DENIED(HttpStatus.UNAUTHORIZED, "NOTIFICATION4004", "알림에 접근할 수 없습니다."),
+
+    // 정렬 관련 에러
+    INVALID_SORT_TYPE(HttpStatus.BAD_REQUEST, "SORT4001", "유효하지 않은 정렬 기준입니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
