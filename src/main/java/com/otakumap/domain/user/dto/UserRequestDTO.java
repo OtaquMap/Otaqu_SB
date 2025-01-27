@@ -51,4 +51,10 @@ public class UserRequestDTO {
         @Schema(description = "password", example = "otakumap1234!")
         String passwordCheck;
     }
+
+    @Getter
+    public static class ProfileImageaUpdateDTO {
+        @NotBlank(message = "프로필 이미지를 선택해주세요.")
+        private String profileImageUrl;
+    }
 }

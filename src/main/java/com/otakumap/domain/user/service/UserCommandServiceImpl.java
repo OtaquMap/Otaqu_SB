@@ -1,5 +1,7 @@
 package com.otakumap.domain.user.service;
 
+import com.otakumap.domain.image.entity.Image;
+import com.otakumap.domain.image.service.ImageCommandService;
 import com.otakumap.domain.user.converter.UserConverter;
 import com.otakumap.domain.user.dto.UserRequestDTO;
 import com.otakumap.domain.user.entity.User;
@@ -12,6 +14,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +22,7 @@ public class UserCommandServiceImpl implements UserCommandService {
     private final UserRepository userRepository;
     private final EmailUtil emailUtil;
     private final PasswordEncoder passwordEncoder;
+    private final ImageCommandService imageCommandService;
 
     @Override
     @Transactional
@@ -65,5 +69,13 @@ public class UserCommandServiceImpl implements UserCommandService {
 
         user.encodePassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
+    }
+
+    @Override
+    public String updateProfileImage(User user, MultipartFile file) {
+        Image image = imageCommandService.uploadProfileImage(file, user.getId());
+        user.setProflieImage(image);
+        userRepository.save(user);
+        return image.getFileUrl();
     }
 }

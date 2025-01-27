@@ -29,13 +29,13 @@ public class AmazonConfig {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    @Value("${cloud.aws.s3.profilePath}")
+    @Value("${cloud.aws.s3.path.profile}")
     private String profilePath;
 
-    @Value("${cloud.aws.s3.reviewPath}")
+    @Value("${cloud.aws.s3.path.review}")
     private String reviewPath;
 
-    @Value("${cloud.aws.s3.eventPath}")
+    @Value("${cloud.aws.s3.path.event}")
     private String eventPath;
 
     @PostConstruct

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -32,14 +33,14 @@ public class AmazonS3Util {
     }
 
     public String generateProfileKeyName() {
-        return amazonConfig.getProfilePath() + '/' + UuidGenerator.generateUuid();
+        return amazonConfig.getProfilePath() + '/' + UUID.randomUUID().toString();
     }
 
     public String generateReviewKeyName() {
-        return amazonConfig.getReviewPath() + '/' + UuidGenerator.generateUuid();
+        return amazonConfig.getReviewPath() + '/' + UUID.randomUUID().toString();
     }
 
     public String generateEventKeyName() {
-        return amazonConfig.getEventPath() + '/' + UuidGenerator.generateUuid();
+        return amazonConfig.getEventPath() + '/' + UUID.randomUUID().toString();
     }
 }
