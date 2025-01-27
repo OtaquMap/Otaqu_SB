@@ -30,8 +30,8 @@ public class PlaceShortReviewCommandServiceImpl implements PlaceShortReviewComma
         Place place = placeRepository.findById(placeId)
                 .orElseThrow(() -> new PlaceHandler(ErrorStatus.PLACE_NOT_FOUND));
 
-        PlaceAnimation placeAnimation = placeAnimationRepository.findById(request.getPlaceAnimationId())
-                .orElseThrow(() -> new PlaceHandler(ErrorStatus.PLACE_ANIMATION_NOT_FOUND));
+        PlaceAnimation placeAnimation = placeAnimationRepository.findByIdAndPlaceId(request.getPlaceAnimationId(), placeId)
+                .orElseThrow(() -> new PlaceHandler(ErrorStatus.INVALID_PLACE_ANIMATION));
 
         PlaceShortReview newReview = PlaceShortReviewConverter.toPlaceShortReview(request, user, place, placeAnimation);
 
