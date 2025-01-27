@@ -13,4 +13,12 @@ public class ImageConverter {
                 .fileUrl(image.getFileUrl())
                 .build();
     }
+
+    public static Image toImage(String uuid, String fileName, String fileUrl) {
+        return Image.builder()
+                .uuid(uuid)
+                .fileName(fileName)
+                .fileUrl(fileUrl)
+                .build();
+    }
 }
