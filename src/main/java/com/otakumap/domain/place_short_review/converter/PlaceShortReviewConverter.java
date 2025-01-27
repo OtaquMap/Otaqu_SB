@@ -1,5 +1,6 @@
 package com.otakumap.domain.place_short_review.converter;
 
+import com.otakumap.domain.mapping.PlaceAnimation;
 import com.otakumap.domain.place.entity.Place;
 import com.otakumap.domain.place_short_review.DTO.PlaceShortReviewRequestDTO;
 import com.otakumap.domain.place_short_review.DTO.PlaceShortReviewResponseDTO;
@@ -48,22 +49,23 @@ public class PlaceShortReviewConverter {
     }
 
     public static PlaceShortReviewResponseDTO.CreateReviewDTO toCreateReviewDTO(PlaceShortReview placeShortReview) {
-        User user = placeShortReview.getUser();
         Place place = placeShortReview.getPlace();
+        PlaceAnimation placeAnimation = placeShortReview.getPlaceAnimation();
         return PlaceShortReviewResponseDTO.CreateReviewDTO.builder()
                 .reviewId(placeShortReview.getId())
                 .rating(placeShortReview.getRating())
                 .content(placeShortReview.getContent())
                 .createdAt(placeShortReview.getCreatedAt())
-                .userId(user.getId())
                 .placeId(place.getId())
+                .placeAnimationId(placeAnimation.getId())
                 .build();
     }
 
-    public static PlaceShortReview toPlaceShortReview(PlaceShortReviewRequestDTO.CreateDTO request, User user, Place place) {
+    public static PlaceShortReview toPlaceShortReview(PlaceShortReviewRequestDTO.CreateDTO request, User user, Place place, PlaceAnimation placeAnimation) {
         return PlaceShortReview.builder()
                 .user(user)
                 .place(place)
+                .placeAnimation(placeAnimation)
                 .rating(request.getRating())
                 .content(request.getContent())
                 .dislikes(0L)

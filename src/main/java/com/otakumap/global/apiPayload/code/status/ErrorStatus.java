@@ -34,6 +34,7 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // 명소 관련 에러
     PLACE_NOT_FOUND(HttpStatus.BAD_REQUEST, "PLACE4001", "존재하지 않는 명소입니다."),
+    PLACE_ANIMATION_NOT_FOUND(HttpStatus.NOT_FOUND, "PLACE4002", "존재하지 않는 명소 애니메이션입니다."),
 
     // 이벤트 좋아요 관련 에러
     EVENT_LIKE_NOT_FOUND(HttpStatus.BAD_REQUEST, "EVENT4001", "저장되지 않은 이벤트입니다."),
