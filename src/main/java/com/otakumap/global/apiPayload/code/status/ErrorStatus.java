@@ -67,7 +67,10 @@ public enum ErrorStatus implements BaseErrorCode {
     NOTIFICATION_ACCESS_DENIED(HttpStatus.UNAUTHORIZED, "NOTIFICATION4004", "알림에 접근할 수 없습니다."),
 
     // 정렬 관련 에러
-    INVALID_SORT_TYPE(HttpStatus.BAD_REQUEST, "SORT4001", "유효하지 않은 정렬 기준입니다.");
+    INVALID_SORT_TYPE(HttpStatus.BAD_REQUEST, "SORT4001", "유효하지 않은 정렬 기준입니다."),
+
+    // 이미지 관련 에러
+    INVALID_FOLDER(HttpStatus.BAD_REQUEST, "IMAGE4001", "유효하지 않은 폴더입니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

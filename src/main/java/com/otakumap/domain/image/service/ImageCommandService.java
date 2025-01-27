@@ -8,5 +8,6 @@ import java.util.List;
 public interface ImageCommandService {
     Image uploadProfileImage(MultipartFile file, Long userId);
     List<Image> uploadReviewImages(List<MultipartFile> files, Long reviewId);
+    Image uploadaImage(MultipartFile file, String folder);
 }
 

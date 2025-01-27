@@ -17,7 +17,6 @@ import java.util.UUID;
 public class AmazonS3Util {
     private final AmazonS3 amazonS3;
     private final AmazonConfig amazonConfig;
-//    private final ImageR
 
     public String uploadFile(String keyName, MultipartFile file) {
         ObjectMetadata metadata = new ObjectMetadata();
