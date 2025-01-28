@@ -34,7 +34,11 @@ public class RouteLike extends BaseEntity {
     @JoinColumn(name = "route_id")
     private Route route;
 
+    // 즐겨찾기 여부
     @Column(name = "is_favorite", nullable = false)
     @ColumnDefault("false")
     private Boolean isFavorite;
+
+    public void setName(String name) {
+    }
 }

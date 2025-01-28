@@ -11,7 +11,7 @@ public class RouteLikeConverter {
                 .name(route.getName())
                 .user(user)
                 .route(route)
-                .isFavorite(Boolean.TRUE)
+                .isFavorite(Boolean.FALSE)
                 .build();
     }
 }

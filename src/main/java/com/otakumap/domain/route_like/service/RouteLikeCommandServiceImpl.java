@@ -27,9 +27,11 @@ public class RouteLikeCommandServiceImpl implements RouteLikeCommandService {
     public void saveRouteLike(User user, Long routeId) {
         Route route = routeRepository.findById(routeId)
                 .orElseThrow(() -> new RouteHandler(ErrorStatus.ROUTE_NOT_FOUND));
-        if(routeLikeRepository.existsByUserAndRoute(user, route)) {
+
+        if (routeLikeRepository.existsByUserAndRoute(user, route)) {
             throw new RouteHandler(ErrorStatus.ROUTE_LIKE_ALREADY_EXISTS);
         }
+
         RouteLike routeLike = RouteLikeConverter.toRouteLike(user, route);
         routeLikeRepository.save(routeLike);
     }
@@ -40,5 +42,19 @@ public class RouteLikeCommandServiceImpl implements RouteLikeCommandService {
         routeLikeRepository.deleteAllByIdInBatch(routeIds);
         entityManager.flush();
         entityManager.clear();
+    }
+
+    @Override
+    public void updateName(Long routeId, String name) {
+
+        // 루트가 저장되어있는지 확인
+        RouteLike routeLike = routeLikeRepository.findByRouteId(routeId)
+                .orElseThrow(() -> new RouteHandler(ErrorStatus.ROUTE_NOT_FOUND));
+
+        // 이름 변경
+        routeLike.setName(name);
+
+        // 변경된 엔티티 저장
+        routeLikeRepository.save(routeLike);
     }
 }
