@@ -24,7 +24,7 @@ public class EventLikeQueryServiceImpl implements EventLikeQueryService {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public EventLikeResponseDTO.EventLikePreViewListDTO getEventLikeList(User user, Integer type, Boolean isBookmarked, Long lastId, int limit) {
+    public EventLikeResponseDTO.EventLikePreViewListDTO getEventLikeList(User user, Integer type, Boolean isFavorite, Long lastId, int limit) {
         EventType eventType = (type == null || type == 0) ? null : EventType.values()[type - 1];
 
         QEventLike qEventLike = QEventLike.eventLike;
@@ -36,8 +36,8 @@ public class EventLikeQueryServiceImpl implements EventLikeQueryService {
             predicate.and(qEventLike.event.type.eq(eventType));
         }
 
-        if (isBookmarked != null) {
-            predicate.and(qEventLike.isBookmarked.eq(isBookmarked));
+        if (isFavorite != null) {
+            predicate.and(qEventLike .isFavorite.eq(isFavorite));
         }
 
         if (lastId != null && lastId > 0) {
@@ -55,7 +55,6 @@ public class EventLikeQueryServiceImpl implements EventLikeQueryService {
 
         return createEventLikePreviewListDTO(result, limit);
     }
-
 
     private EventLikeResponseDTO.EventLikePreViewListDTO createEventLikePreviewListDTO(List<EventLike> eventLikes, int limit) {
         boolean hasNext = eventLikes.size() > limit;

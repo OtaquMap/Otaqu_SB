@@ -29,11 +29,11 @@ public class EventLike extends BaseEntity {
     @JoinColumn(name = "event_id", nullable = false)
     private Event event;
 
-    @Column(name = "is_bookmarked", nullable = false)
+    @Column(name = "is_favorite", nullable = false)
     @ColumnDefault("false")
-    private Boolean isBookmarked;
+    private Boolean isFavorite;
 
-    public void setIsBookmarked(boolean isBookmarked) {
-        this.isBookmarked = isBookmarked;
+    public void setIsFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
     }
 }

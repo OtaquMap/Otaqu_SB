@@ -39,9 +39,9 @@ public class EventLikeCommandServiceImpl implements EventLikeCommandService {
     }
 
     @Override
-    public EventLike bookmarkEventLike(Long eventLikeId, EventLikeRequestDTO.BookmarkDTO request) {
+    public EventLike favoriteEventLike(Long eventLikeId, EventLikeRequestDTO.FavoriteDTO request) {
         EventLike eventLike = eventLikeRepository.findById(eventLikeId).orElseThrow(() -> new EventHandler(ErrorStatus.EVENT_LIKE_NOT_FOUND));
-        eventLike.setIsBookmarked(request.getIsBookmarked());
+        eventLike.setIsFavorite(request.getIsFavorite());
         return eventLikeRepository.save(eventLike);
     }
 }

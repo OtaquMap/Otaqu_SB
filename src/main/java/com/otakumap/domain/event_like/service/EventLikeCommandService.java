@@ -9,5 +9,5 @@ import java.util.List;
 public interface EventLikeCommandService {
     void addEventLike(User user, Long eventId);
     void deleteEventLike(List<Long> eventIds);
-    EventLike bookmarkEventLike(Long eventLikeId, EventLikeRequestDTO.BookmarkDTO request);
+    EventLike favoriteEventLike(Long eventLikeId, EventLikeRequestDTO.FavoriteDTO request);
 }

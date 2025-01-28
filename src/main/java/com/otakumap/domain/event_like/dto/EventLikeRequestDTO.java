@@ -6,8 +6,8 @@ import lombok.Getter;
 
 public class EventLikeRequestDTO {
     @Getter
-    public static class BookmarkDTO {
-        @NotNull(message = "북마크 여부 입력은 필수입니다.")
-        Boolean isBookmarked;
+    public static class FavoriteDTO {
+        @NotNull(message = "즐겨찾기 여부 입력은 필수입니다.")
+        Boolean isFavorite;
     }
 }

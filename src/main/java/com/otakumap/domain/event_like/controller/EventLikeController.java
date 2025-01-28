@@ -60,8 +60,8 @@ public class EventLikeController {
     }
 
     @Operation(summary = "저장된 이벤트 즐겨찾기/즐겨찾기 취소", description = "저장된 이벤트를 즐겨찾기 또는 취소합니다.")
-    @PatchMapping("/{eventLikeId}/bookmark")
-    public ApiResponse<EventLikeResponseDTO.BookmarkResultDTO> bookmarkEventLike(@PathVariable Long eventLikeId, @RequestBody @Valid EventLikeRequestDTO.BookmarkDTO request) {
-        return ApiResponse.onSuccess(EventLikeConverter.toBookmarkResultDTO(eventLikeCommandService.bookmarkEventLike(eventLikeId, request)));
+    @PatchMapping("/{eventLikeId}/favorites")
+    public ApiResponse<EventLikeResponseDTO.BookmarkResultDTO> bookmarkEventLike(@PathVariable Long eventLikeId, @RequestBody @Valid EventLikeRequestDTO.FavoriteDTO request) {
+        return ApiResponse.onSuccess(EventLikeConverter.toBookmarkResultDTO(eventLikeCommandService.favoriteEventLike(eventLikeId, request)));
     }
 }
