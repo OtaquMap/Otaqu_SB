@@ -21,6 +21,15 @@ public class ReviewSearchController {
 
     private final ReviewQueryService reviewQueryService;
 
+    @GetMapping("/reviews/top7")
+    @Operation(summary = "조회수 Top7 여행 후기 목록 조회", description = "조회수 Top7 여행 후기 목록을 조회합니다.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200", description = "OK, 성공"),
+    })
+    public ApiResponse<ReviewResponseDTO.Top7ReviewPreViewListDTO> getTop7ReviewList() {
+        return null;
+    }
+
     @GetMapping("/reviews/search")
     @Operation(summary = "키워드로 여행 후기 검색", description = "키워드로 여행 후기를 검색해서 조회합니다.")
     @ApiResponses({

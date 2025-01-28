@@ -15,6 +15,6 @@ public class Animation extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 20) // 이벤트 일본어 원제
+    @Column(nullable = false, length = 20)
     private String name;
 }

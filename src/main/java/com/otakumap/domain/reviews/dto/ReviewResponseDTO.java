@@ -7,8 +7,28 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ReviewResponseDTO {
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Top7ReviewPreViewListDTO {
+        List<Top7ReviewPreViewDTO> reviews;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Top7ReviewPreViewDTO {
+        Long id;
+        String title;
+        ImageResponseDTO.ImageDTO reviewImage;
+        Long view;
+    }
 
     @Builder
     @Getter

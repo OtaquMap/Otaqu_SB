@@ -7,7 +7,8 @@ import lombok.Getter;
 public class PlaceShortReviewRequestDTO {
     @Getter
     public static class CreateDTO {
-        Long userId; // 토큰 사용 전 임시
+        @NotNull
+        Long placeAnimationId;
         @NotNull
         Float rating;
         @NotBlank

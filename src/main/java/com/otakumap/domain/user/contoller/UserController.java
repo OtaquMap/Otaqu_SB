@@ -2,6 +2,7 @@ package com.otakumap.domain.user.contoller;
 
 import com.otakumap.domain.auth.jwt.annotation.CurrentUser;
 import com.otakumap.domain.place_review.entity.PlaceReview;
+import com.otakumap.domain.place_review.service.PlaceReviewCommandService;
 import com.otakumap.domain.user.converter.UserConverter;
 import com.otakumap.domain.user.dto.UserRequestDTO;
 import com.otakumap.domain.user.dto.UserResponseDTO;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserQueryService userQueryService;
     private final UserCommandService userCommandService;
+    private final PlaceReviewCommandService placeReviewCommandService;
 
     @GetMapping
     @Operation(summary = "회원 정보 조회 API", description = "회원 정보를 조회합니다.")
@@ -69,5 +71,19 @@ public class UserController {
             @RequestParam(name = "sort", defaultValue = "createdAt") String sort) {
         Page<PlaceReview> reviews = userQueryService.getMyReviews(user, page, sort);
         return ApiResponse.onSuccess(UserConverter.reviewListDTO(reviews));
+    }
+
+    @Operation(summary = "비밀번호 변경", description = "비밀번호를 변경합니다.")
+    @PostMapping("/reset-password")
+    public ApiResponse<String> resetPassword(@RequestBody @Valid UserRequestDTO.ResetPasswordDTO request) {
+        userCommandService.resetPassword(request);
+        return ApiResponse.onSuccess("비밀번호가 성공적으로 변경되었습니다.");
+    }
+
+    @DeleteMapping("/reviews")
+    @Operation(summary = "내가 작성한 후기 삭제", description = "내가 작성한 모든 후기를 삭제합니다.")
+    public ApiResponse<String> deleteAllReviews(@CurrentUser User user) {
+        placeReviewCommandService.deleteAllByUserId(user.getId());
+        return ApiResponse.onSuccess("모든 후기가 성공적으로 삭제되었습니다.");
     }
 }

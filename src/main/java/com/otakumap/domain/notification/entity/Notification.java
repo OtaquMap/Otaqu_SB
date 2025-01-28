@@ -1,5 +1,6 @@
 package com.otakumap.domain.notification.entity;
 
+import com.otakumap.domain.notification.entity.enums.NotificationType;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
@@ -17,8 +18,9 @@ public class Notification extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String type;
+    private NotificationType type;
 
     @Column(nullable = false, length = 255)
     private String message;
@@ -34,4 +36,9 @@ public class Notification extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public void setIsRead(boolean isRead) {
+        this.isRead = isRead;
+        if (isRead) { this.readAt = LocalDateTime.now(); }
+    }
 }

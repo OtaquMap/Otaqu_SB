@@ -32,19 +32,23 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
-            "/api/auth/**"
+            "/api/auth/**",
+            "/api/users/reset-password/**"
     };
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 //crsf 보안 비활성화
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
+                // spring security에서 걸리는 경우
+                .cors(cors -> cors
+                        .configurationSource(CorsConfig.corsConfigurationSource()))
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(allowUrl).permitAll()
                         .anyRequest().authenticated())
                 //기본 폼 로그인 비활성화
-                .formLogin((form) -> form.disable())
+                .formLogin(AbstractHttpConfigurer::disable)
                 // BasicHttp 비활성화
                 .httpBasic(AbstractHttpConfigurer::disable)
                 //JwtAuthFilter를 UsernamePasswordAuthenticationFilter 앞에 추가
