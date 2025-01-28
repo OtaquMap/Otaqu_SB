@@ -36,7 +36,8 @@ public class EventLikeQueryServiceImpl implements EventLikeQueryService {
             predicate.and(qEventLike.event.type.eq(eventType));
         }
 
-        if (isFavorite != null) {
+        // isFavorite이 true일 때만 검색 조건에 추가
+        if (isFavorite != null && isFavorite) {
             predicate.and(qEventLike .isFavorite.eq(isFavorite));
         }
 
