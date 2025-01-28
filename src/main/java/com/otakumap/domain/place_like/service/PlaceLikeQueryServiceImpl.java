@@ -1,6 +1,5 @@
 package com.otakumap.domain.place_like.service;
 
-import com.otakumap.domain.event_like.entity.EventLike;
 import com.otakumap.domain.place_like.converter.PlaceLikeConverter;
 import com.otakumap.domain.place_like.dto.PlaceLikeResponseDTO;
 import com.otakumap.domain.place_like.entity.PlaceLike;
@@ -9,7 +8,6 @@ import com.otakumap.domain.user.entity.User;
 import com.otakumap.domain.user.repository.UserRepository;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.EventHandler;
-import com.otakumap.global.apiPayload.exception.handler.UserHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
