@@ -23,6 +23,9 @@ public class RouteLike extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 50, nullable = false)
+    private String name;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
