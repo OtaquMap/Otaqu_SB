@@ -25,6 +25,8 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Repository
 @RequiredArgsConstructor
@@ -108,5 +110,37 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
         }
 
         return new PageImpl<>(reviews.subList(start, end), PageRequest.of(page, size), reviews.size());
+    }
+
+    @Override
+    public ReviewResponseDTO.Top7ReviewPreViewListDTO getTop7Reviews() {
+        QPlaceReview placeReview = QPlaceReview.placeReview;
+        QEventReview eventReview = QEventReview.eventReview;
+
+        List<PlaceReview> placeReviews = queryFactory.select(placeReview)
+                .from(placeReview)
+                .orderBy(placeReview.view.desc())
+                .limit(7)
+                .fetch();
+        List<EventReview> eventReviews = queryFactory.select(eventReview)
+                .from(eventReview)
+                .orderBy(eventReview.view.desc())
+                .limit(7)
+                .fetch();
+
+        List<ReviewResponseDTO.Top7ReviewPreViewDTO> top7Reviews = Stream.concat(
+                placeReviews.stream()
+                        .map(ReviewConverter::toTop7PlaceReviewPreViewDTO),
+                eventReviews.stream()
+                        .map(ReviewConverter::toTop7EventReviewPreViewDTO)
+        )
+                .sorted(Comparator.comparing(ReviewResponseDTO.Top7ReviewPreViewDTO::getView).reversed())
+                .limit(7)
+                .collect(Collectors.toList());
+
+
+        return ReviewResponseDTO.Top7ReviewPreViewListDTO.builder()
+                .reviews(top7Reviews)
+                .build();
     }
 }
