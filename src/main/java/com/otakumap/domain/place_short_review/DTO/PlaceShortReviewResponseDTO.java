@@ -56,7 +56,7 @@ public class PlaceShortReviewResponseDTO {
         private Float rating;
         private String content;
         private LocalDateTime createdAt;
-        private Long userId;
         private Long placeId;
+        private Long placeAnimationId;
     }
 }

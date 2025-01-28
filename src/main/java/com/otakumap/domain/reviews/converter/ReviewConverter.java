@@ -7,6 +7,15 @@ import com.otakumap.domain.reviews.dto.ReviewResponseDTO;
 
 public class ReviewConverter {
 
+    public static ReviewResponseDTO.Top7ReviewPreViewDTO toTop7ReviewPreViewDTO(EventReview eventReview) {
+        return ReviewResponseDTO.Top7ReviewPreViewDTO.builder()
+                .id(eventReview.getId())
+                .title(eventReview.getTitle())
+                .reviewImage(ImageConverter.toImageDTO(eventReview.getImage()))
+                .view(eventReview.getView())
+                .build();
+    }
+
     public static ReviewResponseDTO.SearchedReviewPreViewDTO toSearchedEventReviewPreviewDTO(EventReview eventReview) {
         return ReviewResponseDTO.SearchedReviewPreViewDTO.builder()
                 .reviewId(eventReview.getId())

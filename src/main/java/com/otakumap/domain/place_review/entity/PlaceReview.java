@@ -1,6 +1,7 @@
 package com.otakumap.domain.place_review.entity;
 
 import com.otakumap.domain.image.entity.Image;
+import com.otakumap.domain.mapping.PlaceAnimation;
 import com.otakumap.domain.place.entity.Place;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.common.BaseEntity;
@@ -41,4 +42,8 @@ public class PlaceReview extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_id", nullable = false)
     private Place place;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "place_animation_id")
+    private PlaceAnimation placeAnimation; // 리뷰와 PlaceAnimation 연결
 }

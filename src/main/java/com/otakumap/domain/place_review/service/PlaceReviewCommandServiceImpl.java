@@ -35,4 +35,10 @@ public class PlaceReviewCommandServiceImpl implements PlaceReviewCommandService 
 
         return placeReviewRepository.save(placeReview);
     }
+
+    @Override
+    @Transactional
+    public void deleteAllByUserId(Long userId) {
+        placeReviewRepository.deleteAllByUserId(userId);
+    }
 }

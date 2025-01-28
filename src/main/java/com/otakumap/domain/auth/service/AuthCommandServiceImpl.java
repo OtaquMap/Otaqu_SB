@@ -58,22 +58,11 @@ public class AuthCommandServiceImpl implements AuthCommandService {
     }
 
     @Override
-    public boolean checkNickname(AuthRequestDTO.CheckNicknameDTO request) {
-        return userRepository.existsByNickname(request.getNickname());
-    }
-
-    @Override
-    public boolean checkId(AuthRequestDTO.CheckIdDTO request) {
-        return userRepository.existsByUserId(request.getUserId());
-    }
-
-    @Override
-    public void verifyEmail(AuthRequestDTO.VerifyEmailDTO request) throws MessagingException {
+    public void verifyEmail(AuthRequestDTO.VerifyEmailDTO request) {
         try {
-            if(userRepository.existsByEmail(request.getEmail())) {
-                throw new AuthHandler(ErrorStatus.EMAIL_ALREADY_EXISTS);
-            }
-            mailService.sendEmail(request.getEmail());
+            mailService.sendEmail(request.getEmail(), "signup");
+        } catch (MessagingException e) {
+            throw new AuthHandler(ErrorStatus.EMAIL_WRITE_FAILED);
         } catch (MailException e) {
             throw new AuthHandler(ErrorStatus.EMAIL_SEND_FAILED);
         }
@@ -81,7 +70,7 @@ public class AuthCommandServiceImpl implements AuthCommandService {
 
     @Override
     public boolean verifyCode(AuthRequestDTO.VerifyCodeDTO request) {
-        String authCode = (String) redisUtil.get("auth:" + request.getEmail());
+        String authCode = (String) redisUtil.get("auth:" + request.getEmail() + ":" + "signup");
         if (authCode == null) {
             throw new AuthHandler(ErrorStatus.EMAIL_CODE_EXPIRED);
         }
@@ -115,5 +104,30 @@ public class AuthCommandServiceImpl implements AuthCommandService {
         } catch (ExpiredJwtException e) {
             throw new AuthHandler(ErrorStatus.TOKEN_EXPIRED);
         }
+    }
+
+    @Override
+    public void findPassword(AuthRequestDTO.FindPasswordDTO request) {
+        User user = userRepository.findByNameAndUserId(request.getName(), request.getUserId()).orElseThrow(() -> new AuthHandler(ErrorStatus.USER_NOT_FOUND));
+        try {
+            mailService.sendEmail(user.getEmail(), "findPassword");
+        } catch (MessagingException e) {
+            throw new AuthHandler(ErrorStatus.EMAIL_WRITE_FAILED);
+        } catch (MailException e) {
+            throw new AuthHandler(ErrorStatus.EMAIL_SEND_FAILED);
+        }
+    }
+
+    @Override
+    public boolean verifyResetCode(AuthRequestDTO.VerifyResetCodeDTO request) {
+        User user = userRepository.findByUserId(request.getUserId()).orElseThrow(() -> new AuthHandler(ErrorStatus.USER_NOT_FOUND));
+        String authCode = (String) redisUtil.get("auth:" + user.getEmail() + ":" + "findPassword");
+        if (authCode == null) {
+            throw new AuthHandler(ErrorStatus.EMAIL_CODE_EXPIRED);
+        }
+        if (!authCode.equals(request.getCode())) {
+            throw new AuthHandler(ErrorStatus.CODE_NOT_EQUAL);
+        }
+        return true;
     }
 }
