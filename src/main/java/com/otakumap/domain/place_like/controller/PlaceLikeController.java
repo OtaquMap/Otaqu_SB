@@ -25,7 +25,7 @@ public class PlaceLikeController {
     private final PlaceLikeCommandService placeLikeCommandService;
 
     @Operation(summary = "저장된 장소 목록 조회", description = "저장된 장소 목록을 불러옵니다.")
-    @GetMapping( "")
+    @GetMapping("")
     @Parameters({
             @Parameter(name = "lastId", description = "마지막으로 조회된 저장된 이벤트 id, 처음 가져올 때 -> 0"),
             @Parameter(name = "limit", description = "한 번에 조회할 최대 이벤트 수. 기본값은 10입니다.")
