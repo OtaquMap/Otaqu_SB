@@ -28,14 +28,12 @@ public class PlaceLikeQueryServiceImpl implements PlaceLikeQueryService {
     private final UserRepository userRepository;
 
     @Override
-    public PlaceLikeResponseDTO.PlaceLikePreViewListDTO getPlaceLikeList(Long userId, Long lastId, int limit) {
+    public PlaceLikeResponseDTO.PlaceLikePreViewListDTO getPlaceLikeList(User user, Long lastId, int limit) {
 
         List<PlaceLike> result;
         Pageable pageable = PageRequest.of(0, limit+1);
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
 
-        Page<PlaceLike> placeLikePage = placeLikeRepository.findByUserIdAndIdLessThanOrderByIdDesc(userId, lastId, pageable);
+        Page<PlaceLike> placeLikePage = placeLikeRepository.findByUserIdAndIdLessThanOrderByIdDesc(user.getId(), lastId, pageable);
 
         if (lastId.equals(0L)) {
             // lastId가 0일 경우: 처음부터 데이터를 조회
