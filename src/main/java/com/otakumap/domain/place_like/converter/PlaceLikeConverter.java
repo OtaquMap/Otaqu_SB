@@ -16,7 +16,6 @@ public class PlaceLikeConverter {
                 .detail(placeLike.getPlace().getDetail())
                 .lat(placeLike.getPlace().getPlaceLocation().getLatitude())
                 .lng(placeLike.getPlace().getPlaceLocation().getLongitude())
-                .savedAt(placeLike.getPlace().getSavedAt())
                 .isFavorite(placeLike.getIsFavorite())
                 .build();
 

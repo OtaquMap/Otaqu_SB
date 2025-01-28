@@ -30,8 +30,6 @@ public class Place extends BaseEntity {
     @Column(name = "detail", nullable = false, length = 100)
     private String detail;
 
-    private LocalDateTime savedAt;
-
     @Column(name = "is_favorite", nullable = false)
     @ColumnDefault("false")
     private Boolean isFavorite;

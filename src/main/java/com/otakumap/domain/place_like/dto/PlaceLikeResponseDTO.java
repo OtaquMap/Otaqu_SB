@@ -20,7 +20,6 @@ public class PlaceLikeResponseDTO {
         String detail;
         String lat;
         String lng;
-        LocalDateTime savedAt;
         Boolean isFavorite;
     }
 
