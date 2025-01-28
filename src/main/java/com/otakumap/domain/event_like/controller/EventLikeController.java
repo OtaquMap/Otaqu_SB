@@ -41,12 +41,12 @@ public class EventLikeController {
     @GetMapping( "")
     @Parameters({
             @Parameter(name = "type", description = "이벤트 타입 -> 1: 팝업 스토어, 2: 전시회, 3: 콜라보 카페"),
-            @Parameter(name = "isBookmarked", description = "북마크 여부(필수 X) -> true: 북마크 목록 조회"),
+            @Parameter(name = "isFavorite", description = "즐겨찾기 여부(필수 X) -> true: 즐겨찾기 목록 조회"),
             @Parameter(name = "lastId", description = "마지막으로 조회된 저장된 이벤트 id, 처음 가져올 때 -> 0"),
             @Parameter(name = "limit", description = "한 번에 조회할 최대 이벤트 수. 기본값은 10입니다.")
     })
-    public ApiResponse<EventLikeResponseDTO.EventLikePreViewListDTO> getEventLikeList(@CurrentUser User user, @RequestParam(required = false) Integer type, @RequestParam(required = false) Boolean isBookmarked, @RequestParam(defaultValue = "0") Long lastId, @RequestParam(defaultValue = "10") int limit) {
-        return ApiResponse.onSuccess(eventLikeQueryService.getEventLikeList(user, type, isBookmarked, lastId, limit));
+    public ApiResponse<EventLikeResponseDTO.EventLikePreViewListDTO> getEventLikeList(@CurrentUser User user, @RequestParam(required = false) Integer type, @RequestParam(required = false) Boolean isFavorite, @RequestParam(defaultValue = "0") Long lastId, @RequestParam(defaultValue = "10") int limit) {
+        return ApiResponse.onSuccess(eventLikeQueryService.getEventLikeList(user, type, isFavorite, lastId, limit));
     }
 
     @Operation(summary = "저장된 이벤트 삭제(이벤트 찜하기 취소)", description = "저장된 이벤트를 삭제합니다.")
@@ -61,7 +61,7 @@ public class EventLikeController {
 
     @Operation(summary = "저장된 이벤트 즐겨찾기/즐겨찾기 취소", description = "저장된 이벤트를 즐겨찾기 또는 취소합니다.")
     @PatchMapping("/{eventLikeId}/favorites")
-    public ApiResponse<EventLikeResponseDTO.BookmarkResultDTO> bookmarkEventLike(@PathVariable Long eventLikeId, @RequestBody @Valid EventLikeRequestDTO.FavoriteDTO request) {
-        return ApiResponse.onSuccess(EventLikeConverter.toBookmarkResultDTO(eventLikeCommandService.favoriteEventLike(eventLikeId, request)));
+    public ApiResponse<EventLikeResponseDTO.FavoriteResultDTO> favoriteEventLike(@PathVariable Long eventLikeId, @RequestBody @Valid EventLikeRequestDTO.FavoriteDTO request) {
+        return ApiResponse.onSuccess(EventLikeConverter.toFavoriteResultDTO(eventLikeCommandService.favoriteEventLike(eventLikeId, request)));
     }
 }

@@ -38,8 +38,8 @@ public class EventLikeConverter {
                 .build();
     }
 
-    public static EventLikeResponseDTO.BookmarkResultDTO toBookmarkResultDTO(EventLike eventLike) {
-        return EventLikeResponseDTO.BookmarkResultDTO.builder()
+    public static EventLikeResponseDTO.FavoriteResultDTO toFavoriteResultDTO(EventLike eventLike) {
+        return EventLikeResponseDTO.FavoriteResultDTO.builder()
                 .eventLikeId(eventLike.getId())
                 .isFavorite(eventLike.getIsFavorite())
                 .build();

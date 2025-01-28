@@ -39,7 +39,7 @@ public class EventLikeResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class BookmarkResultDTO {
+    public static class FavoriteResultDTO {
         Long eventLikeId;
         Boolean isFavorite;
     }
