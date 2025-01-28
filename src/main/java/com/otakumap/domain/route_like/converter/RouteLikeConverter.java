@@ -8,6 +8,7 @@ public class RouteLikeConverter {
 
     public static RouteLike toRouteLike(User user, Route route) {
         return RouteLike.builder()
+                .name(route.getName())
                 .user(user)
                 .route(route)
                 .isFavorite(Boolean.TRUE)
