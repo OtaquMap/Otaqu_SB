@@ -51,7 +51,7 @@ public class RouteLikeController {
             @Parameter(name = "routeId", description = "루트 Id")
     })
     public ApiResponse<String> updateRouteLikeName(@PathVariable Long routeId, @RequestBody UpdateNameRequestDTO request) {
-        routeLikeCommandService.updateName(routeId, request.getName());
+        routeLikeCommandService.updateName(routeId, request.name());
 
         return ApiResponse.onSuccess("루트 제목이 성공적으로 수정되었습니다.");
     }
