@@ -2,7 +2,6 @@ package com.otakumap.domain.route_like.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
 
 public record UpdateNameRequestDTO(
         @NotBlank(message = "제목은 빈칸이 불가합니다.")
