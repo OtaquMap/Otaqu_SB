@@ -21,6 +21,7 @@ public class AmazonS3Util {
     public String uploadFile(String keyName, MultipartFile file) {
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(file.getSize());
+        metadata.setContentType(file.getContentType());
 
         try {
             amazonS3.putObject(amazonConfig.getBucket(), keyName, file.getInputStream(), metadata);
