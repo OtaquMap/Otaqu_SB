@@ -9,10 +9,7 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -49,5 +46,19 @@ public class ReviewSearchController {
         Page<ReviewResponseDTO.SearchedReviewPreViewDTO> searchResults = reviewQueryService.searchReviewsByKeyword(keyword, page, size, sort);
 
         return ApiResponse.onSuccess(searchResults);
+    }
+
+    @GetMapping("/reviews/{reviewId}")
+    @Operation(summary = "특정 여행 후기 조회", description = "특정 여행 후기를 상세 페이지에서 조회합니다.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200", description = "OK, 성공"),
+    })
+    @Parameters({
+            @Parameter(name = "reviewId", description = "이벤트 or 명소의 후기 id 입니다."),
+            @Parameter(name = "type", description = "리뷰의 종류를 특정합니다. 'event' 또는 'place' 여야 합니다.")
+    })
+    public ApiResponse<ReviewResponseDTO.ReviewDetailDTO> getReviewDetail(@PathVariable Long reviewId, @RequestParam(defaultValue = "place") String type) {
+
+        return ApiResponse.onSuccess(reviewQueryService.getReviewDetail(reviewId, type));
     }
 }
