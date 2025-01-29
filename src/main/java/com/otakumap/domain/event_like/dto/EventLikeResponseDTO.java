@@ -34,4 +34,13 @@ public class EventLikeResponseDTO {
         boolean hasNext;
         Long lastId;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class FavoriteResultDTO {
+        Long eventLikeId;
+        Boolean isFavorite;
+    }
 }

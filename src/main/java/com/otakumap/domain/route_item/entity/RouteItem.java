@@ -1,7 +1,7 @@
 package com.otakumap.domain.route_item.entity;
 
 import com.otakumap.domain.route.entity.Route;
-import com.otakumap.domain.route.enums.ItemType;
+import com.otakumap.domain.route_item.enums.ItemType;
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
