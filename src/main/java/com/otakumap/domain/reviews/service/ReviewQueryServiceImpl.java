@@ -1,7 +1,15 @@
 package com.otakumap.domain.reviews.service;
 
+import com.otakumap.domain.event_review.entity.EventReview;
+import com.otakumap.domain.event_review.repository.EventReviewRepository;
+import com.otakumap.domain.place_review.entity.PlaceReview;
+import com.otakumap.domain.place_review.repository.PlaceReviewRepository;
+import com.otakumap.domain.reviews.converter.ReviewConverter;
 import com.otakumap.domain.reviews.dto.ReviewResponseDTO;
 import com.otakumap.domain.reviews.repository.ReviewRepositoryCustom;
+import com.otakumap.global.apiPayload.code.status.ErrorStatus;
+import com.otakumap.global.apiPayload.exception.handler.EventHandler;
+import com.otakumap.global.apiPayload.exception.handler.PlaceHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -13,10 +21,28 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReviewQueryServiceImpl implements ReviewQueryService {
 
     private final ReviewRepositoryCustom reviewRepositoryCustom;
+    private final EventReviewRepository eventReviewRepository;
+    private final PlaceReviewRepository placeReviewRepository;
 
     @Override
     public Page<ReviewResponseDTO.SearchedReviewPreViewDTO> searchReviewsByKeyword(String keyword, int page, int size, String sort) {
 
         return reviewRepositoryCustom.getReviewsByKeyword(keyword, page, size, sort);
+    }
+
+    @Override
+    public ReviewResponseDTO.ReviewDetailDTO getReviewDetail(Long reviewId, String type) {
+
+        if(type.equals("event")) {
+            EventReview eventReview = eventReviewRepository.findById(reviewId)
+                    .orElseThrow(() -> new EventHandler(ErrorStatus.EVENT_REVIEW_NOT_FOUND));
+
+            return ReviewConverter.toEventReviewDetailDTO(eventReview);
+        } else {
+            PlaceReview placeReview = placeReviewRepository.findById(reviewId)
+                    .orElseThrow(() -> new PlaceHandler(ErrorStatus.PLACE_REVIEW_NOT_FOUND));
+
+            return ReviewConverter.toPlaceReviewDetailDTO(placeReview);
+        }
     }
 }
