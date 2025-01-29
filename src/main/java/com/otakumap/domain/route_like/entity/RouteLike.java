@@ -23,9 +23,6 @@ public class RouteLike extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 50, nullable = false)
-    private String name;
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -34,12 +31,7 @@ public class RouteLike extends BaseEntity {
     @JoinColumn(name = "route_id")
     private Route route;
 
-    // 즐겨찾기 여부
     @Column(name = "is_favorite", nullable = false)
     @ColumnDefault("false")
     private Boolean isFavorite;
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
