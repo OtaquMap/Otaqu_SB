@@ -27,4 +27,5 @@ public class Route extends BaseEntity {
 
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RouteItem> routeItems;
+
 }

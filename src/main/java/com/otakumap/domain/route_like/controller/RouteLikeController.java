@@ -1,6 +1,7 @@
 package com.otakumap.domain.route_like.controller;
 
 import com.otakumap.domain.auth.jwt.annotation.CurrentUser;
+import com.otakumap.domain.route_like.dto.UpdateNameRequestDTO;
 import com.otakumap.domain.route_like.service.RouteLikeCommandService;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.apiPayload.ApiResponse;
@@ -42,6 +43,17 @@ public class RouteLikeController {
     public ApiResponse<String> deleteSavedRoute(@RequestParam(required = false) @ExistRouteLike List<Long> routeIds) {
         routeLikeCommandService.deleteRouteLike(routeIds);
         return ApiResponse.onSuccess("저장된 루트가 성공적으로 삭제되었습니다.");
+    }
+
+    @Operation(summary = "루트 제목 편집", description = "루트의 제목을 편집(수정)합니다.")
+    @PatchMapping("/routes/{routeId}/name")
+    @Parameters({
+            @Parameter(name = "routeId", description = "루트 Id")
+    })
+    public ApiResponse<String> updateRouteLikeName(@PathVariable Long routeId, @RequestBody UpdateNameRequestDTO request) {
+        routeLikeCommandService.updateName(routeId, request.name());
+
+        return ApiResponse.onSuccess("루트 제목이 성공적으로 수정되었습니다.");
     }
 
 }

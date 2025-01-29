@@ -5,6 +5,11 @@ import com.otakumap.domain.route_like.entity.RouteLike;
 import com.otakumap.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface RouteLikeRepository extends JpaRepository<RouteLike, Long> {
     boolean existsByUserAndRoute(User user, Route route);
+
+    // route_id로 RouteLike 조회
+    Optional<RouteLike> findByRouteId(Long routeId);
 }
