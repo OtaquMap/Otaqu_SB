@@ -15,6 +15,18 @@ public class EventResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class EventDTO {
+        Long id;
+        String title;
+        LocalDate startDate;
+        LocalDate endDate;
+        ImageResponseDTO.ImageDTO thumbnail;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class EventDetailDTO {
         Long id;
         String title;
