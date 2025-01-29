@@ -1,11 +1,13 @@
 package com.otakumap.domain.event_short_review.controller;
 
+import com.otakumap.domain.auth.jwt.annotation.CurrentUser;
 import com.otakumap.domain.event_short_review.converter.EventShortReviewConverter;
 import com.otakumap.domain.event_short_review.dto.EventShortReviewRequestDTO;
 import com.otakumap.domain.event_short_review.dto.EventShortReviewResponseDTO;
 import com.otakumap.domain.event_short_review.entity.EventShortReview;
 import com.otakumap.domain.event_short_review.repository.EventShortReviewRepository;
 import com.otakumap.domain.event_short_review.service.EventShortReviewCommandService;
+import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -29,8 +31,9 @@ public class EventShortReviewController {
             @Parameter(name = "eventId", description = "특정 이벤트의 Id")
     })
     public ApiResponse<EventShortReviewResponseDTO.NewEventShortReviewDTO> createEventShortReview(@PathVariable Long eventId,
+                                                                                                  @CurrentUser User user,
                                                                                                   @RequestBody EventShortReviewRequestDTO.NewEventShortReviewDTO request) {
-        EventShortReview eventShortReview = eventShortReviewCommandService.createEventShortReview(eventId, request);
+        EventShortReview eventShortReview = eventShortReviewCommandService.createEventShortReview(eventId, user, request);
         return ApiResponse.onSuccess(EventShortReviewConverter.toNewEventShortReviewDTO(eventShortReview));
     }
 
