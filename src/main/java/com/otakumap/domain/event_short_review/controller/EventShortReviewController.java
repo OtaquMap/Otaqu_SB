@@ -1,11 +1,11 @@
-package com.otakumap.domain.eventShortReview.controller;
+package com.otakumap.domain.event_short_review.controller;
 
-import com.otakumap.domain.eventShortReview.converter.EventShortReviewConverter;
-import com.otakumap.domain.eventShortReview.dto.EventShortReviewRequestDTO;
-import com.otakumap.domain.eventShortReview.dto.EventShortReviewResponseDTO;
-import com.otakumap.domain.eventShortReview.entity.EventShortReview;
-import com.otakumap.domain.eventShortReview.repository.EventShortReviewRepository;
-import com.otakumap.domain.eventShortReview.service.EventShortReviewCommandService;
+import com.otakumap.domain.event_short_review.converter.EventShortReviewConverter;
+import com.otakumap.domain.event_short_review.dto.EventShortReviewRequestDTO;
+import com.otakumap.domain.event_short_review.dto.EventShortReviewResponseDTO;
+import com.otakumap.domain.event_short_review.entity.EventShortReview;
+import com.otakumap.domain.event_short_review.repository.EventShortReviewRepository;
+import com.otakumap.domain.event_short_review.service.EventShortReviewCommandService;
 import com.otakumap.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

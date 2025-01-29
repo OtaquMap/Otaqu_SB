@@ -1,13 +1,13 @@
-package com.otakumap.domain.eventShortReview.service;
+package com.otakumap.domain.event_short_review.service;
 
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.domain.user.repository.UserRepository;
 import com.otakumap.domain.event.entity.Event;
 import com.otakumap.domain.event.repository.EventRepository;
-import com.otakumap.domain.eventShortReview.converter.EventShortReviewConverter;
-import com.otakumap.domain.eventShortReview.dto.EventShortReviewRequestDTO;
-import com.otakumap.domain.eventShortReview.entity.EventShortReview;
-import com.otakumap.domain.eventShortReview.repository.EventShortReviewRepository;
+import com.otakumap.domain.event_short_review.converter.EventShortReviewConverter;
+import com.otakumap.domain.event_short_review.dto.EventShortReviewRequestDTO;
+import com.otakumap.domain.event_short_review.entity.EventShortReview;
+import com.otakumap.domain.event_short_review.repository.EventShortReviewRepository;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.EventHandler;
 import com.otakumap.global.apiPayload.exception.handler.UserHandler;

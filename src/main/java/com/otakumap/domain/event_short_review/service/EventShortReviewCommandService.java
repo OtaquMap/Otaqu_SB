@@ -1,7 +1,7 @@
-package com.otakumap.domain.eventShortReview.service;
+package com.otakumap.domain.event_short_review.service;
 
-import com.otakumap.domain.eventShortReview.dto.EventShortReviewRequestDTO;
-import com.otakumap.domain.eventShortReview.entity.EventShortReview;
+import com.otakumap.domain.event_short_review.dto.EventShortReviewRequestDTO;
+import com.otakumap.domain.event_short_review.entity.EventShortReview;
 import org.springframework.data.domain.Page;
 
 public interface EventShortReviewCommandService {
