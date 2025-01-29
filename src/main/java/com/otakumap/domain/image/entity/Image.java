@@ -1,5 +1,7 @@
 package com.otakumap.domain.image.entity;
 
+import com.otakumap.domain.event_review.entity.EventReview;
+import com.otakumap.domain.place_review.entity.PlaceReview;
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,4 +25,12 @@ public class Image extends BaseEntity {
 
     @Column(nullable = false, length = 300)
     private String fileUrl;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "place_review_id")
+    private PlaceReview placeReview;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_review_id")
+    private EventReview eventReview;
 }
