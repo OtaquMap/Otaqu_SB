@@ -17,8 +17,8 @@ public class PlaceLikeResponseDTO {
         Long placeId;
         String name;
         String detail;
-        String lat;
-        String lng;
+        Double lat;
+        Double lng;
         Boolean isFavorite;
     }
 

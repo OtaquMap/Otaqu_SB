@@ -1,7 +1,6 @@
 package com.otakumap.domain.place.entity;
 
 import com.otakumap.domain.mapping.PlaceAnimation;
-import com.otakumap.domain.place_location.entity.PlaceLocation;
 import com.otakumap.domain.mapping.PlaceHashTag;
 import com.otakumap.domain.place_short_review.entity.PlaceShortReview;
 import com.otakumap.global.common.BaseEntity;
@@ -27,6 +26,12 @@ public class Place extends BaseEntity {
     @Column(nullable = false, length = 20)
     private String name;
 
+    @Column(nullable = false)
+    private Double lat;
+
+    @Column(nullable = false)
+    private Double lng;
+
     @Column(name = "detail", nullable = false, length = 100)
     private String detail;
 
@@ -39,10 +44,6 @@ public class Place extends BaseEntity {
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
     private List<PlaceAnimation> placeAnimationList = new ArrayList<>();
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "place_location_id", referencedColumnName = "id", nullable = false)
-    private PlaceLocation placeLocation;
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
     private List<PlaceHashTag> placeHashTagList = new ArrayList<>();

@@ -14,8 +14,8 @@ public class PlaceLikeConverter {
                 .placeId(placeLike.getPlace().getId())
                 .name(placeLike.getPlace().getName())
                 .detail(placeLike.getPlace().getDetail())
-                .lat(placeLike.getPlace().getPlaceLocation().getLatitude())
-                .lng(placeLike.getPlace().getPlaceLocation().getLongitude())
+                .lat(placeLike.getPlace().getLat())
+                .lng(placeLike.getPlace().getLng())
                 .isFavorite(placeLike.getIsFavorite())
                 .build();
 
