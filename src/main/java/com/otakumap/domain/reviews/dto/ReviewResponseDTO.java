@@ -1,6 +1,7 @@
 package com.otakumap.domain.reviews.dto;
 
 import com.otakumap.domain.image.dto.ImageResponseDTO;
+import com.otakumap.domain.route.dto.RouteResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -43,5 +44,24 @@ public class ReviewResponseDTO {
         Long view;
         LocalDateTime createdAt;
         ImageResponseDTO.ImageDTO reviewImage;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ReviewDetailDTO {
+        Long reviewId;
+        String animationName;
+        String title;
+        Long view;
+        String content;
+        List<ImageResponseDTO.ImageDTO> reviewImages;
+
+        String userName;
+        ImageResponseDTO.ImageDTO profileImage;
+        LocalDateTime createdAt;
+
+        RouteResponseDTO.RouteDTO route;
     }
 }
