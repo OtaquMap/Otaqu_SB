@@ -23,7 +23,6 @@ public class RouteLike extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
     @Column(length = 50, nullable = false)
     private String name;
 
@@ -40,4 +39,7 @@ public class RouteLike extends BaseEntity {
     @ColumnDefault("false")
     private Boolean isFavorite;
 
+    public void setName(String name) {
+        this.name = name;
+    }
 }
