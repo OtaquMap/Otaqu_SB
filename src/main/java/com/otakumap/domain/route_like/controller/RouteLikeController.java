@@ -9,6 +9,7 @@ import com.otakumap.global.validation.annotation.ExistRouteLike;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -50,7 +51,7 @@ public class RouteLikeController {
     @Parameters({
             @Parameter(name = "routeId", description = "루트 Id")
     })
-    public ApiResponse<String> updateRouteLikeName(@PathVariable Long routeId, @RequestBody UpdateNameRequestDTO request) {
+    public ApiResponse<String> updateRouteLikeName(@PathVariable Long routeId, @RequestBody @Valid UpdateNameRequestDTO request) {
         routeLikeCommandService.updateName(routeId, request.name());
 
         return ApiResponse.onSuccess("루트 제목이 성공적으로 수정되었습니다.");
