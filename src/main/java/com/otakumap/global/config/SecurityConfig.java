@@ -34,7 +34,6 @@ public class SecurityConfig {
             "/v3/api-docs/**",
             "/api/auth/**",
             "/api/users/reset-password/**",
-            "/api/images/**"
     };
 
     @Bean
