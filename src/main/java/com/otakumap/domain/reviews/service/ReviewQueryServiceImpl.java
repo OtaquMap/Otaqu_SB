@@ -27,6 +27,6 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
 
     @Override
     public List<Animation> searchAnimation(String keyword) {
-        return animationRepository.getAnimationByNameContaining(keyword);
+        return animationRepository.searchAnimationByKeyword(keyword);
     }
 }
