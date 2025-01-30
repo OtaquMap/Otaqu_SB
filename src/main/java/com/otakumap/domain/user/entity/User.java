@@ -88,7 +88,7 @@ public class User extends BaseEntity {
         else { this.isEventBenefitsNotified = isEnabled; }
     }
 
-    public void setProflieImage(Image image) {
+    public void setProfileImage(Image image) {
         this.profileImage = image;
     }
 }

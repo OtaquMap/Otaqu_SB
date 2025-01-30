@@ -2,7 +2,6 @@ package com.otakumap.domain.user.service;
 
 import com.otakumap.domain.image.entity.Image;
 import com.otakumap.domain.image.service.ImageCommandService;
-import com.otakumap.domain.user.converter.UserConverter;
 import com.otakumap.domain.user.dto.UserRequestDTO;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.domain.user.repository.UserRepository;
@@ -74,7 +73,7 @@ public class UserCommandServiceImpl implements UserCommandService {
     @Override
     public String updateProfileImage(User user, MultipartFile file) {
         Image image = imageCommandService.uploadProfileImage(file, user.getId());
-        user.setProflieImage(image);
+        user.setProfileImage(image);
         userRepository.save(user);
         return image.getFileUrl();
     }

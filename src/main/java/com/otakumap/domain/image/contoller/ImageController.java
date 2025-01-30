@@ -27,7 +27,7 @@ public class ImageController {
     public ApiResponse<String> uploadImage(@Parameter(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE), description = "폴더는 profile, review, event 중 하나를 선택해주세요.")
                                            @RequestPart("folder") @Valid ImageRequestDTO.uploadDTO folder,
                                            @RequestPart("image") MultipartFile image ) {
-        Image uploadedImage = imageCommandService.uploadaImage(image, folder.getFolder());
+        Image uploadedImage = imageCommandService.uploadImage(image, folder.getFolder());
         return ApiResponse.onSuccess("이미지가 성공적으로 업로드되었습니다. URL: " + uploadedImage.getFileUrl());
     }
 }

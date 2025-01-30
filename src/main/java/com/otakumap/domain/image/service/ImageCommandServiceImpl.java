@@ -45,7 +45,7 @@ public class ImageCommandServiceImpl implements ImageCommandService {
 
     @Override
     @Transactional
-    public Image uploadaImage(MultipartFile file, String folder) {
+    public Image uploadImage(MultipartFile file, String folder) {
         String keyName = switch (folder) {
             case "profile" -> amazonS3Util.generateProfileKeyName();
             case "review" -> amazonS3Util.generateReviewKeyName();
