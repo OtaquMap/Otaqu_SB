@@ -44,4 +44,22 @@ public class ReviewResponseDTO {
         LocalDateTime createdAt;
         ImageResponseDTO.ImageDTO reviewImage;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AnimationResultDTO {
+        Long animationId;
+        String name;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AnimationResultListDTO {
+        List<AnimationResultDTO> animations;
+        Integer listSize;
+    }
 }

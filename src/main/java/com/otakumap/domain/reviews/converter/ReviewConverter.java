@@ -1,9 +1,12 @@
 package com.otakumap.domain.reviews.converter;
 
+import com.otakumap.domain.animation.entity.Animation;
 import com.otakumap.domain.event_review.entity.EventReview;
 import com.otakumap.domain.image.converter.ImageConverter;
 import com.otakumap.domain.place_review.entity.PlaceReview;
 import com.otakumap.domain.reviews.dto.ReviewResponseDTO;
+
+import java.util.List;
 
 public class ReviewConverter {
 
@@ -39,6 +42,24 @@ public class ReviewConverter {
                 .view(placeReview.getView())
                 .createdAt(placeReview.getCreatedAt())
                 .type("place")
+                .build();
+    }
+
+    public static ReviewResponseDTO.AnimationResultDTO animationResultDTO(Animation animation) {
+        return ReviewResponseDTO.AnimationResultDTO.builder()
+                .animationId(animation.getId())
+                .name(animation.getName())
+                .build();
+    }
+
+    public static ReviewResponseDTO.AnimationResultListDTO animationResultListDTO(List<Animation> animations) {
+        List<ReviewResponseDTO.AnimationResultDTO> animationResultDTOs = animations.stream()
+                .map(ReviewConverter::animationResultDTO)
+                .toList();
+
+        return ReviewResponseDTO.AnimationResultListDTO.builder()
+                .animations(animationResultDTOs)
+                .listSize(animationResultDTOs.size())
                 .build();
     }
 }
