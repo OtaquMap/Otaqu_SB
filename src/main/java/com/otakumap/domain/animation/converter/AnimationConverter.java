@@ -23,4 +23,18 @@ public class AnimationConverter {
                 .listSize(animationResultDTOs.size())
                 .build();
     }
+
+    public static AnimationResponseDTO.AnimationCreationResponseDTO toAnimationCreationResponseDTO(Animation animation) {
+        return AnimationResponseDTO.AnimationCreationResponseDTO.builder()
+                .animationId(animation.getId())
+                .name(animation.getName())
+                .createdAt(animation.getCreatedAt())
+                .build();
+    }
+
+    public static Animation toAnimation(String name) {
+        return Animation.builder()
+                .name(name)
+                .build();
+    }
 }

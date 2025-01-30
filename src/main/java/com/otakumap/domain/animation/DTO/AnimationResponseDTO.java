@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class AnimationResponseDTO {
@@ -24,5 +25,15 @@ public class AnimationResponseDTO {
     public static class AnimationResultListDTO {
         List<AnimationResultDTO> animations;
         Integer listSize;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AnimationCreationResponseDTO {
+        Long animationId;
+        String name;
+        LocalDateTime createdAt;
     }
 }
