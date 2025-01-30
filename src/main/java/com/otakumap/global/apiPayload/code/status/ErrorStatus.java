@@ -70,7 +70,10 @@ public enum ErrorStatus implements BaseErrorCode {
     INVALID_SORT_TYPE(HttpStatus.BAD_REQUEST, "SORT4001", "유효하지 않은 정렬 기준입니다."),
 
     // 이미지 관련 에러
-    INVALID_FOLDER(HttpStatus.BAD_REQUEST, "IMAGE4001", "유효하지 않은 폴더입니다.");
+    INVALID_FOLDER(HttpStatus.BAD_REQUEST, "IMAGE4001", "유효하지 않은 폴더입니다."),
+
+    // 검색 관련 에러
+    INVALID_SEARCH_KEYWORD(HttpStatus.BAD_REQUEST, "SEARCH4001", "유효하지 않은 검색어입니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

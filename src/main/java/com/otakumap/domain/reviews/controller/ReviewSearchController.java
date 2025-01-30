@@ -62,9 +62,10 @@ public class ReviewSearchController {
     }
 
     @GetMapping("/reviews/animations/search")
-    @Operation(summary = "애니메이션 검색", description = "키워드로 애니메이션 제목을 검색해서 조회합니다.")
+    @Operation(summary = "애니메이션 검색", description = "키워드로 애니메이션 제목을 검색해서 조회합니다. 공백은 허용되지 않습니다.")
     public ApiResponse<ReviewResponseDTO.AnimationResultListDTO> searchAnimation(
-            @RequestParam @NotBlank(message = "검색어를 입력해주세요") @Pattern(regexp = "^\\S+$", message = "공백은 허용되지 않습니다") String keyword) {
+            @RequestParam @NotBlank(message = "검색어를 입력해주세요")
+            @Pattern(regexp = "^[^\\s].*$", message = "첫 글자는 공백이 될 수 없습니다") String keyword) {
         List<Animation> animationList = reviewQueryService.searchAnimation(keyword);
 
         if (animationList.isEmpty()) {
