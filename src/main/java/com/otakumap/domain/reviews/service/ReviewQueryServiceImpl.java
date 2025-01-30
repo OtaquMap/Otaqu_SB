@@ -1,6 +1,5 @@
 package com.otakumap.domain.reviews.service;
 
-import com.otakumap.domain.animation.repository.AnimationRepository;
 import com.otakumap.domain.reviews.dto.ReviewResponseDTO;
 import com.otakumap.domain.reviews.repository.ReviewRepositoryCustom;
 import lombok.RequiredArgsConstructor;

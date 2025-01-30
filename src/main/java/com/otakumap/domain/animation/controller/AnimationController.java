@@ -4,8 +4,6 @@ import com.otakumap.domain.animation.DTO.AnimationResponseDTO;
 import com.otakumap.domain.animation.converter.AnimationConverter;
 import com.otakumap.domain.animation.entity.Animation;
 import com.otakumap.domain.animation.service.AnimationQueryService;
-import com.otakumap.domain.reviews.converter.ReviewConverter;
-import com.otakumap.domain.reviews.dto.ReviewResponseDTO;
 import com.otakumap.global.apiPayload.ApiResponse;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.SearchHandler;
