@@ -1,4 +1,4 @@
-package com.otakumap.domain.eventShortReview.entity;
+package com.otakumap.domain.event_short_review.entity;
 
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.domain.event.entity.Event;

@@ -1,16 +1,15 @@
-package com.otakumap.domain.eventShortReview.service;
+package com.otakumap.domain.event_short_review.service;
 
-import com.otakumap.domain.user.entity.User;
-import com.otakumap.domain.user.repository.UserRepository;
 import com.otakumap.domain.event.entity.Event;
 import com.otakumap.domain.event.repository.EventRepository;
-import com.otakumap.domain.eventShortReview.converter.EventShortReviewConverter;
-import com.otakumap.domain.eventShortReview.dto.EventShortReviewRequestDTO;
-import com.otakumap.domain.eventShortReview.entity.EventShortReview;
-import com.otakumap.domain.eventShortReview.repository.EventShortReviewRepository;
+import com.otakumap.domain.event_short_review.converter.EventShortReviewConverter;
+import com.otakumap.domain.event_short_review.dto.EventShortReviewRequestDTO;
+import com.otakumap.domain.event_short_review.entity.EventShortReview;
+import com.otakumap.domain.event_short_review.repository.EventShortReviewRepository;
+import com.otakumap.domain.user.entity.User;
+import com.otakumap.domain.user.repository.UserRepository;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.EventHandler;
-import com.otakumap.global.apiPayload.exception.handler.UserHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,12 +26,9 @@ public class EventShortReviewCommandServiceImpl implements EventShortReviewComma
 
     @Override
     @Transactional
-    public EventShortReview createEventShortReview(Long eventId, EventShortReviewRequestDTO.NewEventShortReviewDTO request) {
+    public EventShortReview createEventShortReview(Long eventId, User user, EventShortReviewRequestDTO.NewEventShortReviewDTO request) {
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new EventHandler(ErrorStatus.EVENT_NOT_FOUND));
-
-        User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new UserHandler(ErrorStatus.USER_NOT_FOUND));
 
         EventShortReview eventShortReview = EventShortReviewConverter.toEventShortReview(request, event, user);
 

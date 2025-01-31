@@ -2,7 +2,7 @@ package com.otakumap.domain.event.converter;
 
 import com.otakumap.domain.event.dto.EventResponseDTO;
 import com.otakumap.domain.event.entity.Event;
-import com.otakumap.domain.eventLocation.converter.EventLocationConverter;
+import com.otakumap.domain.event_location.converter.EventLocationConverter;
 import com.otakumap.domain.image.converter.ImageConverter;
 
 public class EventConverter {

@@ -1,4 +1,4 @@
-package com.otakumap.domain.eventShortReview.dto;
+package com.otakumap.domain.event_short_review.dto;
 
 import com.otakumap.domain.image.dto.ImageResponseDTO;
 import lombok.AllArgsConstructor;
