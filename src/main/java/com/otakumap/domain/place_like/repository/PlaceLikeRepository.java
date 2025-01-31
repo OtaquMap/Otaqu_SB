@@ -1,5 +1,6 @@
 package com.otakumap.domain.place_like.repository;
 
+import com.otakumap.domain.place.entity.Place;
 import com.otakumap.domain.place_like.entity.PlaceLike;
 import com.otakumap.domain.user.entity.User;
 import org.springframework.data.domain.Page;
@@ -17,4 +18,6 @@ public interface PlaceLikeRepository extends JpaRepository<PlaceLike, Long> {
     Page<PlaceLike> findAllByUserIsOrderByCreatedAtDesc(User user, Pageable pageable);
 
     Page<PlaceLike> findAllByUserIsAndCreatedAtLessThanOrderByCreatedAtDesc(User user, LocalDateTime createdAt, Pageable pageable);
+
+    boolean existsByUserAndPlace(User user, Place place);
 }

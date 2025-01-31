@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/route-likes")
 @RequiredArgsConstructor
 @Validated
 public class RouteLikeController {
@@ -25,7 +25,7 @@ public class RouteLikeController {
     private final RouteLikeCommandService routeLikeCommandService;
 
     @Operation(summary = "루트 저장", description = "루트를 저장합니다.")
-    @PostMapping("/routes/{routeId}")
+    @PostMapping("/{routeId}")
     @Parameters({
             @Parameter(name = "routeId", description = "루트 Id")
     })
@@ -37,7 +37,7 @@ public class RouteLikeController {
     }
 
     @Operation(summary = "저장된 루트 삭제", description = "저장된 루트를 삭제합니다.")
-    @DeleteMapping("/routes/liked")
+    @DeleteMapping("")
     @Parameters({
             @Parameter(name = "routeIds", description = "저장된 루트 id List"),
     })
@@ -47,7 +47,7 @@ public class RouteLikeController {
     }
 
     @Operation(summary = "루트 제목 편집", description = "루트의 제목을 편집(수정)합니다.")
-    @PatchMapping("/routes/{routeId}/name")
+    @PatchMapping("/{routeId}/name")
     @Parameters({
             @Parameter(name = "routeId", description = "루트 Id")
     })
