@@ -48,7 +48,7 @@ public class ReviewConverter {
     public static ReviewResponseDTO.ReviewDetailDTO toPlaceReviewDetailDTO(PlaceReview placeReview) {
         return ReviewResponseDTO.ReviewDetailDTO.builder()
                 .reviewId(placeReview.getId())
-                .animationName(placeReview.getAnimation() != null ? placeReview.getAnimation().getName() : null)
+                .animationName(placeReview.getPlaceAnimation().getAnimation().getName() != null ? placeReview.getPlaceAnimation().getAnimation().getName() : null)
                 .title(placeReview.getTitle())
                 .view(placeReview.getView())
                 .content(placeReview.getContent())
@@ -66,7 +66,7 @@ public class ReviewConverter {
     public static ReviewResponseDTO.ReviewDetailDTO toEventReviewDetailDTO(EventReview eventReview) {
         return ReviewResponseDTO.ReviewDetailDTO.builder()
                 .reviewId(eventReview.getId())
-                .animationName(eventReview.getAnimation() != null ? eventReview.getAnimation().getName() : null)
+                .animationName(eventReview.getEventAnimation().getAnimation().getName() != null ? eventReview.getEventAnimation().getAnimation().getName() : null)
                 .title(eventReview.getTitle())
                 .view(eventReview.getView())
                 .content(eventReview.getContent())

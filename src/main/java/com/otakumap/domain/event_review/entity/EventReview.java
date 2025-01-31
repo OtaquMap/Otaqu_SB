@@ -1,8 +1,8 @@
 package com.otakumap.domain.event_review.entity;
 
-import com.otakumap.domain.animation.entity.Animation;
 import com.otakumap.domain.event.entity.Event;
 import com.otakumap.domain.image.entity.Image;
+import com.otakumap.domain.mapping.EventAnimation;
 import com.otakumap.domain.route.entity.Route;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.common.BaseEntity;
@@ -54,8 +54,8 @@ public class EventReview extends BaseEntity {
     private Event event;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "animation_id")
-    private Animation animation;
+    @JoinColumn(name = "event_animation_id")
+    private EventAnimation eventAnimation;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "route_id", referencedColumnName = "id")
