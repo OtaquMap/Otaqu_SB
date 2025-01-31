@@ -1,5 +1,7 @@
 package com.otakumap.domain.place_like.service;
 
+import com.otakumap.domain.place_like.dto.PlaceLikeRequestDTO;
+import com.otakumap.domain.place_like.entity.PlaceLike;
 import com.otakumap.domain.user.entity.User;
 import org.springframework.stereotype.Service;
 
@@ -10,4 +12,6 @@ public interface PlaceLikeCommandService {
     void deletePlaceLike(List<Long> placeIds);
 
     void savePlaceLike(User user, Long placeId);
+
+    PlaceLike favoritePlaceLike(Long placeLikeId, PlaceLikeRequestDTO.FavoriteDTO request);
 }
