@@ -1,6 +1,7 @@
 package com.otakumap.domain.event.controller;
 
 import com.otakumap.domain.event.dto.EventResponseDTO;
+import com.otakumap.domain.event.service.EventCustomService;
 import com.otakumap.domain.event.service.EventQueryService;
 import com.otakumap.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -19,6 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class EventController {
 
     private final EventQueryService eventQueryService;
+    private final EventCustomService eventCustomService;
+
+    @Operation(summary = "진행 중인 인기 이벤트 조회", description = "진행 중인 인기 이벤트의 목록(8개)를 불러옵니다.")
+    @GetMapping("/events/popular")
+    public ApiResponse<List<EventResponseDTO.EventDTO>> getEventDetail() {
+        return ApiResponse.onSuccess(eventCustomService.getPopularEvents());
+    }
 
     @Operation(summary = "이벤트 상세 정보 조회", description = "특정 이벤트의 상세 정보를 불러옵니다.")
     @GetMapping("/events/{eventId}/details")
