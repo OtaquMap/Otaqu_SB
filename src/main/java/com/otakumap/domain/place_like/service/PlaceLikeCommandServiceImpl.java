@@ -3,6 +3,7 @@ package com.otakumap.domain.place_like.service;
 import com.otakumap.domain.place.entity.Place;
 import com.otakumap.domain.place.repository.PlaceRepository;
 import com.otakumap.domain.place_like.converter.PlaceLikeConverter;
+import com.otakumap.domain.place_like.dto.PlaceLikeRequestDTO;
 import com.otakumap.domain.place_like.entity.PlaceLike;
 import com.otakumap.domain.place_like.repository.PlaceLikeRepository;
 import com.otakumap.domain.user.entity.User;
@@ -41,5 +42,12 @@ public class PlaceLikeCommandServiceImpl implements PlaceLikeCommandService {
 
         PlaceLike placeLike = PlaceLikeConverter.toPlaceLike(user, place);
         placeLikeRepository.save(placeLike);
+    }
+
+    @Override
+    public PlaceLike favoritePlaceLike(Long placeLikeId, PlaceLikeRequestDTO.FavoriteDTO request) {
+        PlaceLike placeLike = placeLikeRepository.findById(placeLikeId).orElseThrow(() -> new PlaceHandler(ErrorStatus.PLACE_LIKE_NOT_FOUND));
+        placeLike.setIsFavorite(request.getIsFavorite());
+        return placeLikeRepository.save(placeLike);
     }
 }

@@ -1,6 +1,8 @@
 package com.otakumap.domain.place_like.controller;
 
 import com.otakumap.domain.auth.jwt.annotation.CurrentUser;
+import com.otakumap.domain.place_like.converter.PlaceLikeConverter;
+import com.otakumap.domain.place_like.dto.PlaceLikeRequestDTO;
 import com.otakumap.domain.place_like.dto.PlaceLikeResponseDTO;
 import com.otakumap.domain.place_like.service.PlaceLikeCommandService;
 import com.otakumap.domain.place_like.service.PlaceLikeQueryService;
@@ -10,6 +12,7 @@ import com.otakumap.global.validation.annotation.ExistPlaceLike;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -54,5 +57,11 @@ public class PlaceLikeController {
          placeLikeCommandService.savePlaceLike(user, placeId);
 
          return ApiResponse.onSuccess("장소가 성공적으로 저장되었습니다.");
+    }
+
+    @Operation(summary = "저장된 장소 즐겨찾기/즐겨찾기 취소", description = "저장된 장소를 즐겨찾기 또는 취소합니다.")
+    @PatchMapping("/{placeLikeId}/favorites")
+    public ApiResponse<PlaceLikeResponseDTO.FavoriteResultDTO> favoritePlaceLike(@PathVariable Long placeLikeId, @RequestBody @Valid PlaceLikeRequestDTO.FavoriteDTO request) {
+        return ApiResponse.onSuccess(PlaceLikeConverter.toFavoriteResultDTO(placeLikeCommandService.favoritePlaceLike(placeLikeId, request)));
     }
 }

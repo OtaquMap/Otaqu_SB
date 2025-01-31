@@ -1,5 +1,6 @@
 package com.otakumap.domain.place_like.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,5 +31,14 @@ public class PlaceLikeResponseDTO {
         List<PlaceLikeResponseDTO.PlaceLikePreViewDTO> placeLikes;
         boolean hasNext;
         Long lastId;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class FavoriteResultDTO {
+        Long placeLikeId;
+        Boolean isFavorite;
     }
 }
