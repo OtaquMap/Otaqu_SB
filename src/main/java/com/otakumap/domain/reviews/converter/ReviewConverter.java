@@ -13,6 +13,7 @@ public class ReviewConverter {
                 .title(eventReview.getTitle())
                 .reviewImage(ImageConverter.toImageDTO(eventReview.getImage()))
                 .view(eventReview.getView())
+                .createdAt(eventReview.getCreatedAt())
                 .type("event")
                 .build();
     }
@@ -23,6 +24,7 @@ public class ReviewConverter {
                 .title(eventReview.getTitle())
                 .reviewImage(ImageConverter.toImageDTO(eventReview.getImage()))
                 .view(eventReview.getView())
+                .createdAt(eventReview.getCreatedAt())
                 .type("place")
                 .build();
     }
