@@ -6,10 +6,12 @@ import com.otakumap.domain.place_review.entity.PlaceReview;
 import com.otakumap.domain.place_review.repository.PlaceReviewRepository;
 import com.otakumap.domain.reviews.converter.ReviewConverter;
 import com.otakumap.domain.reviews.dto.ReviewResponseDTO;
+import com.otakumap.domain.reviews.enums.ReviewType;
 import com.otakumap.domain.reviews.repository.ReviewRepositoryCustom;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.EventHandler;
 import com.otakumap.global.apiPayload.exception.handler.PlaceHandler;
+import com.otakumap.global.apiPayload.exception.handler.ReviewHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -31,18 +33,20 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
     }
 
     @Override
-    public ReviewResponseDTO.ReviewDetailDTO getReviewDetail(Long reviewId, String type) {
+    public ReviewResponseDTO.ReviewDetailDTO getReviewDetail(Long reviewId, ReviewType type) {
 
-        if(type.equals("event")) {
+        if(type == ReviewType.EVENT) {
             EventReview eventReview = eventReviewRepository.findById(reviewId)
                     .orElseThrow(() -> new EventHandler(ErrorStatus.EVENT_REVIEW_NOT_FOUND));
 
             return ReviewConverter.toEventReviewDetailDTO(eventReview);
-        } else {
+        } else if (type == ReviewType.PLACE) {
             PlaceReview placeReview = placeReviewRepository.findById(reviewId)
                     .orElseThrow(() -> new PlaceHandler(ErrorStatus.PLACE_REVIEW_NOT_FOUND));
 
             return ReviewConverter.toPlaceReviewDetailDTO(placeReview);
+        } else {
+            throw new ReviewHandler(ErrorStatus.INVALID_REVIEW_TYPE);
         }
     }
 }

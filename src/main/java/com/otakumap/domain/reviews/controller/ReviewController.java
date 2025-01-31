@@ -1,19 +1,23 @@
 package com.otakumap.domain.reviews.controller;
 
 import com.otakumap.domain.reviews.dto.ReviewResponseDTO;
+import com.otakumap.domain.reviews.enums.ReviewType;
 import com.otakumap.domain.reviews.service.ReviewQueryService;
 import com.otakumap.global.apiPayload.ApiResponse;
+import com.otakumap.global.validation.annotation.ValidReviewId;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
+@Validated
 public class ReviewController {
 
     private final ReviewQueryService reviewQueryService;
@@ -55,9 +59,9 @@ public class ReviewController {
     })
     @Parameters({
             @Parameter(name = "reviewId", description = "이벤트 or 명소의 후기 id 입니다."),
-            @Parameter(name = "type", description = "리뷰의 종류를 특정합니다. 'event' 또는 'place' 여야 합니다.")
+            @Parameter(name = "type", description = "리뷰의 종류를 특정합니다. 'EVENT' 또는 'PLACE' 여야 합니다.")
     })
-    public ApiResponse<ReviewResponseDTO.ReviewDetailDTO> getReviewDetail(@PathVariable Long reviewId, @RequestParam(defaultValue = "place") String type) {
+    public ApiResponse<ReviewResponseDTO.ReviewDetailDTO> getReviewDetail(@PathVariable @ValidReviewId Long reviewId, @RequestParam(defaultValue = "PLACE") ReviewType type) {
 
         return ApiResponse.onSuccess(reviewQueryService.getReviewDetail(reviewId, type));
     }

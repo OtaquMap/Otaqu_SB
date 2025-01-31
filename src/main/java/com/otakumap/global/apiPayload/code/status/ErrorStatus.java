@@ -75,6 +75,10 @@ public enum ErrorStatus implements BaseErrorCode {
     // 정렬 관련 에러
     INVALID_SORT_TYPE(HttpStatus.BAD_REQUEST, "SORT4001", "유효하지 않은 정렬 기준입니다."),
 
+    // 여행 후기 관련 에러
+    INVALID_REVIEW_TYPE(HttpStatus.BAD_REQUEST, "REVIEW4001", "유효하지 않은 후기 타입입니다."),
+    INVALID_REVIEW_ID(HttpStatus.BAD_REQUEST, "REVIEW4002", "이벤트 후기와 장소 후기에 모두 존재하지 않는 후기 id 입니다."),
+
     // 이미지 관련 에러
     INVALID_FOLDER(HttpStatus.BAD_REQUEST, "IMAGE4001", "유효하지 않은 폴더입니다.");
 
