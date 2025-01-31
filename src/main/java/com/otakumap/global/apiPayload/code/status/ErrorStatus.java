@@ -38,10 +38,10 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // 명소 좋아요 관련 에러
     PLACE_LIKE_NOT_FOUND(HttpStatus.BAD_REQUEST, "PLACE4003", "저장되지 않은 명소입니다."),
+    PLACE_LIKE_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "PLACE4004", "이미 좋아요를 누른 명소입니다."),
 
     // 명소 후기 관련 에러
-    PLACE_REVIEW_NOT_FOUND(HttpStatus.BAD_REQUEST, "PLACE4004", "존재하지 않는 명소 후기입니다."),
-
+    PLACE_REVIEW_NOT_FOUND(HttpStatus.BAD_REQUEST, "PLACE4005", "존재하지 않는 명소 후기입니다."),
 
     // 이벤트 좋아요 관련 에러
     EVENT_LIKE_NOT_FOUND(HttpStatus.BAD_REQUEST, "EVENT4001", "저장되지 않은 이벤트입니다."),
@@ -51,7 +51,6 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // 이벤트 후기 관련 에러
     EVENT_REVIEW_NOT_FOUND(HttpStatus.BAD_REQUEST, "EVENT4003", "존재하지 않는 이벤트 후기입니다."),
-
 
     // 후기 검색 관련 에러
     REVIEW_SEARCH_NOT_FOUND(HttpStatus.NOT_FOUND, "SEARCH4001", "검색된 후기가 없습니다."),
@@ -74,7 +73,10 @@ public enum ErrorStatus implements BaseErrorCode {
     NOTIFICATION_ACCESS_DENIED(HttpStatus.UNAUTHORIZED, "NOTIFICATION4004", "알림에 접근할 수 없습니다."),
 
     // 정렬 관련 에러
-    INVALID_SORT_TYPE(HttpStatus.BAD_REQUEST, "SORT4001", "유효하지 않은 정렬 기준입니다.");
+    INVALID_SORT_TYPE(HttpStatus.BAD_REQUEST, "SORT4001", "유효하지 않은 정렬 기준입니다."),
+
+    // 이미지 관련 에러
+    INVALID_FOLDER(HttpStatus.BAD_REQUEST, "IMAGE4001", "유효하지 않은 폴더입니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

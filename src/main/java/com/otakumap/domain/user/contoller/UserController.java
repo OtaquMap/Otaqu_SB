@@ -14,10 +14,13 @@ import com.otakumap.global.validation.annotation.CheckPage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Content;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -85,5 +88,15 @@ public class UserController {
     public ApiResponse<String> deleteAllReviews(@CurrentUser User user) {
         placeReviewCommandService.deleteAllByUserId(user.getId());
         return ApiResponse.onSuccess("모든 후기가 성공적으로 삭제되었습니다.");
+    }
+
+    @PatchMapping(value = "/profile_image", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @Operation(summary = "프로필 이미지 변경", description = "프로필 이미지를 변경합니다.")
+    public ApiResponse<String> updateProfileImage(
+            @Parameter(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+            @CurrentUser User user,
+            @RequestPart("profileImage") MultipartFile profileImage) {
+        String profileImageUrl = userCommandService.updateProfileImage(user, profileImage);
+        return ApiResponse.onSuccess("프로필 이미지가 성공적으로 변경되었습니다. URL: " + profileImageUrl);
     }
 }

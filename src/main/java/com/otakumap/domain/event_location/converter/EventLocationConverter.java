@@ -1,7 +1,7 @@
-package com.otakumap.domain.eventLocation.converter;
+package com.otakumap.domain.event_location.converter;
 
-import com.otakumap.domain.eventLocation.dto.EventLocationResponseDTO;
-import com.otakumap.domain.eventLocation.entity.EventLocation;
+import com.otakumap.domain.event_location.dto.EventLocationResponseDTO;
+import com.otakumap.domain.event_location.entity.EventLocation;
 
 public class EventLocationConverter {
 
