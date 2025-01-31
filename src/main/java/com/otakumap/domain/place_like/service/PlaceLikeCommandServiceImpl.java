@@ -35,8 +35,11 @@ public class PlaceLikeCommandServiceImpl implements PlaceLikeCommandService {
         Place place = placeRepository.findById(placeId)
                 .orElseThrow(() -> new PlaceHandler(ErrorStatus.PLACE_NOT_FOUND));
 
-        PlaceLike placeLike = PlaceLikeConverter.toPlaceLike(user, place);
+        if (placeLikeRepository.existsByUserAndPlace(user, place)) {
+            throw new PlaceHandler(ErrorStatus.PLACE_LIKE_ALREADY_EXISTS);
+        }
 
+        PlaceLike placeLike = PlaceLikeConverter.toPlaceLike(user, place);
         placeLikeRepository.save(placeLike);
     }
 }
