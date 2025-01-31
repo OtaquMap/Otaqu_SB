@@ -33,7 +33,7 @@ public class PlaceLikeConverter {
         return PlaceLike.builder()
                 .user(user)
                 .place(place)
-                .isFavorite(Boolean.FALSE)
+                .isFavorite(false)
                 .build();
     }
 
