@@ -3,6 +3,7 @@ package com.otakumap.domain.route_like.service;
 import com.otakumap.domain.route.entity.Route;
 import com.otakumap.domain.route.repository.RouteRepository;
 import com.otakumap.domain.route_like.converter.RouteLikeConverter;
+import com.otakumap.domain.route_like.dto.RouteLikeRequestDTO;
 import com.otakumap.domain.route_like.entity.RouteLike;
 import com.otakumap.domain.route_like.repository.RouteLikeRepository;
 import com.otakumap.domain.user.entity.User;
@@ -57,4 +58,12 @@ public class RouteLikeCommandServiceImpl implements RouteLikeCommandService {
         // 변경된 엔티티 저장
         routeLikeRepository.save(routeLike);
     }
+
+    @Override
+    public RouteLike favoriteRouteLike(Long routeLikeId, RouteLikeRequestDTO.FavoriteDTO request) {
+        RouteLike routeLike = routeLikeRepository.findById(routeLikeId).orElseThrow(() -> new RouteHandler(ErrorStatus.ROUTE_LIKE_NOT_FOUND));
+        routeLike.setIsFavorite(request.getIsFavorite());
+        return routeLikeRepository.save(routeLike);
+    }
+
 }
