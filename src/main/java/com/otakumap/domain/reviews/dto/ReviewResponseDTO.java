@@ -46,4 +46,14 @@ public class ReviewResponseDTO {
         LocalDateTime createdAt;
         ImageResponseDTO.ImageDTO reviewImage;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class createdReviewDTO {
+        Long reviewId;
+        String title;
+        LocalDateTime createdAt;
+    }
 }
