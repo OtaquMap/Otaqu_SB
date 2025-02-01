@@ -12,10 +12,10 @@ public class EventReviewConverter {
 
     public static EventReviewResponseDTO.EventReviewPreViewDTO eventReviewPreViewDTO(EventReview eventReview) {
         ImageResponseDTO.ImageDTO image = ImageResponseDTO.ImageDTO.builder()
-                .id(eventReview.getImage().getId())
-                .uuid(eventReview.getImage().getUuid())
-                .fileUrl(eventReview.getImage().getFileUrl())
-                .fileName(eventReview.getImage().getFileName())
+                .id(eventReview.getImages().get(0).getId())
+                .uuid(eventReview.getImages().get(0).getUuid())
+                .fileUrl(eventReview.getImages().get(0).getFileUrl())
+                .fileName(eventReview.getImages().get(0).getFileName())
                 .build();
 
         return EventReviewResponseDTO.EventReviewPreViewDTO.builder()

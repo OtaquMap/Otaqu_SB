@@ -8,7 +8,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +35,6 @@ public class Place extends BaseEntity {
     @Column(name = "detail", nullable = false, length = 100)
     private String detail;
 
-    private LocalDateTime savedAt;
-
     @Column(name = "is_favorite", nullable = false)
     @ColumnDefault("false")
     private Boolean isFavorite;
@@ -50,4 +47,5 @@ public class Place extends BaseEntity {
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
     private List<PlaceHashTag> placeHashTagList = new ArrayList<>();
+
 }

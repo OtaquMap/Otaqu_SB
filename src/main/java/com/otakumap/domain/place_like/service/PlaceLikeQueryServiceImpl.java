@@ -1,6 +1,5 @@
 package com.otakumap.domain.place_like.service;
 
-import com.otakumap.domain.event_like.entity.EventLike;
 import com.otakumap.domain.place_like.converter.PlaceLikeConverter;
 import com.otakumap.domain.place_like.dto.PlaceLikeResponseDTO;
 import com.otakumap.domain.place_like.entity.PlaceLike;
@@ -9,7 +8,6 @@ import com.otakumap.domain.user.entity.User;
 import com.otakumap.domain.user.repository.UserRepository;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.EventHandler;
-import com.otakumap.global.apiPayload.exception.handler.UserHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,14 +26,12 @@ public class PlaceLikeQueryServiceImpl implements PlaceLikeQueryService {
     private final UserRepository userRepository;
 
     @Override
-    public PlaceLikeResponseDTO.PlaceLikePreViewListDTO getPlaceLikeList(Long userId, Long lastId, int limit) {
+    public PlaceLikeResponseDTO.PlaceLikePreViewListDTO getPlaceLikeList(User user, Long lastId, int limit) {
 
         List<PlaceLike> result;
         Pageable pageable = PageRequest.of(0, limit+1);
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
 
-        Page<PlaceLike> placeLikePage = placeLikeRepository.findByUserIdAndIdLessThanOrderByIdDesc(userId, lastId, pageable);
+        Page<PlaceLike> placeLikePage = placeLikeRepository.findByUserIdAndIdLessThanOrderByIdDesc(user.getId(), lastId, pageable);
 
         if (lastId.equals(0L)) {
             // lastId가 0일 경우: 처음부터 데이터를 조회

@@ -1,11 +1,11 @@
 package com.otakumap.domain.place_like.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class PlaceLikeResponseDTO {
@@ -17,8 +17,10 @@ public class PlaceLikeResponseDTO {
         Long id;
         Long placeId;
         String name;
-        Boolean isFavorite;
         String detail;
+        Double lat;
+        Double lng;
+        Boolean isFavorite;
     }
 
     @Builder
@@ -29,5 +31,14 @@ public class PlaceLikeResponseDTO {
         List<PlaceLikeResponseDTO.PlaceLikePreViewDTO> placeLikes;
         boolean hasNext;
         Long lastId;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class FavoriteResultDTO {
+        Long placeLikeId;
+        Boolean isFavorite;
     }
 }

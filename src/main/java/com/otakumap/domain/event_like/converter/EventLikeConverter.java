@@ -30,11 +30,18 @@ public class EventLikeConverter {
                 .build();
     }
 
-    public static EventLike eventLike(User user, Event event) {
+    public static EventLike toEventLike(User user, Event event) {
         return EventLike.builder()
                 .event(event)
                 .user(user)
-                .isFavorite(true)
+                .isFavorite(false)
+                .build();
+    }
+
+    public static EventLikeResponseDTO.FavoriteResultDTO toFavoriteResultDTO(EventLike eventLike) {
+        return EventLikeResponseDTO.FavoriteResultDTO.builder()
+                .eventLikeId(eventLike.getId())
+                .isFavorite(eventLike.getIsFavorite())
                 .build();
     }
 }

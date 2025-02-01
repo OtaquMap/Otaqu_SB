@@ -13,8 +13,10 @@ public class PlaceLikeConverter {
                 .id(placeLike.getId())
                 .placeId(placeLike.getPlace().getId())
                 .name(placeLike.getPlace().getName())
-                .isFavorite(placeLike.getIsFavorite())
                 .detail(placeLike.getPlace().getDetail())
+                .lat(placeLike.getPlace().getLat())
+                .lng(placeLike.getPlace().getLng())
+                .isFavorite(placeLike.getIsFavorite())
                 .build();
 
     }
@@ -31,7 +33,14 @@ public class PlaceLikeConverter {
         return PlaceLike.builder()
                 .user(user)
                 .place(place)
-                .isFavorite(Boolean.TRUE)
+                .isFavorite(false)
+                .build();
+    }
+
+    public static PlaceLikeResponseDTO.FavoriteResultDTO toFavoriteResultDTO(PlaceLike placeLike) {
+        return PlaceLikeResponseDTO.FavoriteResultDTO.builder()
+                .placeLikeId(placeLike.getId())
+                .isFavorite(placeLike.getIsFavorite())
                 .build();
     }
 }
