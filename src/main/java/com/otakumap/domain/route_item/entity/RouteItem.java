@@ -25,7 +25,7 @@ public class RouteItem extends BaseEntity {
     private ItemType itemType;
 
     @Column(nullable = false)
-    private Long itemId;
+    private Long itemId; // EventReview 또는 PlaceReview의 id
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "route_id")

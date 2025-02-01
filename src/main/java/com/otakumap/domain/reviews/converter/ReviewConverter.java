@@ -5,6 +5,7 @@ import com.otakumap.domain.image.converter.ImageConverter;
 import com.otakumap.domain.place_review.entity.PlaceReview;
 import com.otakumap.domain.reviews.dto.ReviewResponseDTO;
 import com.otakumap.domain.route.converter.RouteConverter;
+import com.otakumap.domain.route.entity.Route;
 
 import java.util.Objects;
 
@@ -45,7 +46,7 @@ public class ReviewConverter {
                 .build();
     }
 
-    public static ReviewResponseDTO.ReviewDetailDTO toPlaceReviewDetailDTO(PlaceReview placeReview) {
+    public static ReviewResponseDTO.ReviewDetailDTO toPlaceReviewDetailDTO(PlaceReview placeReview, Route route) {
         return ReviewResponseDTO.ReviewDetailDTO.builder()
                 .reviewId(placeReview.getId())
                 .animationName(placeReview.getPlaceAnimation().getAnimation().getName() != null ? placeReview.getPlaceAnimation().getAnimation().getName() : null)
@@ -59,11 +60,11 @@ public class ReviewConverter {
                 .userName(placeReview.getUser().getName())
                 .profileImage(ImageConverter.toImageDTO(placeReview.getUser().getProfileImage()))
                 .createdAt(placeReview.getCreatedAt())
-                .route(RouteConverter.toRouteDTO(placeReview.getRoute()))
+                .route(RouteConverter.toRouteDTO(route))
                 .build();
     }
 
-    public static ReviewResponseDTO.ReviewDetailDTO toEventReviewDetailDTO(EventReview eventReview) {
+    public static ReviewResponseDTO.ReviewDetailDTO toEventReviewDetailDTO(EventReview eventReview, Route route) {
         return ReviewResponseDTO.ReviewDetailDTO.builder()
                 .reviewId(eventReview.getId())
                 .animationName(eventReview.getEventAnimation().getAnimation().getName() != null ? eventReview.getEventAnimation().getAnimation().getName() : null)
@@ -77,7 +78,7 @@ public class ReviewConverter {
                 .userName(eventReview.getUser().getName())
                 .profileImage(ImageConverter.toImageDTO(eventReview.getUser().getProfileImage()))
                 .createdAt(eventReview.getCreatedAt())
-                .route(RouteConverter.toRouteDTO(eventReview.getRoute()))
+                .route(RouteConverter.toRouteDTO(route))
                 .build();
     }
 }
