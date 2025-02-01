@@ -1,12 +1,12 @@
 package com.otakumap.domain.reviews.controller;
 
-import com.otakumap.domain.auth.jwt.annotation.CurrentUser;
-import com.otakumap.domain.reviews.dto.ReviewRequestDTO;
 import com.otakumap.domain.reviews.dto.ReviewResponseDTO;
+import com.otakumap.domain.reviews.enums.ReviewType;
 import com.otakumap.domain.reviews.service.ReviewCommandService;
 import com.otakumap.domain.reviews.service.ReviewQueryService;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.apiPayload.ApiResponse;
+import com.otakumap.global.validation.annotation.ValidReviewId;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -15,6 +15,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,10 +24,10 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
-public class ReviewSearchController {
+@Validated
+public class ReviewController {
 
     private final ReviewQueryService reviewQueryService;
-    private final ReviewCommandService reviewCommandService;
 
     @GetMapping("/reviews/top7")
     @Operation(summary = "조회수 Top7 여행 후기 목록 조회", description = "조회수 Top7 여행 후기 목록을 조회합니다.")
@@ -56,6 +58,20 @@ public class ReviewSearchController {
         Page<ReviewResponseDTO.SearchedReviewPreViewDTO> searchResults = reviewQueryService.searchReviewsByKeyword(keyword, page, size, sort);
 
         return ApiResponse.onSuccess(searchResults);
+    }
+
+    @GetMapping("/reviews/{reviewId}")
+    @Operation(summary = "특정 여행 후기 조회", description = "특정 여행 후기를 상세 페이지에서 조회합니다.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200", description = "OK, 성공"),
+    })
+    @Parameters({
+            @Parameter(name = "reviewId", description = "이벤트 or 명소의 후기 id 입니다."),
+            @Parameter(name = "type", description = "리뷰의 종류를 특정합니다. 'EVENT' 또는 'PLACE' 여야 합니다.")
+    })
+    public ApiResponse<ReviewResponseDTO.ReviewDetailDTO> getReviewDetail(@PathVariable @ValidReviewId Long reviewId, @RequestParam(defaultValue = "PLACE") ReviewType type) {
+
+        return ApiResponse.onSuccess(reviewQueryService.getReviewDetail(reviewId, type));
     }
 
     @PostMapping(name = "/reviews", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})

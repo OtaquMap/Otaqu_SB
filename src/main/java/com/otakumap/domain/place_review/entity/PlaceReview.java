@@ -10,6 +10,7 @@ import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -33,9 +34,12 @@ public class PlaceReview extends BaseEntity {
     @Column(columnDefinition = "bigint default 0 not null")
     private Long view;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "place_review_id")
-    private List<Image> images;
+//    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "image_id", referencedColumnName = "id")
+//    private Image image;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "placeReview")
+    private List<Image> images = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -47,5 +51,5 @@ public class PlaceReview extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_animation_id")
-    private PlaceAnimation placeAnimation; // 리뷰와 PlaceAnimation 연결
+    private PlaceAnimation placeAnimation;
 }

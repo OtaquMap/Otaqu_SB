@@ -2,6 +2,7 @@ package com.otakumap.domain.event_review.entity;
 
 import com.otakumap.domain.event.entity.Event;
 import com.otakumap.domain.image.entity.Image;
+import com.otakumap.domain.mapping.EventAnimation;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
@@ -9,6 +10,7 @@ import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -35,9 +37,12 @@ public class EventReview extends BaseEntity {
     @Column(nullable = false)
     private Float rating;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "event_review_id")
-    private List<Image> images;
+//    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "image_id", referencedColumnName = "id")
+//    private Image image;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "eventReview")
+    private List<Image> images = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -46,4 +51,8 @@ public class EventReview extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id")
     private Event event;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_animation_id")
+    private EventAnimation eventAnimation;
 }

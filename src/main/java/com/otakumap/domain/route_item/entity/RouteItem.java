@@ -17,6 +17,9 @@ public class RouteItem extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 50, nullable = false)
+    private String name;
+
     @Column(nullable = false)
     private Integer itemOrder;
 
@@ -25,7 +28,7 @@ public class RouteItem extends BaseEntity {
     private ItemType itemType;
 
     @Column(nullable = false)
-    private Long itemId;
+    private Long itemId; // EventReview 또는 PlaceReview의 id
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "route_id")
