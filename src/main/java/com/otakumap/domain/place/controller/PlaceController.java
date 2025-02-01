@@ -8,6 +8,7 @@ import com.otakumap.global.apiPayload.ApiResponse;
 import com.otakumap.global.validation.annotation.ExistPlace;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/places")
 @RequiredArgsConstructor
+@Validated
 public class PlaceController {
     private final PlaceQueryService placeQueryService;
 
