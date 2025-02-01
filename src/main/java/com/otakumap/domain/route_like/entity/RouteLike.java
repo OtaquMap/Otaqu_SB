@@ -42,4 +42,8 @@ public class RouteLike extends BaseEntity {
     public void setName(String name) {
         this.name = name;
     }
+
+    public void setIsFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
+    }
 }

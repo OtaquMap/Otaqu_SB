@@ -1,4 +1,4 @@
-package com.otakumap.domain.eventLocation.entity;
+package com.otakumap.domain.event_location.entity;
 
 import com.otakumap.domain.event.entity.Event;
 import com.otakumap.global.common.BaseEntity;

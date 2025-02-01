@@ -1,6 +1,7 @@
 package com.otakumap.domain.route_like.converter;
 
 import com.otakumap.domain.route.entity.Route;
+import com.otakumap.domain.route_like.dto.RouteLikeResponseDTO;
 import com.otakumap.domain.route_like.entity.RouteLike;
 import com.otakumap.domain.user.entity.User;
 
@@ -12,6 +13,13 @@ public class RouteLikeConverter {
                 .user(user)
                 .route(route)
                 .isFavorite(Boolean.FALSE)
+                .build();
+    }
+
+    public static RouteLikeResponseDTO.FavoriteResultDTO toFavoriteResultDTO(RouteLike routeLike) {
+        return RouteLikeResponseDTO.FavoriteResultDTO.builder()
+                .routeLikeId(routeLike.getId())
+                .isFavorite(routeLike.getIsFavorite())
                 .build();
     }
 }

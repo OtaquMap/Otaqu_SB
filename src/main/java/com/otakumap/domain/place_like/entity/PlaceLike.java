@@ -35,4 +35,7 @@ public class PlaceLike extends BaseEntity {
     @ColumnDefault("false")
     private Boolean isFavorite;
 
+    public void setIsFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
+    }
 }

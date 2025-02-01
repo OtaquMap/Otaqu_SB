@@ -7,12 +7,29 @@ import com.otakumap.domain.reviews.dto.ReviewResponseDTO;
 
 public class ReviewConverter {
 
-    public static ReviewResponseDTO.Top7ReviewPreViewDTO toTop7ReviewPreViewDTO(EventReview eventReview) {
+    public static ReviewResponseDTO.Top7ReviewPreViewDTO toTop7EventReviewPreViewDTO(EventReview eventReview) {
         return ReviewResponseDTO.Top7ReviewPreViewDTO.builder()
                 .id(eventReview.getId())
                 .title(eventReview.getTitle())
-                .reviewImage(ImageConverter.toImageDTO(eventReview.getImage()))
+                .reviewImage(eventReview.getImage() != null ?
+                        ImageConverter.toImageDTO(eventReview.getImage()) :
+                        null)
                 .view(eventReview.getView())
+                .createdAt(eventReview.getCreatedAt())
+                .type("event")
+                .build();
+    }
+
+    public static ReviewResponseDTO.Top7ReviewPreViewDTO toTop7PlaceReviewPreViewDTO(PlaceReview eventReview) {
+        return ReviewResponseDTO.Top7ReviewPreViewDTO.builder()
+                .id(eventReview.getId())
+                .title(eventReview.getTitle())
+                .reviewImage(eventReview.getImage() != null ?
+                        ImageConverter.toImageDTO(eventReview.getImage()) :
+                        null)
+                .view(eventReview.getView())
+                .createdAt(eventReview.getCreatedAt())
+                .type("place")
                 .build();
     }
 

@@ -33,7 +33,14 @@ public class PlaceLikeConverter {
         return PlaceLike.builder()
                 .user(user)
                 .place(place)
-                .isFavorite(Boolean.TRUE)
+                .isFavorite(false)
+                .build();
+    }
+
+    public static PlaceLikeResponseDTO.FavoriteResultDTO toFavoriteResultDTO(PlaceLike placeLike) {
+        return PlaceLikeResponseDTO.FavoriteResultDTO.builder()
+                .placeLikeId(placeLike.getId())
+                .isFavorite(placeLike.getIsFavorite())
                 .build();
     }
 }
