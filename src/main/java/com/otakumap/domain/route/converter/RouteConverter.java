@@ -8,10 +8,6 @@ public class RouteConverter {
 
     public static RouteResponseDTO.RouteDTO toRouteDTO(Route route) {
 
-        if(route == null) {
-            return new RouteResponseDTO.RouteDTO();
-        }
-
         return RouteResponseDTO.RouteDTO.builder()
                 .routeId(route.getId())
                 .routeItems(route.getRouteItems().stream()
