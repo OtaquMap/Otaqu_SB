@@ -8,4 +8,7 @@ public interface ReviewQueryService {
     Page<ReviewResponseDTO.SearchedReviewPreViewDTO> searchReviewsByKeyword(String keyword, int page, int size, String sort);
 
     ReviewResponseDTO.ReviewDetailDTO getReviewDetail(Long reviewId, ReviewType type);
+
+    ReviewResponseDTO.Top7ReviewPreViewListDTO getTop7Reviews();
+
 }

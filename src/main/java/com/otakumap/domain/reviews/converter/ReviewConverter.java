@@ -11,12 +11,29 @@ import java.util.Objects;
 
 public class ReviewConverter {
 
-    public static ReviewResponseDTO.Top7ReviewPreViewDTO toTop7ReviewPreViewDTO(EventReview eventReview) {
+    public static ReviewResponseDTO.Top7ReviewPreViewDTO toTop7EventReviewPreViewDTO(EventReview eventReview) {
         return ReviewResponseDTO.Top7ReviewPreViewDTO.builder()
                 .id(eventReview.getId())
                 .title(eventReview.getTitle())
-                .reviewImage(ImageConverter.toImageDTO(eventReview.getImages().get(0))) // 나중에 수정
+                .reviewImage(eventReview.getImages() != null ?
+                        ImageConverter.toImageDTO(eventReview.getImages().get(0)) :
+                        null) // 나중에 수정
                 .view(eventReview.getView())
+                .createdAt(eventReview.getCreatedAt())
+                .type("event")
+                .build();
+    }
+
+    public static ReviewResponseDTO.Top7ReviewPreViewDTO toTop7PlaceReviewPreViewDTO(PlaceReview eventReview) {
+        return ReviewResponseDTO.Top7ReviewPreViewDTO.builder()
+                .id(eventReview.getId())
+                .title(eventReview.getTitle())
+                .reviewImage(eventReview.getImages() != null ?
+                        ImageConverter.toImageDTO(eventReview.getImages().get(0)) :
+                        null) // 나중에 수정
+                .view(eventReview.getView())
+                .createdAt(eventReview.getCreatedAt())
+                .type("place")
                 .build();
     }
 

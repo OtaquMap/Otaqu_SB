@@ -29,6 +29,8 @@ public class ReviewResponseDTO {
         String title;
         ImageResponseDTO.ImageDTO reviewImage;
         Long view;
+        String type;
+        LocalDateTime createdAt;
     }
 
     @Builder

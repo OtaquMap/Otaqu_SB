@@ -41,6 +41,11 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
     }
 
     @Override
+    public ReviewResponseDTO.Top7ReviewPreViewListDTO getTop7Reviews() {
+        return reviewRepositoryCustom.getTop7Reviews();
+    }
+
+    @Override
     public ReviewResponseDTO.ReviewDetailDTO getReviewDetail(Long reviewId, ReviewType type) {
 
         if(type == ReviewType.EVENT) {
@@ -72,7 +77,7 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
             routeItems = routeItemRepository.findByItemIdAndItemType(reviewId, ItemType.PLACE);
         }
 
-        if(routeItems.isEmpty()) {
+        if (routeItems.isEmpty()) {
             throw new RouteItemHandler(ErrorStatus.ROUTE_ITEM_NOT_FOUND);
         }
 

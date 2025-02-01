@@ -28,7 +28,8 @@ public class ReviewController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200", description = "OK, 성공"),
     })
     public ApiResponse<ReviewResponseDTO.Top7ReviewPreViewListDTO> getTop7ReviewList() {
-        return null;
+        ReviewResponseDTO.Top7ReviewPreViewListDTO top7Reviews = reviewQueryService.getTop7Reviews();
+        return ApiResponse.onSuccess(top7Reviews);
     }
 
     @GetMapping("/reviews/search")
