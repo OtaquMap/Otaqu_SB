@@ -10,8 +10,8 @@ public class EventLocationConverter {
         return EventLocationResponseDTO.EventLocationDTO.builder()
                 .id(eventLocation.getId())
                 .name(eventLocation.getName())
-                .latitude(eventLocation.getLatitude())
-                .longitude(eventLocation.getLongitude())
+                .latitude(eventLocation.getLat())
+                .longitude(eventLocation.getLng())
                 .build();
     }
 }
