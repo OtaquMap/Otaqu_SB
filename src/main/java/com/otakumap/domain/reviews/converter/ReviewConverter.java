@@ -43,7 +43,7 @@ public class ReviewConverter {
                 .id(eventReview.getEvent().getId())
                 .title(eventReview.getTitle())
                 .content(eventReview.getContent())
-                .reviewImage(ImageConverter.toImageDTO(!eventReview.getImages().isEmpty() ? eventReview.getImages().get(0) : null)) // 나중에 수정
+                .reviewImage(ImageConverter.toImageDTO(!eventReview.getImages().isEmpty() ? eventReview.getImages().get(0) : null))
                 .view(eventReview.getView())
                 .createdAt(eventReview.getCreatedAt())
                 .type("event")
@@ -56,7 +56,7 @@ public class ReviewConverter {
                 .id(placeReview.getPlace().getId())
                 .title(placeReview.getTitle())
                 .content(placeReview.getContent())
-                .reviewImage(ImageConverter.toImageDTO(!placeReview.getImages().isEmpty() ? placeReview.getImages().get(0) : null)) // 나중에 수정
+                .reviewImage(ImageConverter.toImageDTO(!placeReview.getImages().isEmpty() ? placeReview.getImages().get(0) : null))
                 .view(placeReview.getView())
                 .createdAt(placeReview.getCreatedAt())
                 .type("place")
