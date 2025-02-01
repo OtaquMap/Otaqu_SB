@@ -14,6 +14,7 @@ public class RouteItemResponseDTO {
     @AllArgsConstructor
     public static class RouteItemDTO {
         Long routeItemId;
+        String name;
         Long itemId;
         ItemType itemType;
         Integer itemOrder;

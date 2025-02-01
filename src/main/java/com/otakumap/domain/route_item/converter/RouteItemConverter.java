@@ -8,6 +8,7 @@ public class RouteItemConverter {
     public static RouteItemResponseDTO.RouteItemDTO toRouteItemDTO(RouteItem routeItem) {
         return RouteItemResponseDTO.RouteItemDTO.builder()
                 .routeItemId(routeItem.getId())
+                .name(routeItem.getName())
                 .itemId(routeItem.getItemId())
                 .itemType(routeItem.getItemType())
                 .itemOrder(routeItem.getItemOrder())
