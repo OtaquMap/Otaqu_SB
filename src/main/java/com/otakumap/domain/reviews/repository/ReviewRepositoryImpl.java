@@ -134,11 +134,10 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                 eventReviews.stream()
                         .map(ReviewConverter::toTop7EventReviewPreViewDTO)
         )
-                .sorted(Comparator.comparing(ReviewResponseDTO.Top7ReviewPreViewDTO::getView)
-                        .thenComparing(ReviewResponseDTO.Top7ReviewPreViewDTO::getCreatedAt).reversed())
+                .sorted(Comparator.comparing(ReviewResponseDTO.Top7ReviewPreViewDTO::getView, Comparator.reverseOrder())
+                        .thenComparing(ReviewResponseDTO.Top7ReviewPreViewDTO::getCreatedAt, Comparator.reverseOrder()))
                 .limit(7)
                 .collect(Collectors.toList());
-
 
         return ReviewResponseDTO.Top7ReviewPreViewListDTO.builder()
                 .reviews(top7Reviews)
