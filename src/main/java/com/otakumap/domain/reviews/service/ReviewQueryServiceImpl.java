@@ -19,4 +19,9 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
 
         return reviewRepositoryCustom.getReviewsByKeyword(keyword, page, size, sort);
     }
+
+    @Override
+    public ReviewResponseDTO.Top7ReviewPreViewListDTO getTop7Reviews() {
+        return reviewRepositoryCustom.getTop7Reviews();
+    }
 }
