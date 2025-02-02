@@ -56,7 +56,8 @@ public class PlaceReviewResponseDTO {
         private String placeName;
         private Float avgRating;
         private long totalReviews;
-        private List<HashTagResponseDTO.HashTagDTO> hashTags;
+        // place_hashtag -> place_animation_hashtag 변경에 따라 일단 주석 처리
+        //private List<HashTagResponseDTO.HashTagDTO> hashTags;
         private List<AnimationReviewGroupDTO> animationGroups;
     }
 
