@@ -1,5 +1,6 @@
 package com.otakumap.domain.place_like.dto;
 
+import com.otakumap.global.validation.annotation.ExistAnimation;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
@@ -12,7 +13,7 @@ public class PlaceLikeRequestDTO {
 
     @Getter
     public static class SavePlaceLikeDTO {
-        @NotNull(message = "애니메이션 ID 입력은 필수입니다.")
+        @ExistAnimation
         Long animationId;
     }
 }

@@ -55,7 +55,7 @@ public class PlaceLikeController {
     @Parameters({
             @Parameter(name = "placeId", description = "장소 Id")
     })
-    public ApiResponse<String> savePlaceLike(@ExistPlace @PathVariable Long placeId, @CurrentUser User user, @RequestBody @Valid PlaceLikeRequestDTO.SavePlaceLikeDTO request) {
+    public ApiResponse<String> savePlaceLike(@ExistPlace @PathVariable Long placeId, @CurrentUser User user, @RequestBody @Validated PlaceLikeRequestDTO.SavePlaceLikeDTO request) {
          placeLikeCommandService.savePlaceLike(user, placeId, request);
          return ApiResponse.onSuccess("장소가 성공적으로 저장되었습니다.");
     }
