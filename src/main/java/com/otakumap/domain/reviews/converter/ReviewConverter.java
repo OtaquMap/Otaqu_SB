@@ -63,7 +63,7 @@ public class ReviewConverter {
                 .build();
     }
 
-    public static ReviewResponseDTO.ReviewDetailDTO toPlaceReviewDetailDTO(PlaceReview placeReview, Route route) {
+    public static ReviewResponseDTO.ReviewDetailDTO toPlaceReviewDetailDTO(PlaceReview placeReview) {
         return ReviewResponseDTO.ReviewDetailDTO.builder()
                 .reviewId(placeReview.getId())
                 .animationName(placeReview.getPlaceAnimation().getAnimation().getName() != null ? placeReview.getPlaceAnimation().getAnimation().getName() : null)
@@ -77,11 +77,11 @@ public class ReviewConverter {
                 .userName(placeReview.getUser().getName())
                 .profileImage(ImageConverter.toImageDTO(placeReview.getUser().getProfileImage()))
                 .createdAt(placeReview.getCreatedAt())
-                .route(RouteConverter.toRouteDTO(route))
+                .route(RouteConverter.toRouteDTO(placeReview.getRoute()))
                 .build();
     }
 
-    public static ReviewResponseDTO.ReviewDetailDTO toEventReviewDetailDTO(EventReview eventReview, Route route) {
+    public static ReviewResponseDTO.ReviewDetailDTO toEventReviewDetailDTO(EventReview eventReview) {
         return ReviewResponseDTO.ReviewDetailDTO.builder()
                 .reviewId(eventReview.getId())
                 .animationName(eventReview.getEventAnimation().getAnimation().getName() != null ? eventReview.getEventAnimation().getAnimation().getName() : null)
@@ -95,7 +95,7 @@ public class ReviewConverter {
                 .userName(eventReview.getUser().getName())
                 .profileImage(ImageConverter.toImageDTO(eventReview.getUser().getProfileImage()))
                 .createdAt(eventReview.getCreatedAt())
-                .route(RouteConverter.toRouteDTO(route))
+                .route(RouteConverter.toRouteDTO(eventReview.getRoute()))
                 .build();
     }
 }
