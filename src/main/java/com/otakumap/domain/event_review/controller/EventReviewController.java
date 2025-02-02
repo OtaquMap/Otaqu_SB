@@ -27,7 +27,8 @@ public class EventReviewController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200", description = "OK, 성공"),
     })
     @Parameters({
-            @Parameter(name = "eventId", description = "이벤트의 아이디입니다.")
+            @Parameter(name = "eventId", description = "이벤트의 아이디입니다."),
+            @Parameter(name = "page", description = "페이지 번호입니다. 0부터 시작합니다.", example = "0")
     })
     public ApiResponse<EventReviewResponseDTO.EventReviewPreViewListDTO> getEventReviewList(@PathVariable(name = "eventId") Long eventId, @RequestParam(name = "page") Integer page) {
         return ApiResponse.onSuccess(EventReviewConverter.eventReviewPreViewListDTO(eventReviewCommandServivce.getEventReviews(eventId, page)));
