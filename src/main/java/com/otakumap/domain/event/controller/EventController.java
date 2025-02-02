@@ -4,7 +4,6 @@ import com.otakumap.domain.event.dto.EventResponseDTO;
 import com.otakumap.domain.event.service.EventCustomService;
 import com.otakumap.domain.event.service.EventQueryService;
 import com.otakumap.domain.image.dto.ImageResponseDTO;
-import com.otakumap.domain.image.entity.Image;
 import com.otakumap.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
