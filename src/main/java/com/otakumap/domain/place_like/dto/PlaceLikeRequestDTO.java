@@ -9,4 +9,10 @@ public class PlaceLikeRequestDTO {
         @NotNull(message = "즐겨찾기 여부 입력은 필수입니다.")
         Boolean isFavorite;
     }
+
+    @Getter
+    public static class SavePlaceLikeDTO {
+        @NotNull(message = "애니메이션 ID 입력은 필수입니다.")
+        Long animationId;
+    }
 }

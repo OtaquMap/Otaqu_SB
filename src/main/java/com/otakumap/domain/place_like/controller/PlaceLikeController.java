@@ -8,7 +8,10 @@ import com.otakumap.domain.place_like.service.PlaceLikeCommandService;
 import com.otakumap.domain.place_like.service.PlaceLikeQueryService;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.apiPayload.ApiResponse;
+
+import com.otakumap.global.validation.annotation.ExistPlace;
 import com.otakumap.global.validation.annotation.ExistPlaceLike;
+import com.otakumap.global.validation.annotation.ExistPlaceListLike;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -42,7 +45,7 @@ public class PlaceLikeController {
     @Parameters({
             @Parameter(name = "placeIds", description = "저장된 장소 id List"),
     })
-    public ApiResponse<String> deletePlaceLike(@RequestParam(required = false) @ExistPlaceLike List<Long> placeIds) {
+    public ApiResponse<String> deletePlaceLike(@RequestParam(required = false) @ExistPlaceListLike List<Long> placeIds) {
         placeLikeCommandService.deletePlaceLike(placeIds);
         return ApiResponse.onSuccess("저장된 장소가 성공적으로 삭제되었습니다");
     }
@@ -52,10 +55,8 @@ public class PlaceLikeController {
     @Parameters({
             @Parameter(name = "placeId", description = "장소 Id")
     })
-    public ApiResponse<String> savePlaceLike(@PathVariable Long placeId, @CurrentUser User user) {
-
-         placeLikeCommandService.savePlaceLike(user, placeId);
-
+    public ApiResponse<String> savePlaceLike(@ExistPlace @PathVariable Long placeId, @CurrentUser User user, @RequestBody @Valid PlaceLikeRequestDTO.SavePlaceLikeDTO request) {
+         placeLikeCommandService.savePlaceLike(user, placeId, request);
          return ApiResponse.onSuccess("장소가 성공적으로 저장되었습니다.");
     }
 
@@ -63,5 +64,11 @@ public class PlaceLikeController {
     @PatchMapping("/{placeLikeId}/favorites")
     public ApiResponse<PlaceLikeResponseDTO.FavoriteResultDTO> favoritePlaceLike(@PathVariable Long placeLikeId, @RequestBody @Valid PlaceLikeRequestDTO.FavoriteDTO request) {
         return ApiResponse.onSuccess(PlaceLikeConverter.toFavoriteResultDTO(placeLikeCommandService.favoritePlaceLike(placeLikeId, request)));
+    }
+
+    @Operation(summary = "저장된 장소 상세 조회", description = "지도에서 저장된 장소의 정보를 확인합니다.")
+    @GetMapping("/{placeLikeId}")
+    public ApiResponse<PlaceLikeResponseDTO.PlaceLikeDetailDTO> getPlaceLike(@PathVariable @ExistPlaceLike Long placeLikeId) {
+        return ApiResponse.onSuccess(PlaceLikeConverter.placeLikeDetailDTO(placeLikeQueryService.getPlaceLike(placeLikeId)));
     }
 }
