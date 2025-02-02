@@ -5,9 +5,9 @@ import com.otakumap.domain.place_like.dto.PlaceLikeResponseDTO;
 import com.otakumap.domain.place_like.entity.PlaceLike;
 import com.otakumap.domain.place_like.repository.PlaceLikeRepository;
 import com.otakumap.domain.user.entity.User;
-import com.otakumap.domain.user.repository.UserRepository;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.EventHandler;
+import com.otakumap.global.apiPayload.exception.handler.PlaceHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class PlaceLikeQueryServiceImpl implements PlaceLikeQueryService {
     private final PlaceLikeRepository placeLikeRepository;
-    private final UserRepository userRepository;
 
     @Override
     public PlaceLikeResponseDTO.PlaceLikePreViewListDTO getPlaceLikeList(User user, Long lastId, int limit) {
@@ -65,5 +64,10 @@ public class PlaceLikeQueryServiceImpl implements PlaceLikeQueryService {
     @Override
     public boolean isPlaceLikeExist(Long id) {
         return placeLikeRepository.existsById(id);
+    }
+
+    @Override
+    public PlaceLike getPlaceLike(Long placeLikeId) {
+        return placeLikeRepository.findById(placeLikeId).orElseThrow(() -> new PlaceHandler(ErrorStatus.PLACE_LIKE_NOT_FOUND));
     }
 }
