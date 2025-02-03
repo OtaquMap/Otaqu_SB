@@ -15,7 +15,7 @@ public class ReviewConverter {
         return ReviewResponseDTO.Top7ReviewPreViewDTO.builder()
                 .id(eventReview.getId())
                 .title(eventReview.getTitle())
-                .reviewImage(eventReview.getImages() != null ?
+                .reviewImage(eventReview.getImages() != null && !eventReview.getImages().isEmpty() ?
                         ImageConverter.toImageDTO(eventReview.getImages().get(0)) :
                         null) // 나중에 수정
                 .view(eventReview.getView())
@@ -28,7 +28,7 @@ public class ReviewConverter {
         return ReviewResponseDTO.Top7ReviewPreViewDTO.builder()
                 .id(eventReview.getId())
                 .title(eventReview.getTitle())
-                .reviewImage(eventReview.getImages() != null ?
+                .reviewImage(eventReview.getImages() != null && !eventReview.getImages().isEmpty() ?
                         ImageConverter.toImageDTO(eventReview.getImages().get(0)) :
                         null) // 나중에 수정
                 .view(eventReview.getView())
