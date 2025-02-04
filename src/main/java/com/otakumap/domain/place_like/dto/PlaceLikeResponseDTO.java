@@ -1,6 +1,6 @@
 package com.otakumap.domain.place_like.dto;
 
-import jakarta.validation.constraints.NotNull;
+import com.otakumap.domain.hash_tag.dto.HashTagResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,5 +40,19 @@ public class PlaceLikeResponseDTO {
     public static class FavoriteResultDTO {
         Long placeLikeId;
         Boolean isFavorite;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class PlaceLikeDetailDTO {
+        Long placeLikeId;
+        String placeName;
+        String animationName;
+        Double lat;
+        Double lng;
+        Boolean isFavorite;
+        List<HashTagResponseDTO.HashTagDTO> hashtags;
     }
 }

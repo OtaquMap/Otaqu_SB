@@ -1,8 +1,12 @@
 package com.otakumap.domain.hash_tag.entity;
 
+import com.otakumap.domain.mapping.PlaceAnimationHashTag;
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -17,4 +21,7 @@ public class HashTag extends BaseEntity {
 
     @Column(nullable = false, length = 20)
     private String name;
+
+    @OneToMany(mappedBy = "hashTag", cascade = CascadeType.ALL)
+    private List<PlaceAnimationHashTag> placeAnimationHashTags = new ArrayList<>();
 }

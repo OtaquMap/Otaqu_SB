@@ -6,4 +6,5 @@ import com.otakumap.domain.user.entity.User;
 public interface PlaceLikeQueryService {
     PlaceLikeResponseDTO.PlaceLikePreViewListDTO getPlaceLikeList(User user, Long lastId, int limit);
     boolean isPlaceLikeExist(Long id);
+    PlaceLikeResponseDTO.PlaceLikeDetailDTO getPlaceLike(Long placeLikeId);
 }
