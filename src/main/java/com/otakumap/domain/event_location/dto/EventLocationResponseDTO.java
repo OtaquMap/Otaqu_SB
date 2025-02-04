@@ -14,7 +14,7 @@ public class EventLocationResponseDTO {
     public static class EventLocationDTO {
         Long id;
         String name;
-        String longitude;
-        String latitude;
+        Double longitude;
+        Double latitude;
     }
 }

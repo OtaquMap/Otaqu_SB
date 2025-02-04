@@ -19,11 +19,11 @@ public class EventLocation extends BaseEntity {
     @Column(columnDefinition = "VARCHAR(50)", nullable = false)
     private String name;
 
-    @Column(columnDefinition = "TEXT")
-    private String latitude;
+    @Column(nullable = false)
+    private Double lat;
 
-    @Column(columnDefinition = "TEXT")
-    private String longitude;
+    @Column(nullable = false)
+    private Double lng;
 
     @OneToOne(mappedBy = "eventLocation", fetch = FetchType.LAZY)
     private Event event;

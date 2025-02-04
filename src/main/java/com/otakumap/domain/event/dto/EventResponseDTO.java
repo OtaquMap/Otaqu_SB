@@ -1,6 +1,7 @@
 package com.otakumap.domain.event.dto;
 
 import com.otakumap.domain.event_location.dto.EventLocationResponseDTO;
+import com.otakumap.domain.hash_tag.dto.HashTagResponseDTO;
 import com.otakumap.domain.image.dto.ImageResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class EventResponseDTO {
 
@@ -39,5 +41,16 @@ public class EventResponseDTO {
         ImageResponseDTO.ImageDTO backgroundImage;
         ImageResponseDTO.ImageDTO goodsImage;
         EventLocationResponseDTO.EventLocationDTO eventLocation;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class SearchedEventInfoDTO {
+        Long eventId;
+        String name;
+        Boolean isFavorite;
+        List<HashTagResponseDTO.HashTagDTO> hashTags;
     }
 }
