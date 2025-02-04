@@ -26,4 +26,8 @@ public class RouteItem extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "route_id", nullable = false)
     private Route route;
+
+    public void setRoute(Route route) {
+        this.route = route;
+    }
 }

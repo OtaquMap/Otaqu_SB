@@ -11,8 +11,7 @@ import java.lang.annotation.*;
 @Target( { ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ExistPlace {
-
-    String message() default "해당하는 명소가 존재하지 않습니다.";
+    String message() default "해당하는 장소가 존재하지 않습니다.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

@@ -65,4 +65,11 @@ public class RouteLikeController {
     public ApiResponse<RouteLikeResponseDTO.FavoriteResultDTO> favoriteRouteLike(@PathVariable Long routeLikeId, @RequestBody @Valid RouteLikeRequestDTO.FavoriteDTO request) {
         return ApiResponse.onSuccess(RouteLikeConverter.toFavoriteResultDTO(routeLikeCommandService.favoriteRouteLike(routeLikeId, request)));
     }
+
+    @Operation(summary = "커스텀 루트 저장", description = "기존 루트에서 일부를 수정/삭제하여 새로운 커스텀 루트를 저장합니다.")
+    @PostMapping("/custom")
+    public ApiResponse<String> favoriteRouteLike(@RequestBody @Valid RouteLikeRequestDTO.SaveCustomRouteLikeDTO request, @CurrentUser User user) {
+        routeLikeCommandService.saveCustomRouteLike(request, user);
+        return ApiResponse.onSuccess("커스텀 루트가 성공적으로 저장되었습니다.");
+    }
 }
