@@ -2,6 +2,7 @@ package com.otakumap.domain.place_like.converter;
 
 import com.otakumap.domain.hash_tag.converter.HashTagConverter;
 import com.otakumap.domain.mapping.PlaceAnimation;
+import com.otakumap.domain.place.entity.Place;
 import com.otakumap.domain.place_like.dto.PlaceLikeResponseDTO;
 import com.otakumap.domain.place_like.entity.PlaceLike;
 import com.otakumap.domain.user.entity.User;
@@ -9,14 +10,14 @@ import com.otakumap.domain.user.entity.User;
 import java.util.List;
 
 public class PlaceLikeConverter {
-    public static PlaceLikeResponseDTO.PlaceLikePreViewDTO placeLikePreViewDTO(PlaceLike placeLike) {
+    public static PlaceLikeResponseDTO.PlaceLikePreViewDTO placeLikePreViewDTO(PlaceLike placeLike, Place place) {
         return PlaceLikeResponseDTO.PlaceLikePreViewDTO.builder()
                 .id(placeLike.getId())
-                .placeId(placeLike.getPlaceAnimation().getPlace().getId())
-                .name(placeLike.getPlaceAnimation().getPlace().getName())
-                .detail(placeLike.getPlaceAnimation().getPlace().getDetail())
-                .lat(placeLike.getPlaceAnimation().getPlace().getLat())
-                .lng(placeLike.getPlaceAnimation().getPlace().getLng())
+                .placeId(place.getId())
+                .name(place.getName())
+                .detail(place.getDetail())
+                .lat(place.getLat())
+                .lng(place.getLng())
                 .isFavorite(placeLike.getIsFavorite())
                 .build();
 
@@ -45,13 +46,13 @@ public class PlaceLikeConverter {
                 .build();
     }
 
-    public static PlaceLikeResponseDTO.PlaceLikeDetailDTO placeLikeDetailDTO(PlaceLike placeLike) {
+    public static PlaceLikeResponseDTO.PlaceLikeDetailDTO placeLikeDetailDTO(PlaceLike placeLike, Place place) {
         return PlaceLikeResponseDTO.PlaceLikeDetailDTO.builder()
                 .placeLikeId(placeLike.getId())
-                .placeName(placeLike.getPlaceAnimation().getPlace().getName())
+                .placeName(place.getName())
                 .animationName(placeLike.getPlaceAnimation().getAnimation().getName())
-                .latitude(placeLike.getPlaceAnimation().getPlace().getLat())
-                .longitude(placeLike.getPlaceAnimation().getPlace().getLng())
+                .lat(place.getLat())
+                .lng(place.getLng())
                 .isFavorite(placeLike.getIsFavorite())
                 // 장소-애니메이션에 대한 해시태그
                 .hashtags(placeLike.getPlaceAnimation().getPlaceAnimationHashTags()

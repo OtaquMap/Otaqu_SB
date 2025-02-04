@@ -69,6 +69,6 @@ public class PlaceLikeController {
     @Operation(summary = "저장된 장소 상세 조회", description = "지도에서 저장된 장소의 정보를 확인합니다.")
     @GetMapping("/{placeLikeId}")
     public ApiResponse<PlaceLikeResponseDTO.PlaceLikeDetailDTO> getPlaceLike(@PathVariable @ExistPlaceLike Long placeLikeId) {
-        return ApiResponse.onSuccess(PlaceLikeConverter.placeLikeDetailDTO(placeLikeQueryService.getPlaceLike(placeLikeId)));
+        return ApiResponse.onSuccess(placeLikeQueryService.getPlaceLike(placeLikeId));
     }
 }

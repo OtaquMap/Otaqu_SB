@@ -50,8 +50,8 @@ public class PlaceLikeResponseDTO {
         Long placeLikeId;
         String placeName;
         String animationName;
-        Double latitude;
-        Double longitude;
+        Double lat;
+        Double lng;
         Boolean isFavorite;
         List<HashTagResponseDTO.HashTagDTO> hashtags;
     }

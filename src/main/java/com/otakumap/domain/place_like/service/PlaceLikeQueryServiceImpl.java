@@ -40,10 +40,10 @@ public class PlaceLikeQueryServiceImpl implements PlaceLikeQueryService {
             PlaceLike placeLike = placeLikeRepository.findById(lastId).orElseThrow(() -> new EventHandler(ErrorStatus.PLACE_LIKE_NOT_FOUND));
             result = placeLikeRepository.findAllByUserIsAndCreatedAtLessThanOrderByCreatedAtDesc(user, placeLike.getCreatedAt(), pageable).getContent();
         }
-        return createPlaceLikePreviewListDTO(user, result, limit);
+        return createPlaceLikePreviewListDTO(result, limit);
     }
 
-    private PlaceLikeResponseDTO.PlaceLikePreViewListDTO createPlaceLikePreviewListDTO(User user, List<PlaceLike> placeLikes, int limit) {
+    private PlaceLikeResponseDTO.PlaceLikePreViewListDTO createPlaceLikePreviewListDTO(List<PlaceLike> placeLikes, int limit) {
         boolean hasNext = placeLikes.size() > limit;
         Long lastId = null;
 
@@ -54,7 +54,7 @@ public class PlaceLikeQueryServiceImpl implements PlaceLikeQueryService {
 
         List<PlaceLikeResponseDTO.PlaceLikePreViewDTO> list = placeLikes
                 .stream()
-                .map(PlaceLikeConverter::placeLikePreViewDTO)
+                .map(placeLike -> PlaceLikeConverter.placeLikePreViewDTO(placeLike, placeLike.getPlaceAnimation().getPlace()))
                 .collect(Collectors.toList());
 
         return PlaceLikeConverter.placeLikePreViewListDTO(list, hasNext, lastId);
@@ -67,7 +67,8 @@ public class PlaceLikeQueryServiceImpl implements PlaceLikeQueryService {
     }
 
     @Override
-    public PlaceLike getPlaceLike(Long placeLikeId) {
-        return placeLikeRepository.findById(placeLikeId).orElseThrow(() -> new PlaceHandler(ErrorStatus.PLACE_LIKE_NOT_FOUND));
+    public PlaceLikeResponseDTO.PlaceLikeDetailDTO getPlaceLike(Long placeLikeId) {
+        PlaceLike placeLike = placeLikeRepository.findById(placeLikeId).orElseThrow(() -> new PlaceHandler(ErrorStatus.PLACE_LIKE_NOT_FOUND));
+        return PlaceLikeConverter.placeLikeDetailDTO(placeLike, placeLike.getPlaceAnimation().getPlace());
     }
 }
