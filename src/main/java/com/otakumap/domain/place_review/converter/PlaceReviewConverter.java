@@ -43,7 +43,8 @@ public class PlaceReviewConverter {
                 .content(placeReview.getContent())
                 .view(placeReview.getView())
                 .createdAt(placeReview.getCreatedAt())
-                .reviewImage(ImageConverter.toImageDTO(placeReview.getImage()))
+                .reviewImage(ImageConverter.toImageDTO(placeReview.getImages().get(0))) // 나중에 수정
+                .type("place")
                 .build();
     }
 

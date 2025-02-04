@@ -4,6 +4,11 @@ import com.otakumap.domain.event.converter.EventConverter;
 import com.otakumap.domain.event.dto.EventResponseDTO;
 import com.otakumap.domain.event.entity.Event;
 import com.otakumap.domain.event.entity.QEvent;
+import com.otakumap.domain.image.converter.ImageConverter;
+import com.otakumap.domain.image.dto.ImageResponseDTO;
+import com.otakumap.domain.image.entity.Image;
+import com.otakumap.global.apiPayload.code.status.ErrorStatus;
+import com.otakumap.global.apiPayload.exception.handler.EventHandler;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -32,5 +37,26 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
         return events.stream()
                 .map(EventConverter::toEventDTO)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public ImageResponseDTO.ImageDTO getEventBanner() {
+        QEvent event = QEvent.event;
+
+        Event targetEvent = queryFactory.selectFrom(event)
+                .where(event.endDate.goe(LocalDate.now())
+                        .and(event.startDate.loe(LocalDate.now()))
+                        .and(event.thumbnailImage.isNotNull()))
+                .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
+                .fetchFirst();
+
+        if (targetEvent == null) {
+            return ImageResponseDTO.ImageDTO.builder()
+                    .fileUrl("default_banner_url")
+                    .build();
+        }
+
+        return ImageConverter.toImageDTO((targetEvent)
+                .getThumbnailImage());
     }
 }

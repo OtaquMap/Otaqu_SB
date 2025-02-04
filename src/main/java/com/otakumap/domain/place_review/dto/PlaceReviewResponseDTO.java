@@ -34,6 +34,7 @@ public class PlaceReviewResponseDTO {
         private Long view;
         private LocalDateTime createdAt;
         private ImageResponseDTO.ImageDTO reviewImage;
+        String type;
     }
 
     @Builder

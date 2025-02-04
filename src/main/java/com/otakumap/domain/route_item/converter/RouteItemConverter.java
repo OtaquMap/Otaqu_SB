@@ -1,0 +1,15 @@
+package com.otakumap.domain.route_item.converter;
+
+import com.otakumap.domain.route_item.dto.RouteItemResponseDTO;
+import com.otakumap.domain.route_item.entity.RouteItem;
+
+public class RouteItemConverter {
+    public static RouteItemResponseDTO.RouteItemDTO toRouteItemDTO(RouteItem routeItem) {
+        return RouteItemResponseDTO.RouteItemDTO.builder()
+                .routeItemId(routeItem.getId())
+                .name(routeItem.getPlace().getName())
+                .placeId(routeItem.getPlace().getId())
+                .itemOrder(routeItem.getItemOrder())
+                .build();
+    }
+}

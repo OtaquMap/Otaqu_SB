@@ -11,12 +11,16 @@ import java.util.stream.Collectors;
 public class EventReviewConverter {
 
     public static EventReviewResponseDTO.EventReviewPreViewDTO eventReviewPreViewDTO(EventReview eventReview) {
-        ImageResponseDTO.ImageDTO image = ImageResponseDTO.ImageDTO.builder()
-                .id(eventReview.getImage().getId())
-                .uuid(eventReview.getImage().getUuid())
-                .fileUrl(eventReview.getImage().getFileUrl())
-                .fileName(eventReview.getImage().getFileName())
-                .build();
+
+        ImageResponseDTO.ImageDTO image = null;
+        if(eventReview.getImages() != null && !eventReview.getImages().isEmpty()) {
+            image = ImageResponseDTO.ImageDTO.builder()
+                    .id(eventReview.getImages().get(0).getId())
+                    .uuid(eventReview.getImages().get(0).getUuid())
+                    .fileUrl(eventReview.getImages().get(0).getFileUrl())
+                    .fileName(eventReview.getImages().get(0).getFileName())
+                    .build();
+        }
 
         return EventReviewResponseDTO.EventReviewPreViewDTO.builder()
                 .id(eventReview.getId())
