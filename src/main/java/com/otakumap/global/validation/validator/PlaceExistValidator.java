@@ -1,6 +1,6 @@
 package com.otakumap.global.validation.validator;
 
-import com.otakumap.domain.place.repository.PlaceRepository;
+import com.otakumap.domain.place.service.PlaceQueryService;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.validation.annotation.ExistPlace;
 import jakarta.validation.ConstraintValidator;
@@ -11,8 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class PlaceExistValidator implements ConstraintValidator<ExistPlace, Long> {
-
-    private final PlaceRepository placeRepository;
+    private final PlaceQueryService placeQueryService;
 
     @Override
     public void initialize(ExistPlace constraintAnnotation) {
@@ -21,7 +20,11 @@ public class PlaceExistValidator implements ConstraintValidator<ExistPlace, Long
 
     @Override
     public boolean isValid(Long placeId, ConstraintValidatorContext context) {
-        boolean isValid = placeRepository.existsById(placeId);
+        if (placeId == null) {
+            return false;
+        }
+
+        boolean isValid = placeQueryService.isPlaceExist(placeId);
 
         if(!isValid) {
             context.disableDefaultConstraintViolation();
