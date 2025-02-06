@@ -2,6 +2,7 @@ package com.otakumap.domain.place_review.entity;
 
 import com.otakumap.domain.image.entity.Image;
 import com.otakumap.domain.mapping.PlaceAnimation;
+import com.otakumap.domain.mapping.PlaceReviewPlace;
 import com.otakumap.domain.place.entity.Place;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.common.BaseEntity;
@@ -41,13 +42,12 @@ public class PlaceReview extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "placeReview")
     private List<Image> images = new ArrayList<>();
 
+    @OneToMany(mappedBy = "placeReview", cascade = CascadeType.ALL)
+    private List<PlaceReviewPlace> placeList = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "place_id", nullable = false)
-    private Place place;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_animation_id")
