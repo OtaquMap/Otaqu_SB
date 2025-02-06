@@ -30,4 +30,8 @@ public class RouteItem extends BaseEntity {
     public void setRoute(Route route) {
         this.route = route;
     }
+
+    public void setItemOrder(Integer itemOrder) {
+        this.itemOrder = itemOrder;
+    }
 }

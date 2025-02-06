@@ -27,4 +27,15 @@ public class Route extends BaseEntity {
 
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RouteItem> routeItems = new ArrayList<>();
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setRouteItems(List<RouteItem> routeItems) {
+        if (!this.routeItems.isEmpty()) {
+            this.routeItems.clear();
+        }
+        this.routeItems.addAll(routeItems);
+    }
 }

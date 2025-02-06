@@ -1,6 +1,7 @@
 package com.otakumap.domain.route_like.dto;
 
 import com.otakumap.global.validation.annotation.ExistPlace;
+import com.otakumap.global.validation.annotation.ExistRoute;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -25,11 +26,19 @@ public class RouteLikeRequestDTO {
 
     @Getter
     public static class RouteItemDTO {
-        @NotBlank(message = "루트 아이템에 해당하는 장소 이름 입력은 필수입니다.")
-        String name;
         @ExistPlace
         Long placeId;
         @NotNull(message = "루트 아이템 순서 입력은 필수입니다.")
         Integer itemOrder;
+    }
+
+    @Getter
+    public static class UpdateRouteLikeDTO {
+        @NotBlank(message = "루트 이름 입력은 필수입니다.")
+        String name;
+        @ExistRoute
+        Long routeId;
+        @NotEmpty(message = "루트 아이템 입력은 필수입니다.")
+        List<RouteItemDTO> routeItems;
     }
 }
