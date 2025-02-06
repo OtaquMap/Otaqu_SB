@@ -8,11 +8,10 @@ import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class PlaceLikeExistValidator implements ConstraintValidator<ExistPlaceLike, List<Long>> {
+public class PlaceLikeExistValidator implements ConstraintValidator<ExistPlaceLike, Long> {
     private final PlaceLikeQueryService placeLikeQueryService;
 
     @Override
@@ -21,13 +20,12 @@ public class PlaceLikeExistValidator implements ConstraintValidator<ExistPlaceLi
     }
 
     @Override
-    public boolean isValid(List<Long> placeIds, ConstraintValidatorContext context) {
-        if (placeIds == null || placeIds.isEmpty()) {
+    public boolean isValid(Long placeLikeId, ConstraintValidatorContext context) {
+        if (placeLikeId == null ) {
             return false;
         }
 
-        boolean isValid = placeIds.stream()
-                .allMatch(placeId -> placeLikeQueryService.isPlaceLikeExist(placeId));
+        boolean isValid = placeLikeQueryService.isPlaceLikeExist(placeLikeId);
 
         if (!isValid) {
             context.disableDefaultConstraintViolation();

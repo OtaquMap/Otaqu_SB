@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface PlaceQueryService {
     List<PlaceAnimation> getPlaceAnimations(Long placeId);
+    boolean isPlaceExist(Long placeId);
 }

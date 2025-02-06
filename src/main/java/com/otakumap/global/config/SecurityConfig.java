@@ -9,6 +9,7 @@ import com.otakumap.global.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -36,6 +37,11 @@ public class SecurityConfig {
             "/api/users/reset-password/**"
     };
 
+    private final String[] allowGetUrl = {
+            "/api/events/**",
+            "/api/reviews/**",
+    };
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -46,6 +52,7 @@ public class SecurityConfig {
                         .configurationSource(CorsConfig.corsConfigurationSource()))
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(allowUrl).permitAll()
+                        .requestMatchers(HttpMethod.GET, allowGetUrl).permitAll()
                         .anyRequest().authenticated())
                 //기본 폼 로그인 비활성화
                 .formLogin(AbstractHttpConfigurer::disable)

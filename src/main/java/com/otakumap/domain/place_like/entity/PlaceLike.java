@@ -1,8 +1,6 @@
 package com.otakumap.domain.place_like.entity;
 
-
-import com.otakumap.domain.event.entity.Event;
-import com.otakumap.domain.place.entity.Place;
+import com.otakumap.domain.mapping.PlaceAnimation;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
@@ -28,11 +26,14 @@ public class PlaceLike extends BaseEntity {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "place_id", nullable = false)
-    private Place place;
+    @JoinColumn(name = "place_animation_id", nullable = false)
+    private PlaceAnimation placeAnimation;
 
     @Column(name = "is_favorite", nullable = false)
     @ColumnDefault("false")
     private Boolean isFavorite;
 
+    public void setIsFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
+    }
 }

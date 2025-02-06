@@ -5,9 +5,9 @@ import com.otakumap.domain.place_like.dto.PlaceLikeResponseDTO;
 import com.otakumap.domain.place_like.entity.PlaceLike;
 import com.otakumap.domain.place_like.repository.PlaceLikeRepository;
 import com.otakumap.domain.user.entity.User;
-import com.otakumap.domain.user.repository.UserRepository;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.EventHandler;
+import com.otakumap.global.apiPayload.exception.handler.PlaceHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class PlaceLikeQueryServiceImpl implements PlaceLikeQueryService {
     private final PlaceLikeRepository placeLikeRepository;
-    private final UserRepository userRepository;
 
     @Override
     public PlaceLikeResponseDTO.PlaceLikePreViewListDTO getPlaceLikeList(User user, Long lastId, int limit) {
@@ -41,10 +40,10 @@ public class PlaceLikeQueryServiceImpl implements PlaceLikeQueryService {
             PlaceLike placeLike = placeLikeRepository.findById(lastId).orElseThrow(() -> new EventHandler(ErrorStatus.PLACE_LIKE_NOT_FOUND));
             result = placeLikeRepository.findAllByUserIsAndCreatedAtLessThanOrderByCreatedAtDesc(user, placeLike.getCreatedAt(), pageable).getContent();
         }
-        return createPlaceLikePreviewListDTO(user, result, limit);
+        return createPlaceLikePreviewListDTO(result, limit);
     }
 
-    private PlaceLikeResponseDTO.PlaceLikePreViewListDTO createPlaceLikePreviewListDTO(User user, List<PlaceLike> placeLikes, int limit) {
+    private PlaceLikeResponseDTO.PlaceLikePreViewListDTO createPlaceLikePreviewListDTO(List<PlaceLike> placeLikes, int limit) {
         boolean hasNext = placeLikes.size() > limit;
         Long lastId = null;
 
@@ -55,7 +54,7 @@ public class PlaceLikeQueryServiceImpl implements PlaceLikeQueryService {
 
         List<PlaceLikeResponseDTO.PlaceLikePreViewDTO> list = placeLikes
                 .stream()
-                .map(PlaceLikeConverter::placeLikePreViewDTO)
+                .map(placeLike -> PlaceLikeConverter.placeLikePreViewDTO(placeLike, placeLike.getPlaceAnimation().getPlace()))
                 .collect(Collectors.toList());
 
         return PlaceLikeConverter.placeLikePreViewListDTO(list, hasNext, lastId);
@@ -65,5 +64,11 @@ public class PlaceLikeQueryServiceImpl implements PlaceLikeQueryService {
     @Override
     public boolean isPlaceLikeExist(Long id) {
         return placeLikeRepository.existsById(id);
+    }
+
+    @Override
+    public PlaceLikeResponseDTO.PlaceLikeDetailDTO getPlaceLike(Long placeLikeId) {
+        PlaceLike placeLike = placeLikeRepository.findById(placeLikeId).orElseThrow(() -> new PlaceHandler(ErrorStatus.PLACE_LIKE_NOT_FOUND));
+        return PlaceLikeConverter.placeLikeDetailDTO(placeLike, placeLike.getPlaceAnimation().getPlace());
     }
 }

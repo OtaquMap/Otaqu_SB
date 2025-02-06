@@ -30,12 +30,13 @@ public class PlaceShortReviewController {
     private final PlaceShortReviewQueryService placeShortReviewQueryService;
 
     @GetMapping("/places/{placeId}/short-review")
-    @Operation(summary = "특정 명소의 한 줄 리뷰 목록 조회 API", description = "특정 명소의 한 줄 리뷰 목록을 조회하는 API이며, 페이징을 포함합니다. query string으로 page 번호를 함께 보내주세요.")
+    @Operation(summary = "특정 명소의 한 줄 리뷰 목록 조회", description = "특정 명소의 한 줄 리뷰 목록을 불러옵니다.")
     @ApiResponses({
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200", description = "OK, 성공"),
     })
     @Parameters({
-            @Parameter(name = "placeId", description = "명소의 아이디입니다.")
+            @Parameter(name = "placeId", description = "명소의 아이디입니다."),
+            @Parameter(name = "page", description = "페이지 번호입니다. 0부터 시작합니다.", example = "0")
     })
     public ApiResponse<PlaceShortReviewResponseDTO.PlaceShortReviewListDTO> getPlaceShortReviewList(@ExistPlace @PathVariable(name = "placeId") Long placeId, @RequestParam(name = "page") Integer page){
         return ApiResponse.onSuccess(PlaceShortReviewConverter.placeShortReviewListDTO(placeShortReviewQueryService.getPlaceShortReviews(placeId, page)));

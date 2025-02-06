@@ -1,5 +1,6 @@
 package com.otakumap.domain.place_like.dto;
 
+import com.otakumap.domain.hash_tag.dto.HashTagResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,5 +31,28 @@ public class PlaceLikeResponseDTO {
         List<PlaceLikeResponseDTO.PlaceLikePreViewDTO> placeLikes;
         boolean hasNext;
         Long lastId;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class FavoriteResultDTO {
+        Long placeLikeId;
+        Boolean isFavorite;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class PlaceLikeDetailDTO {
+        Long placeLikeId;
+        String placeName;
+        String animationName;
+        Double lat;
+        Double lng;
+        Boolean isFavorite;
+        List<HashTagResponseDTO.HashTagDTO> hashtags;
     }
 }

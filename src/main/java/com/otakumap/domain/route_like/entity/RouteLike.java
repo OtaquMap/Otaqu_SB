@@ -39,7 +39,7 @@ public class RouteLike extends BaseEntity {
     @ColumnDefault("false")
     private Boolean isFavorite;
 
-    public void setName(String name) {
-        this.name = name;
+    public void setIsFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
     }
 }
