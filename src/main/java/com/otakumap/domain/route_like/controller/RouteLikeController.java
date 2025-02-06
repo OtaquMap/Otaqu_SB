@@ -66,10 +66,15 @@ public class RouteLikeController {
         return ApiResponse.onSuccess(RouteLikeConverter.toFavoriteResultDTO(routeLikeCommandService.favoriteRouteLike(routeLikeId, request)));
     }
 
-    @Operation(summary = "커스텀 루트 저장", description = "기존 루트에서 일부를 수정/삭제하여 새로운 커스텀 루트를 저장합니다.")
+    @Operation(summary = "커스텀 루트 저장", description = "기존 루트에서(다른 유저의 루트) 일부를 수정/삭제하여 새로운 커스텀 루트를 저장합니다.")
     @PostMapping("/custom")
-    public ApiResponse<String> favoriteRouteLike(@RequestBody @Valid RouteLikeRequestDTO.SaveCustomRouteLikeDTO request, @CurrentUser User user) {
-        routeLikeCommandService.saveCustomRouteLike(request, user);
-        return ApiResponse.onSuccess("커스텀 루트가 성공적으로 저장되었습니다.");
+    public ApiResponse<RouteLikeResponseDTO.CustomRouteSaveResultDTO> saveCustomRouteLike(@RequestBody @Valid RouteLikeRequestDTO.SaveCustomRouteLikeDTO request, @CurrentUser User user) {
+        return ApiResponse.onSuccess(RouteLikeConverter.toCustomRouteSaveResultDTO(routeLikeCommandService.saveCustomRouteLike(request, user)));
+    }
+
+    @Operation(summary = "저장된 루트 수정", description = "저장된 루트에서 일부를 수정/삭제합니다.")
+    @PatchMapping("")
+    public ApiResponse<RouteLikeResponseDTO.RouteUpdateResultDTO> updateRouteLike(@RequestBody @Valid RouteLikeRequestDTO.UpdateRouteLikeDTO request, @CurrentUser User user) {
+        return ApiResponse.onSuccess(RouteLikeConverter.toRouteUpdateResultDTO(routeLikeCommandService.updateRouteLike(request, user)));
     }
 }

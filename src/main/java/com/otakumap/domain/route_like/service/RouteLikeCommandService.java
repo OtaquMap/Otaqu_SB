@@ -13,5 +13,6 @@ public interface RouteLikeCommandService {
     void deleteRouteLike(List<Long> routeIds);
     void updateName(Long routeId, String name);
     RouteLike favoriteRouteLike(Long routeLikeId, RouteLikeRequestDTO.FavoriteDTO request);
-    void saveCustomRouteLike(RouteLikeRequestDTO.SaveCustomRouteLikeDTO request, User user);
+    RouteLike saveCustomRouteLike(RouteLikeRequestDTO.SaveCustomRouteLikeDTO request, User user);
+    RouteLike updateRouteLike(RouteLikeRequestDTO.UpdateRouteLikeDTO request, User user);
 }

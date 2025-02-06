@@ -20,8 +20,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 @RequiredArgsConstructor
@@ -74,7 +76,7 @@ public class RouteLikeCommandServiceImpl implements RouteLikeCommandService {
     }
 
     @Override
-    public void saveCustomRouteLike(RouteLikeRequestDTO.SaveCustomRouteLikeDTO request, User user) {
+    public RouteLike saveCustomRouteLike(RouteLikeRequestDTO.SaveCustomRouteLikeDTO request, User user) {
         List<RouteItem> routeItems = request.getRouteItems()
                 .stream()
                 .map(routeItem -> {
@@ -85,6 +87,34 @@ public class RouteLikeCommandServiceImpl implements RouteLikeCommandService {
         Route route = RouteConverter.toRoute(request.getName(), routeItems);
 
         routeRepository.save(route);
-        routeLikeRepository.save(RouteLikeConverter.toRouteLike(user, route));
+        return routeLikeRepository.save(RouteLikeConverter.toRouteLike(user, route));
+    }
+
+    @Override
+    public RouteLike updateRouteLike(RouteLikeRequestDTO.UpdateRouteLikeDTO request, User user) {
+        Route route = routeRepository.findById(request.getRouteId()).orElseThrow(() -> new RouteHandler(ErrorStatus.ROUTE_NOT_FOUND));
+        AtomicInteger i = new AtomicInteger();
+        List<RouteItem> updatedRouteItems = new ArrayList<>();
+        route.getRouteItems().forEach(routeItem -> {
+            if (i.get() < request.getRouteItems().size()) {
+                RouteLikeRequestDTO.RouteItemDTO requestItem = request.getRouteItems().get(i.get());
+
+                // 순서가 다르면 업데이트
+                if (!Objects.equals(routeItem.getItemOrder(), requestItem.getItemOrder())) {
+                    routeItem.setItemOrder(requestItem.getItemOrder());
+                }
+
+                Place place = placeRepository.findById(routeItem.getPlace().getId()).orElseThrow(() -> new PlaceHandler(ErrorStatus.PLACE_NOT_FOUND));
+
+                RouteItem updatedRouteItem = RouteItemConverter.toRouteItem(routeItem.getItemOrder(), place);
+                updatedRouteItem.setRoute(route);
+                updatedRouteItems.add(updatedRouteItem);
+            }
+            i.getAndIncrement();
+        });
+
+        route.setName(request.getName());
+        route.setRouteItems(updatedRouteItems);
+        return routeLikeRepository.save(RouteLikeConverter.toRouteLike(user, route));
     }
 }
