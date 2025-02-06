@@ -55,20 +55,6 @@ public class RouteLikeCommandServiceImpl implements RouteLikeCommandService {
     }
 
     @Override
-    public void updateName(Long routeId, String name) {
-
-        // 루트가 저장되어있는지 확인
-        RouteLike routeLike = routeLikeRepository.findByRouteId(routeId)
-                .orElseThrow(() -> new RouteHandler(ErrorStatus.ROUTE_NOT_FOUND));
-
-        // 이름 변경
-        routeLike.setName(name);
-
-        // 변경된 엔티티 저장
-        routeLikeRepository.save(routeLike);
-    }
-
-    @Override
     public RouteLike favoriteRouteLike(Long routeLikeId, RouteLikeRequestDTO.FavoriteDTO request) {
         RouteLike routeLike = routeLikeRepository.findById(routeLikeId).orElseThrow(() -> new RouteHandler(ErrorStatus.ROUTE_LIKE_NOT_FOUND));
         routeLike.setIsFavorite(request.getIsFavorite());

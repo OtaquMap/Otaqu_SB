@@ -49,17 +49,6 @@ public class RouteLikeController {
         return ApiResponse.onSuccess("저장된 루트가 성공적으로 삭제되었습니다.");
     }
 
-    @Operation(summary = "루트 제목 편집", description = "루트의 제목을 편집(수정)합니다.")
-    @PatchMapping("/{routeId}/name")
-    @Parameters({
-            @Parameter(name = "routeId", description = "루트 Id")
-    })
-    public ApiResponse<String> updateRouteLikeName(@PathVariable Long routeId, @RequestBody @Valid UpdateNameRequestDTO request) {
-        routeLikeCommandService.updateName(routeId, request.name());
-
-        return ApiResponse.onSuccess("루트 제목이 성공적으로 수정되었습니다.");
-    }
-
     @Operation(summary = "저장된 루트 즐겨찾기/즐겨찾기 취소", description = "저장된 루트를 즐겨찾기 또는 취소합니다.")
     @PatchMapping("/{routeLikeId}/favorites")
     public ApiResponse<RouteLikeResponseDTO.FavoriteResultDTO> favoriteRouteLike(@PathVariable Long routeLikeId, @RequestBody @Valid RouteLikeRequestDTO.FavoriteDTO request) {

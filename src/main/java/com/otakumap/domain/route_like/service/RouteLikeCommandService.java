@@ -11,7 +11,6 @@ import java.util.List;
 public interface RouteLikeCommandService {
     void saveRouteLike(User user, Long routeId);
     void deleteRouteLike(List<Long> routeIds);
-    void updateName(Long routeId, String name);
     RouteLike favoriteRouteLike(Long routeLikeId, RouteLikeRequestDTO.FavoriteDTO request);
     RouteLike saveCustomRouteLike(RouteLikeRequestDTO.SaveCustomRouteLikeDTO request, User user);
     RouteLike updateRouteLike(RouteLikeRequestDTO.UpdateRouteLikeDTO request, User user);
