@@ -77,6 +77,7 @@ public class RouteLikeCommandServiceImpl implements RouteLikeCommandService {
     }
 
     @Override
+    @Transactional
     public RouteLike updateRouteLike(RouteLikeRequestDTO.UpdateRouteLikeDTO request, User user) {
         Route route = routeRepository.findById(request.getRouteId()).orElseThrow(() -> new RouteHandler(ErrorStatus.ROUTE_NOT_FOUND));
         AtomicInteger i = new AtomicInteger();
