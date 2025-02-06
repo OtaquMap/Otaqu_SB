@@ -61,7 +61,7 @@ public enum ErrorStatus implements BaseErrorCode {
     ANIMATION_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "ANIMATION4003", "이미 존재하는 애니메이션입니다."),
     ANIMATION_NAME_IS_EMPTY(HttpStatus.BAD_REQUEST, "ANIMATION4004", "애니메이션 이름이 비어있습니다."),
     ANIMATION_NAME_LENGTH(HttpStatus.BAD_REQUEST, "ANIMATION4005", "애니메이션 이름은 2자 이상 50자 이하여야 합니다."),
-    ANIMATION_NAME_SPECIAL_CHARACTER(HttpStatus.BAD_REQUEST, "ANIMATION4006", "애니메이션 이름은 한글, 영문, 숫자, 공백 및 일부 특수문자(./-)만 포함할 수 있습니다."),
+    ANIMATION_NAME_SPECIAL_CHARACTER(HttpStatus.BAD_REQUEST, "ANIMATION4006", "애니메이션 이름은 한글, 영문, 숫자 및 일부 특수문자(./-)만 포함할 수 있습니다."),
 
     // 루트 관련 에러
     ROUTE_NOT_FOUND(HttpStatus.NOT_FOUND, "ROUTE4001", "존재하지 않은 루트입니다."),
