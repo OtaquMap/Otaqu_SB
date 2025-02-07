@@ -20,7 +20,6 @@ public class EventLikeConverter {
                 .isFavorite(eventLike.getIsFavorite())
                 .eventType(eventLike.getEvent().getType())
                 .build();
-
     }
     public static EventLikeResponseDTO.EventLikePreViewListDTO eventLikePreViewListDTO(List<EventLikeResponseDTO.EventLikePreViewDTO> eventLikes, boolean hasNext, Long lastId) {
         return EventLikeResponseDTO.EventLikePreViewListDTO.builder()
