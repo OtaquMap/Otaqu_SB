@@ -30,6 +30,7 @@ public class RouteLikeQueryServiceImpl implements RouteLikeQueryService {
         QRouteLike qRouteLike = QRouteLike.routeLike;
         BooleanBuilder predicate = new BooleanBuilder();
 
+        //user가 좋아요(RouteLike)를 누른 데이터만 조회
         predicate.and(qRouteLike.user.eq(user));
 
         // isFavorite이 true일 때만 검색 조건에 추가
@@ -43,11 +44,11 @@ public class RouteLikeQueryServiceImpl implements RouteLikeQueryService {
 
         List<RouteLike> result = jpaQueryFactory
                 .selectFrom(qRouteLike)
-                .leftJoin(qRouteLike.route).fetchJoin()
-                .leftJoin(qRouteLike.user).fetchJoin()
-                .where(predicate)
-                .orderBy(qRouteLike.createdAt.desc())
-                .limit(limit + 1)
+                .leftJoin(qRouteLike.route).fetchJoin()  // Route 테이블 조인 (N:1)
+                .leftJoin(qRouteLike.user).fetchJoin()   // User 테이블 조인 (N:1)
+                .where(predicate)                        // 동적 필터링 적용
+                .orderBy(qRouteLike.createdAt.desc())    // 최신순 정렬
+                .limit(limit + 1)                        // limit보다 1개 더 조회 (hasNext 체크용)
                 .fetch();
 
         return createRouteLikePreviewListDTO(result, limit);
