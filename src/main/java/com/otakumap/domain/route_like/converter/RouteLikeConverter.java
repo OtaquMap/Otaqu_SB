@@ -1,9 +1,12 @@
 package com.otakumap.domain.route_like.converter;
 
+import com.otakumap.domain.event_like.dto.EventLikeResponseDTO;
 import com.otakumap.domain.route.entity.Route;
 import com.otakumap.domain.route_like.dto.RouteLikeResponseDTO;
 import com.otakumap.domain.route_like.entity.RouteLike;
 import com.otakumap.domain.user.entity.User;
+
+import java.util.List;
 
 public class RouteLikeConverter {
     public static RouteLike toRouteLike(User user, Route route) {
@@ -33,6 +36,23 @@ public class RouteLikeConverter {
         return RouteLikeResponseDTO.RouteUpdateResultDTO.builder()
                 .routeId(routeLike.getRoute().getId())
                 .updatedAt(routeLike.getUpdatedAt())
+                .build();
+    }
+
+    public static RouteLikeResponseDTO.RouteLikePreViewDTO routeLikePreViewDTO(RouteLike routeLike) {
+        return RouteLikeResponseDTO.RouteLikePreViewDTO.builder()
+                .id(routeLike.getId())
+                .routeId(routeLike.getRoute().getId())
+                .name(routeLike.getRoute().getName())
+                .isFavorite(routeLike.getIsFavorite())
+                .build();
+    }
+
+    public static RouteLikeResponseDTO.RouteLikePreViewListDTO routeLikePreViewListDTO(List<RouteLikeResponseDTO.RouteLikePreViewDTO> routeLikes, boolean hasNext, Long lastId) {
+        return RouteLikeResponseDTO.RouteLikePreViewListDTO.builder()
+                .routeLikes(routeLikes)
+                .hasNext(hasNext)
+                .lastId(lastId)
                 .build();
     }
 }

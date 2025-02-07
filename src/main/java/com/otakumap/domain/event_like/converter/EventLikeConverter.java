@@ -3,7 +3,6 @@ package com.otakumap.domain.event_like.converter;
 import com.otakumap.domain.event.entity.Event;
 import com.otakumap.domain.event_like.dto.EventLikeResponseDTO;
 import com.otakumap.domain.event_like.entity.EventLike;
-import com.otakumap.domain.image.dto.ImageResponseDTO;
 import com.otakumap.domain.user.entity.User;
 
 import java.util.List;
@@ -20,7 +19,6 @@ public class EventLikeConverter {
                 .isFavorite(eventLike.getIsFavorite())
                 .eventType(eventLike.getEvent().getType())
                 .build();
-
     }
     public static EventLikeResponseDTO.EventLikePreViewListDTO eventLikePreViewListDTO(List<EventLikeResponseDTO.EventLikePreViewDTO> eventLikes, boolean hasNext, Long lastId) {
         return EventLikeResponseDTO.EventLikePreViewListDTO.builder()
