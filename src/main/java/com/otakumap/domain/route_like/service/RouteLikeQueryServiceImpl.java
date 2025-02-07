@@ -1,8 +1,5 @@
 package com.otakumap.domain.route_like.service;
 
-import com.otakumap.domain.event_like.converter.EventLikeConverter;
-import com.otakumap.domain.event_like.dto.EventLikeResponseDTO;
-import com.otakumap.domain.event_like.entity.EventLike;
 import com.otakumap.domain.route_like.converter.RouteLikeConverter;
 import com.otakumap.domain.route_like.dto.RouteLikeResponseDTO;
 import com.otakumap.domain.route_like.entity.QRouteLike;
