@@ -1,9 +1,14 @@
 package com.otakumap.domain.reviews.converter;
 
+import com.otakumap.domain.animation.entity.Animation;
 import com.otakumap.domain.event.entity.Event;
 import com.otakumap.domain.event_review.entity.EventReview;
 import com.otakumap.domain.image.converter.ImageConverter;
 import com.otakumap.domain.image.entity.Image;
+import com.otakumap.domain.mapping.EventAnimation;
+import com.otakumap.domain.mapping.EventReviewPlace;
+import com.otakumap.domain.mapping.PlaceAnimation;
+import com.otakumap.domain.mapping.PlaceReviewPlace;
 import com.otakumap.domain.place.entity.Place;
 import com.otakumap.domain.place_review.entity.PlaceReview;
 import com.otakumap.domain.reviews.dto.ReviewRequestDTO;
@@ -62,7 +67,8 @@ public class ReviewConverter {
     public static ReviewResponseDTO.SearchedReviewPreViewDTO toSearchedPlaceReviewPreviewDTO(PlaceReview placeReview) {
         return ReviewResponseDTO.SearchedReviewPreViewDTO.builder()
                 .reviewId(placeReview.getId())
-                .id(placeReview.getPlace().getId())
+//                .id(placeReview.getPlace().getId())
+                .id(placeReview.getPlaceList().get(0).getPlace().getId()) // 해령: 임시로 수정
                 .title(placeReview.getTitle())
                 .content(placeReview.getContent())
                 .reviewImage(ImageConverter.toImageDTO(placeReview.getImages().get(0))) // 나중에 수정
@@ -108,31 +114,73 @@ public class ReviewConverter {
                 .build();
     }
 
-    public static ReviewResponseDTO.createdReviewDTO toCreatedReviewDTO(Long reviewId, String title) {
-        return ReviewResponseDTO.createdReviewDTO.builder()
+    public static ReviewResponseDTO.CreatedReviewDTO toCreatedReviewDTO(Long reviewId, String title) {
+        return ReviewResponseDTO.CreatedReviewDTO.builder()
                 .reviewId(reviewId)
                 .title(title)
                 .createdAt(LocalDateTime.now())
                 .build();
     }
 
-    public static EventReview toEventReview(ReviewRequestDTO.CreateDTO request, User user, Event event) {
+    public static EventReview toEventReview(ReviewRequestDTO.CreateDTO request, User user, List<EventReviewPlace> eventReviewPlaces) {
         return EventReview.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
                 .view(0L)
                 .user(user)
-                .event(event)
+                .placeList(eventReviewPlaces)
                 .build();
     }
 
-    public static PlaceReview toPlaceReview(ReviewRequestDTO.CreateDTO request, User user, Place place) {
+    public static PlaceReview toPlaceReview(ReviewRequestDTO.CreateDTO request, User user, List<PlaceReviewPlace> placeReviewPlaces) {
         return PlaceReview.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
                 .view(0L)
                 .user(user)
+                .placeList(placeReviewPlaces)
+                .build();
+    }
+
+    public static List<PlaceReviewPlace> toPlaceReviewPlaceList(List<Place> places, PlaceReview placeReview) {
+        return places.stream()
+                .map(place -> PlaceReviewPlace.builder()
+                        .placeReview(placeReview)
+                        .place(place)
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    public static List<EventReviewPlace> toEventReviewPlaceList(List<Place> places, EventReview eventReview) {
+        return places.stream()
+                .map(place -> EventReviewPlace.builder()
+                        .eventReview(eventReview)
+                        .place(place)
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    public static Place toPlace(ReviewRequestDTO.RouteDTO routeDTO) {
+        return Place.builder()
+                .name(routeDTO.getName())
+                .lat(routeDTO.getLat())
+                .lng(routeDTO.getLng())
+                .detail(routeDTO.getDetail())
+                .isFavorite(false)
+                .build();
+    }
+
+    public static PlaceAnimation toPlaceAnimation(Place place, Animation animation) {
+        return PlaceAnimation.builder()
                 .place(place)
+                .animation(animation)
+                .build();
+    }
+
+    public static EventAnimation toEventAnimation(Event event, Animation animation) {
+        return EventAnimation.builder()
+                .event(event)
+                .animation(animation)
                 .build();
     }
 }

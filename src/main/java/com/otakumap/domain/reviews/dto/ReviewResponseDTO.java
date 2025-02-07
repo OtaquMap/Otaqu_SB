@@ -71,7 +71,7 @@ public class ReviewResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class createdReviewDTO {
+    public static class CreatedReviewDTO {
         Long reviewId;
         String title;
         LocalDateTime createdAt;

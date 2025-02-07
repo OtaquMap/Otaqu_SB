@@ -52,4 +52,6 @@ public class PlaceReview extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_animation_id")
     private PlaceAnimation placeAnimation;
+
+    public void setPlaceList(List<PlaceReviewPlace> placeList) { this.placeList = placeList; }
 }

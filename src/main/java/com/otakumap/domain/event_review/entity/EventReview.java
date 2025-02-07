@@ -59,4 +59,6 @@ public class EventReview extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_animation_id")
     private EventAnimation eventAnimation;
+
+    public void setPlaceList(List<EventReviewPlace> placeList) { this.placeList = placeList; }
 }

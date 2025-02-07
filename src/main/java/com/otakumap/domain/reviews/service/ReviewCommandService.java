@@ -6,5 +6,5 @@ import com.otakumap.domain.user.entity.User;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface ReviewCommandService {
-    ReviewResponseDTO.createdReviewDTO createReview(ReviewRequestDTO.CreateDTO request, User user, MultipartFile[] images);
+    ReviewResponseDTO.CreatedReviewDTO createReview(ReviewRequestDTO.CreateDTO request, User user, MultipartFile[] images);
 }

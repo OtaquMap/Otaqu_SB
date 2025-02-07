@@ -15,6 +15,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PlaceReviewCommandServiceImpl implements PlaceReviewCommandService {
@@ -22,19 +24,21 @@ public class PlaceReviewCommandServiceImpl implements PlaceReviewCommandService 
     private final PlaceRepository placeRepository;
     private final UserRepository userRepository;
 
-    @Override
-    @Transactional
-    public PlaceReview createReview(PlaceReviewRequestDTO.ReviewCreateRequestDTO request) {
-        User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new UserHandler(ErrorStatus.USER_NOT_FOUND));
-
-        Place place = placeRepository.findById(request.getPlaceId())
-                .orElseThrow(() -> new PlaceHandler(ErrorStatus.PLACE_NOT_FOUND));
-
-        PlaceReview placeReview = PlaceReviewConverter.toPlaceReview(request, user, place);
-
-        return placeReviewRepository.save(placeReview);
-    }
+//    @Override
+//    @Transactional
+//    public PlaceReview createReview(PlaceReviewRequestDTO.ReviewCreateRequestDTO request) {
+//        User user = userRepository.findById(request.getUserId())
+//                .orElseThrow(() -> new UserHandler(ErrorStatus.USER_NOT_FOUND));
+//
+//        List<Place> places = placeRepository.findAllById(request.getPlaceIds());
+//        if (places.isEmpty()) {
+//            throw new PlaceHandler(ErrorStatus.PLACE_NOT_FOUND);
+//        }
+//
+//        PlaceReview placeReview = PlaceReviewConverter.toPlaceReview(request, user, places);
+//
+//        return placeReviewRepository.save(placeReview);
+//    }
 
     @Override
     @Transactional

@@ -5,6 +5,6 @@ import com.otakumap.domain.place_review.entity.PlaceReview;
 import com.otakumap.domain.user.entity.User;
 
 public interface PlaceReviewCommandService {
-    PlaceReview createReview(PlaceReviewRequestDTO.ReviewCreateRequestDTO request);
+//    PlaceReview createReview(PlaceReviewRequestDTO.ReviewCreateRequestDTO request);
     void deleteAllByUserId(Long userId);
 }

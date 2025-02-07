@@ -28,7 +28,7 @@ public class PlaceReviewResponseDTO {
     @AllArgsConstructor
     public static class PlaceReviewDTO {
         private Long reviewId;
-        private Long placeId;
+        private List<Long> placeIds;
         private String title;
         private String content;
         private Long view;

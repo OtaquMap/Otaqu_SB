@@ -56,7 +56,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                 .fetch();
 
         List<PlaceReview> placeReviews = queryFactory.selectFrom(placeReview)
-                .leftJoin(placeReview.place, QPlace.place)
+//                .leftJoin(placeReview.place, QPlace.place) // 해령: placeReview와 place가 N:M 관계가 되어 주석 처리
                 .leftJoin(QPlace.place.placeAnimationList, placeAnimation)
                 .leftJoin(placeAnimation.animation, animation)
                 .where(placeCondition)

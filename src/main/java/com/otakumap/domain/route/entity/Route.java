@@ -6,6 +6,7 @@ import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,6 +27,6 @@ public class Route extends BaseEntity {
     private List<RouteLike> routeLikes;
 
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RouteItem> routeItems;
+    private List<RouteItem> routeItems = new ArrayList<>();
 
 }

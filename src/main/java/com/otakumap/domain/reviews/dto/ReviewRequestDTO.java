@@ -16,8 +16,8 @@ public class ReviewRequestDTO {
         @NotBlank(message = "내용을 입력해주세요.")
         private String content;
 
-        private Long eventId;
-        private Long placeId;
+        @NotNull(message = "후기 종류를 입력해주세요. (place/event)")
+        private ItemType reviewType;
 
         @NotNull(message = "애니메이션 id를 입력해주세요.")
         private Long animeId;
@@ -28,11 +28,17 @@ public class ReviewRequestDTO {
 
     @Getter
     public static class RouteDTO {
-        @NotNull(message = "itemId를 입력해주세요.")
-        private Long itemId;
+        @NotBlank(message = "장소 이름을 입력해주세요.")
+        private String name;
 
-        @NotNull(message = "itemType을 입력해주세요.")
-        private ItemType itemType;
+        @NotNull
+        private double lat;
+
+        @NotNull
+        private double lng;
+
+        @NotBlank(message = "장소 설명을 입력해주세요.")
+        private String detail;
 
         @NotNull(message = "order를 입력해주세요.")
         private Integer order;

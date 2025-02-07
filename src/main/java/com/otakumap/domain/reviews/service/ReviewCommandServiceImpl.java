@@ -3,10 +3,16 @@ package com.otakumap.domain.reviews.service;
 import com.otakumap.domain.animation.entity.Animation;
 import com.otakumap.domain.animation.repository.AnimationRepository;
 import com.otakumap.domain.event.entity.Event;
-import com.otakumap.domain.event.repository.EventRepository;
+import com.otakumap.domain.event_animation.repository.EventAnimationRepository;
+import com.otakumap.domain.event_location.entity.EventLocation;
+import com.otakumap.domain.event_location.repository.EventLocationRepository;
 import com.otakumap.domain.event_review.entity.EventReview;
 import com.otakumap.domain.event_review.repository.EventReviewRepository;
 import com.otakumap.domain.image.service.ImageCommandService;
+import com.otakumap.domain.mapping.EventAnimation;
+import com.otakumap.domain.mapping.EventReviewPlace;
+import com.otakumap.domain.mapping.PlaceAnimation;
+import com.otakumap.domain.mapping.PlaceReviewPlace;
 import com.otakumap.domain.place.entity.Place;
 import com.otakumap.domain.place.repository.PlaceRepository;
 import com.otakumap.domain.place_animation.repository.PlaceAnimationRepository;
@@ -15,61 +21,134 @@ import com.otakumap.domain.place_review.repository.PlaceReviewRepository;
 import com.otakumap.domain.reviews.converter.ReviewConverter;
 import com.otakumap.domain.reviews.dto.ReviewRequestDTO;
 import com.otakumap.domain.reviews.dto.ReviewResponseDTO;
+import com.otakumap.domain.route.converter.RouteConverter;
+import com.otakumap.domain.route.entity.Route;
 import com.otakumap.domain.route.repository.RouteRepository;
+import com.otakumap.domain.route_item.converter.RouteItemConverter;
+import com.otakumap.domain.route_item.entity.RouteItem;
+import com.otakumap.domain.route_item.enums.ItemType;
+import com.otakumap.domain.route_item.repository.RouteItemRepository;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.AnimationHandler;
-import com.otakumap.global.apiPayload.exception.handler.EventHandler;
 import com.otakumap.global.apiPayload.exception.handler.PlaceHandler;
+import com.otakumap.global.apiPayload.exception.handler.ReviewHandler;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ReviewCommandServiceImpl implements ReviewCommandService {
+
     private final PlaceReviewRepository placeReviewRepository;
     private final EventReviewRepository eventReviewRepository;
     private final AnimationRepository animationRepository;
     private final PlaceRepository placeRepository;
-    private final EventRepository eventRepository;
-    private final PlaceAnimationRepository placeAnimationRepository;
     private final RouteRepository routeRepository;
+    private final RouteItemRepository routeItemRepository;
     private final ImageCommandService imageCommandService;
+    private final EventLocationRepository eventLocationRepository;
+    private final PlaceAnimationRepository placeAnimationRepository;
+    private final EventAnimationRepository eventAnimationRepository;
 
     @Override
     @Transactional
-    public ReviewResponseDTO.createdReviewDTO createReview(ReviewRequestDTO.CreateDTO request, User user, MultipartFile[] images) {
-        if (request.getPlaceId() != null && request.getEventId() != null) {
-            throw new IllegalArgumentException("이벤트 후기와 장소 후기 중 하나만 선택해주세요.");
-        } else if (request.getPlaceId() == null && request.getEventId() == null) {
-            throw new IllegalArgumentException("이벤트 후기 또는 장소 후기 중 하나를 선택해주세요.");
-        }
-
-        animationRepository.findById(request.getAnimeId())
+    public ReviewResponseDTO.CreatedReviewDTO createReview(ReviewRequestDTO.CreateDTO request, User user, MultipartFile[] images) {
+        Animation animation = animationRepository.findById(request.getAnimeId())
                 .orElseThrow(() -> new AnimationHandler(ErrorStatus.ANIMATION_NOT_FOUND));
 
-        List<MultipartFile> reviewImages = List.of(images);
+        Route route = saveRoute(request.getTitle());
+        List<RouteItem> routeItems = createRouteItems(request.getRouteItems(), animation, route);
+        routeItemRepository.saveAll(routeItems);
 
-        if (request.getPlaceId() != null) { // place review
-            Place place = placeRepository.findById(request.getPlaceId())
-                    .orElseThrow(() -> new PlaceHandler(ErrorStatus.PLACE_NOT_FOUND));
+        return saveReview(request, user, images, route);
+    }
 
-            PlaceReview placeReview = placeReviewRepository.save(ReviewConverter.toPlaceReview(request, user, place));
-            imageCommandService.uploadReviewImages(reviewImages, placeReview.getId());
-            return ReviewConverter.toCreatedReviewDTO(placeReview.getId(), placeReview.getTitle());
+    // request의 장소 목록을 route item 객체로 변환
+    private List<RouteItem> createRouteItems(List<ReviewRequestDTO.RouteDTO> routeDTOs, Animation animation, Route route) {
+        return routeDTOs.stream()
+                .map(routeDTO -> {
+                    Place place = findOrSavePlace(routeDTO);
+                    RouteItem routeItem = RouteItemConverter.toRouteItem(routeDTO, place, route);
+                    associateAnimationWithPlaceOrEvent(place, animation, getItemType(place));
+                    return routeItem;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private Place findOrSavePlace(ReviewRequestDTO.RouteDTO routeDTO) {
+        return placeRepository.findByNameAndLatAndLng(routeDTO.getName(), routeDTO.getLat(), routeDTO.getLng())
+                .orElseGet(() -> placeRepository.save(ReviewConverter.toPlace(routeDTO)));
+    }
+
+    // 장소인지 이벤트인지 확인
+    private ItemType getItemType(Place place) {
+        return eventLocationRepository.existsByLatitudeAndLongitude(place.getLat().toString(), place.getLng().toString()) ? ItemType.EVENT : ItemType.PLACE;
+    }
+
+    // 장소 또는 이벤트에 애니메이션을 연결
+    private void associateAnimationWithPlaceOrEvent(Place place, Animation animation, ItemType itemType) {
+        if (itemType == ItemType.PLACE) {
+            placeAnimationRepository.save(ReviewConverter.toPlaceAnimation(place, animation));
+        } else {
+            // Place에 해당하는 Event 찾기
+            EventLocation eventLocation = eventLocationRepository.findByLatitudeAndLongitude(place.getLat().toString(), place.getLng().toString())
+                    .orElseThrow(() -> new ReviewHandler(ErrorStatus.EVENT_NOT_FOUND));
+            Event event = eventLocation.getEvent();
+
+            // Event 객체를 이용해 EventAnimation 생성 및 저장
+            eventAnimationRepository.save(ReviewConverter.toEventAnimation(event, animation));
+
         }
+    }
 
-        else { // event review
-            Event event = eventRepository.findById(request.getEventId())
-                    .orElseThrow(() -> new EventHandler(ErrorStatus.EVENT_NOT_FOUND));
+    private Route saveRoute(String title) {
+        return routeRepository.save(RouteConverter.toRoute(title, null));
+    }
 
-            EventReview eventReview = eventReviewRepository.save(ReviewConverter.toEventReview(request, user, event));
-            imageCommandService.uploadReviewImages(reviewImages, eventReview.getId());
+    // 리뷰 저장 및 반환
+    private ReviewResponseDTO.CreatedReviewDTO saveReview(ReviewRequestDTO.CreateDTO request, User user, MultipartFile[] images, Route route) {
+        List<Place> places = route.getRouteItems().stream()
+                .map(routeItem -> placeRepository.findById(routeItem.getItemId())
+                        .orElseThrow(() -> new PlaceHandler(ErrorStatus.PLACE_NOT_FOUND)))
+                .collect(Collectors.toList());
+
+        if (request.getReviewType() == ReviewRequestDTO.ItemType.PLACE) {
+            // 먼저 PlaceReview를 저장
+            PlaceReview placeReview = placeReviewRepository.save(ReviewConverter.toPlaceReview(request, user, new ArrayList<>()));
+
+            // 저장된 PlaceReview를 기반으로 placeReviewPlaces 생성
+            List<PlaceReviewPlace> placeReviewPlaces = ReviewConverter.toPlaceReviewPlaceList(places, placeReview);
+
+            // placeList 업데이트 후 다시 저장
+            placeReview.setPlaceList(placeReviewPlaces);
+            placeReviewRepository.save(placeReview);
+
+            imageCommandService.uploadReviewImages(List.of(images), placeReview.getId());
+            return ReviewConverter.toCreatedReviewDTO(placeReview.getId(), placeReview.getTitle());
+
+        } else if (request.getReviewType() == ReviewRequestDTO.ItemType.EVENT) {
+            // 먼저 EventReview를 저장
+            EventReview eventReview = eventReviewRepository.save(ReviewConverter.toEventReview(request, user, new ArrayList<>()));
+
+            // 저장된 EventReview를 기반으로 eventReviewPlaces 생성
+            List<EventReviewPlace> eventReviewPlaces = ReviewConverter.toEventReviewPlaceList(places, eventReview);
+
+            // placeList 업데이트 후 다시 저장
+            eventReview.setPlaceList(eventReviewPlaces);
+            eventReviewRepository.save(eventReview);
+
+            imageCommandService.uploadReviewImages(List.of(images), eventReview.getId());
             return ReviewConverter.toCreatedReviewDTO(eventReview.getId(), eventReview.getTitle());
+
+        } else {
+            throw new ReviewHandler(ErrorStatus.INVALID_REVIEW_TYPE);
         }
     }
 }

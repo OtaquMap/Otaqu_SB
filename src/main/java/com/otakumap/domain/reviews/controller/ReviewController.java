@@ -78,10 +78,10 @@ public class ReviewController {
 
     @PostMapping(value = "/reviews", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @Operation(summary = "여행 후기 작성", description = "여행 후기를 작성합니다. 장소, 이벤트 후기 중 하나만 작성할 수 있으며, 최소 1개 이상의 루트 아이템이 필요합니다.")
-    public ApiResponse<ReviewResponseDTO.createdReviewDTO> createReview(@Parameter(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+    public ApiResponse<ReviewResponseDTO.CreatedReviewDTO> createReview(@Parameter(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
                                                                        @RequestPart("request") @Valid ReviewRequestDTO.CreateDTO request,
                                                                         @CurrentUser User user, @RequestPart("review images") MultipartFile[] images) {
-        ReviewResponseDTO.createdReviewDTO createdReview = reviewCommandService.createReview(request, user, images);
+        ReviewResponseDTO.CreatedReviewDTO createdReview = reviewCommandService.createReview(request, user, images);
         return ApiResponse.onSuccess(createdReview);
     }
 }

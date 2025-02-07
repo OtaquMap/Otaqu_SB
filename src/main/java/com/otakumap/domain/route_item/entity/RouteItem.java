@@ -1,5 +1,6 @@
 package com.otakumap.domain.route_item.entity;
 
+import com.otakumap.domain.place.entity.Place;
 import com.otakumap.domain.route.entity.Route;
 import com.otakumap.domain.route_item.enums.ItemType;
 import com.otakumap.global.common.BaseEntity;
@@ -33,4 +34,10 @@ public class RouteItem extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "route_id")
     private Route route;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "place_id")
+    private Place place;
+
+    public void setRoute(Route route) { this.route = route; }
 }
