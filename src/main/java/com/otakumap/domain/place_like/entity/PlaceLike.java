@@ -1,6 +1,7 @@
 package com.otakumap.domain.place_like.entity;
 
 import com.otakumap.domain.mapping.PlaceAnimation;
+import com.otakumap.domain.place.entity.Place;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
@@ -24,6 +25,10 @@ public class PlaceLike extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "place_id", nullable = false)
+    private Place place;
 
     @ManyToOne
     @JoinColumn(name = "place_animation_id", nullable = false)
