@@ -4,6 +4,7 @@ import com.otakumap.domain.image.entity.Image;
 import com.otakumap.domain.mapping.PlaceAnimation;
 import com.otakumap.domain.mapping.PlaceReviewPlace;
 import com.otakumap.domain.place.entity.Place;
+import com.otakumap.domain.route.entity.Route;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;
@@ -52,6 +53,10 @@ public class PlaceReview extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_animation_id")
     private PlaceAnimation placeAnimation;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "place_id")
+    private Route route;
 
     public void setPlaceList(List<PlaceReviewPlace> placeList) { this.placeList = placeList; }
 }

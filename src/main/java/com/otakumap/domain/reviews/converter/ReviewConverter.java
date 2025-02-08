@@ -122,23 +122,25 @@ public class ReviewConverter {
                 .build();
     }
 
-    public static EventReview toEventReview(ReviewRequestDTO.CreateDTO request, User user, List<EventReviewPlace> eventReviewPlaces) {
+    public static EventReview toEventReview(ReviewRequestDTO.CreateDTO request, User user, List<EventReviewPlace> eventReviewPlaces, Route route) {
         return EventReview.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
                 .view(0L)
                 .user(user)
                 .placeList(eventReviewPlaces)
+                .route(route)
                 .build();
     }
 
-    public static PlaceReview toPlaceReview(ReviewRequestDTO.CreateDTO request, User user, List<PlaceReviewPlace> placeReviewPlaces) {
+    public static PlaceReview toPlaceReview(ReviewRequestDTO.CreateDTO request, User user, List<PlaceReviewPlace> placeReviewPlaces, Route route) {
         return PlaceReview.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
                 .view(0L)
                 .user(user)
                 .placeList(placeReviewPlaces)
+                .route(route)
                 .build();
     }
 

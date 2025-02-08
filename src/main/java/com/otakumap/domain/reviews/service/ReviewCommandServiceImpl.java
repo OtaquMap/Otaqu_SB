@@ -124,7 +124,7 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
 
         if (request.getReviewType() == ReviewRequestDTO.ItemType.PLACE) {
             // 먼저 PlaceReview를 저장
-            PlaceReview placeReview = placeReviewRepository.save(ReviewConverter.toPlaceReview(request, user, new ArrayList<>()));
+            PlaceReview placeReview = placeReviewRepository.save(ReviewConverter.toPlaceReview(request, user, new ArrayList<>(), route));
 
             // 저장된 PlaceReview를 기반으로 placeReviewPlaces 생성
             List<PlaceReviewPlace> placeReviewPlaces = ReviewConverter.toPlaceReviewPlaceList(places, placeReview);
@@ -138,7 +138,7 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
 
         } else if (request.getReviewType() == ReviewRequestDTO.ItemType.EVENT) {
             // 먼저 EventReview를 저장
-            EventReview eventReview = eventReviewRepository.save(ReviewConverter.toEventReview(request, user, new ArrayList<>()));
+            EventReview eventReview = eventReviewRepository.save(ReviewConverter.toEventReview(request, user, new ArrayList<>(), route));
 
             // 저장된 EventReview를 기반으로 eventReviewPlaces 생성
             List<EventReviewPlace> eventReviewPlaces = ReviewConverter.toEventReviewPlaceList(places, eventReview);
