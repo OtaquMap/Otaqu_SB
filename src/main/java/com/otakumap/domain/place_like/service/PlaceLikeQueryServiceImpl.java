@@ -3,15 +3,14 @@ package com.otakumap.domain.place_like.service;
 import com.otakumap.domain.place_like.converter.PlaceLikeConverter;
 import com.otakumap.domain.place_like.dto.PlaceLikeResponseDTO;
 import com.otakumap.domain.place_like.entity.PlaceLike;
+import com.otakumap.domain.place_like.entity.QPlaceLike;
 import com.otakumap.domain.place_like.repository.PlaceLikeRepository;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
-import com.otakumap.global.apiPayload.exception.handler.EventHandler;
 import com.otakumap.global.apiPayload.exception.handler.PlaceHandler;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,23 +22,30 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class PlaceLikeQueryServiceImpl implements PlaceLikeQueryService {
     private final PlaceLikeRepository placeLikeRepository;
+    private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public PlaceLikeResponseDTO.PlaceLikePreViewListDTO getPlaceLikeList(User user, Long lastId, int limit) {
+    public PlaceLikeResponseDTO.PlaceLikePreViewListDTO getPlaceLikeList(User user, Boolean isFavorite, Long lastId, int limit) {
+        QPlaceLike qPlaceLike = QPlaceLike.placeLike;
+        BooleanBuilder predicate = new BooleanBuilder();
 
-        List<PlaceLike> result;
-        Pageable pageable = PageRequest.of(0, limit+1);
+        //user가 좋아요(PlaceLike)를 누른 데이터만 조회
+        predicate.and(qPlaceLike.user.eq(user));
 
-        Page<PlaceLike> placeLikePage = placeLikeRepository.findByUserIdAndIdLessThanOrderByIdDesc(user.getId(), lastId, pageable);
-
-        if (lastId.equals(0L)) {
-            // lastId가 0일 경우: 처음부터 데이터를 조회
-            result = placeLikeRepository.findAllByUserIsOrderByCreatedAtDesc(user, pageable).getContent();
-        } else {
-            // lastId가 0이 아닌 경우: lastId를 기준으로 이전 데이터를 조회
-            PlaceLike placeLike = placeLikeRepository.findById(lastId).orElseThrow(() -> new EventHandler(ErrorStatus.PLACE_LIKE_NOT_FOUND));
-            result = placeLikeRepository.findAllByUserIsAndCreatedAtLessThanOrderByCreatedAtDesc(user, placeLike.getCreatedAt(), pageable).getContent();
+        // isFavorite이 true일 때만 검색 조건에 추가
+        if (isFavorite != null && isFavorite) {
+            predicate.and(qPlaceLike .isFavorite.eq(isFavorite));
         }
+
+        List<PlaceLike> result = jpaQueryFactory
+                .selectFrom(qPlaceLike)
+                .leftJoin(qPlaceLike.place).fetchJoin()
+                .leftJoin(qPlaceLike.user).fetchJoin()
+                .where(predicate)
+                .orderBy(qPlaceLike.createdAt.desc())
+                .limit(limit + 1)
+                .fetch();
+
         return createPlaceLikePreviewListDTO(result, limit);
     }
 

@@ -30,14 +30,15 @@ public class PlaceLikeController {
     private final PlaceLikeQueryService placeLikeQueryService;
     private final PlaceLikeCommandService placeLikeCommandService;
 
-    @Operation(summary = "저장된 장소 목록 조회", description = "저장된 장소 목록을 불러옵니다.")
+    @Operation(summary = "저장된 장소 목록 조회(+ 즐겨찾기 목록 조회)", description = "저장된 장소 목록을 불러옵니다.")
     @GetMapping("")
     @Parameters({
+            @Parameter(name = "isFavorite", description = "즐겨찾기 여부(필수 X) -> true: 즐겨찾기 목록 조회"),
             @Parameter(name = "lastId", description = "마지막으로 조회된 저장된 장소 id, 처음 가져올 때 -> 0"),
             @Parameter(name = "limit", description = "한 번에 조회할 최대 장소 수. 기본값은 10입니다.")
     })
-    public ApiResponse<PlaceLikeResponseDTO.PlaceLikePreViewListDTO> getPlaceLikeList(@CurrentUser User user, @RequestParam(defaultValue = "0") Long lastId, @RequestParam(defaultValue = "10") int limit) {
-        return ApiResponse.onSuccess(placeLikeQueryService.getPlaceLikeList(user, lastId, limit));
+    public ApiResponse<PlaceLikeResponseDTO.PlaceLikePreViewListDTO> getPlaceLikeList(@CurrentUser User user, @RequestParam(required = false) Boolean isFavorite, @RequestParam(defaultValue = "0") Long lastId, @RequestParam(defaultValue = "10") int limit) {
+        return ApiResponse.onSuccess(placeLikeQueryService.getPlaceLikeList(user, isFavorite, lastId, limit));
     }
 
     @Operation(summary = "저장된 장소 삭제", description = "저장된 장소를 삭제합니다.")
