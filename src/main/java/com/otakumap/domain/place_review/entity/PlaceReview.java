@@ -55,7 +55,7 @@ public class PlaceReview extends BaseEntity {
     private PlaceAnimation placeAnimation;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "place_id")
+    @JoinColumn(name = "route_id")
     private Route route;
 
     public void setPlaceList(List<PlaceReviewPlace> placeList) { this.placeList = placeList; }
