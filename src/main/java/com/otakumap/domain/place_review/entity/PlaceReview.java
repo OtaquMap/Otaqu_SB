@@ -39,10 +39,10 @@ public class PlaceReview extends BaseEntity {
 //    @JoinColumn(name = "image_id", referencedColumnName = "id")
 //    private Image image;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "placeReview")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "placeReview", orphanRemoval = true)
     private List<Image> images = new ArrayList<>();
 
-    @OneToMany(mappedBy = "placeReview", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "placeReview", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PlaceReviewPlace> placeList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

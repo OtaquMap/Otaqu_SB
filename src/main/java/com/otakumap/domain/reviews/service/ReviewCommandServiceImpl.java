@@ -109,7 +109,10 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
     }
 
     private Route saveRoute(String title) {
-        return routeRepository.save(RouteConverter.toRoute(title, null));
+        return routeRepository.save(Route.builder()
+                .name(title)
+                .routeItems(new ArrayList<>())
+                .build());
     }
 
     // 리뷰 저장 및 반환
