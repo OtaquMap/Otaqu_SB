@@ -34,9 +34,10 @@ public class PlaceResponseDTO {
     public static class PlaceDetailDTO {
         private Long id;
         private String name;
-        private Boolean isSelected;
         private Double latitude;
         private Double longitude;
+        private Boolean isFavorite;
+        private Boolean isLiked;
         private List<String> animeName;
         private List<String> hashtags;
     }

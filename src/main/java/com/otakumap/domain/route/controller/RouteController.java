@@ -29,9 +29,10 @@ public class RouteController {
             @Parameter(name = "placeId", description = "루트 내 특정 장소 ID")
     })
     public ApiResponse<PlaceResponseDTO.PlaceDetailDTO> getPlaceDetail(
+            @CurrentUser User user,
             @PathVariable Long routeId,
             @PathVariable Long placeId) {
-        PlaceResponseDTO.PlaceDetailDTO placeDetail = placeQueryService.getPlaceDetail(routeId, placeId);
+        PlaceResponseDTO.PlaceDetailDTO placeDetail = placeQueryService.getPlaceDetail(user, routeId, placeId);
         return ApiResponse.onSuccess(placeDetail);
     }
 }

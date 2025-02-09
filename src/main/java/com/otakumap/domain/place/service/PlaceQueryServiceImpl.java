@@ -4,7 +4,9 @@ import com.otakumap.domain.mapping.PlaceAnimation;
 import com.otakumap.domain.place.DTO.PlaceResponseDTO;
 import com.otakumap.domain.place.entity.Place;
 import com.otakumap.domain.place_animation.repository.PlaceAnimationRepository;
+import com.otakumap.domain.place_like.repository.PlaceLikeRepository;
 import com.otakumap.domain.route_item.repository.RouteItemRepository;
+import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.PlaceHandler;
 import jakarta.transaction.Transactional;
@@ -21,6 +23,7 @@ public class PlaceQueryServiceImpl implements PlaceQueryService {
     private final PlaceRepository placeRepository;
     private final PlaceAnimationRepository placeAnimationRepository;
     private final RouteItemRepository routeItemRepository;
+    private final PlaceLikeRepository placeLikeRepository;
 
     @Override
     public boolean isPlaceExist(Long placeId) {
@@ -35,7 +38,7 @@ public class PlaceQueryServiceImpl implements PlaceQueryService {
 
     @Override
     @Transactional
-    public PlaceResponseDTO.PlaceDetailDTO getPlaceDetail(Long routeId, Long placeId) {
+    public PlaceResponseDTO.PlaceDetailDTO getPlaceDetail(User user, Long routeId, Long placeId) {
         // RouteItem을 통해 Place 조회
         Place place = routeItemRepository.findPlaceByRouteIdAndPlaceId(routeId, placeId)
                 .orElseThrow(() -> new PlaceHandler(ErrorStatus.PLACE_NOT_FOUND));
@@ -52,12 +55,17 @@ public class PlaceQueryServiceImpl implements PlaceQueryService {
                 .map(placeAnimationHashTag -> placeAnimationHashTag.getHashTag().getName())
                 .collect(Collectors.toList());
 
+
+        // 특정 사용자가 해당 Place를 좋아요 했는지 여부 확인
+        boolean isLiked = placeLikeRepository.findByPlaceIdAndUserId(placeId, user.getId()).isPresent();
+
         return PlaceResponseDTO.PlaceDetailDTO.builder()
                 .id(place.getId())
                 .name(place.getName())
-                .isSelected(Boolean.TRUE)  // isSelected는 True로 가정
                 .latitude(place.getLat())
                 .longitude(place.getLng())
+                .isFavorite(place.getIsFavorite())
+                .isLiked(isLiked)
                 .animeName(animeNames)
                 .hashtags(hashtags)
                 .build();
