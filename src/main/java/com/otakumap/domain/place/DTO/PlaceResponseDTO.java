@@ -26,4 +26,18 @@ public class PlaceResponseDTO {
         private Long animationId;
         private String animationName;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class PlaceDetailDTO {
+        private Long id;
+        private String name;
+        private Boolean isSelected;
+        private Double latitude;
+        private Double longitude;
+        private List<String> animeName;
+        private List<String> hashtags;
+    }
 }
