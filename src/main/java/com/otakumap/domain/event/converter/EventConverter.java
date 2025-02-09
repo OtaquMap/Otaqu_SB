@@ -4,6 +4,11 @@ import com.otakumap.domain.event.dto.EventResponseDTO;
 import com.otakumap.domain.event.entity.Event;
 import com.otakumap.domain.event_location.converter.EventLocationConverter;
 import com.otakumap.domain.image.converter.ImageConverter;
+import org.springframework.data.domain.Page;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EventConverter {
 
@@ -30,6 +35,16 @@ public class EventConverter {
                 .backgroundImage(ImageConverter.toImageDTO(event.getBackgroudImage()))
                 .goodsImage(ImageConverter.toImageDTO(event.getGoodsImage()))
                 .eventLocation(EventLocationConverter.toEventLocationDTO(event.getEventLocation()))
+                .build();
+    }
+
+    public static EventResponseDTO.EventSearchResultDTO toEventSearchResultDTO(Page<EventResponseDTO.EventDTO> events) {
+        return EventResponseDTO.EventSearchResultDTO.builder()
+                .events(events.getContent())
+                .pageNumber(events.getNumber())
+                .totalPages(events.getTotalPages())
+                .totalElements(events.getNumberOfElements())
+                .isLast(events.isLast())
                 .build();
     }
 }

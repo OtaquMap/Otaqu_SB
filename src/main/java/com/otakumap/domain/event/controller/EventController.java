@@ -1,5 +1,6 @@
 package com.otakumap.domain.event.controller;
 
+import com.otakumap.domain.event.converter.EventConverter;
 import com.otakumap.domain.event.dto.EventResponseDTO;
 import com.otakumap.domain.event.service.EventCustomService;
 import com.otakumap.domain.event.service.EventQueryService;
@@ -8,11 +9,9 @@ import com.otakumap.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,5 +41,16 @@ public class EventController {
     @GetMapping("/events/banner")
     public ApiResponse<ImageResponseDTO.ImageDTO> getBanner() {
         return ApiResponse.onSuccess(eventCustomService.getEventBanner());
+    }
+
+    @Operation(summary = "카테고리별로 이벤트 검색", description = "카테고리별로 이벤트를 검색합니다.")
+    @GetMapping("/events/category")
+    public ApiResponse<EventResponseDTO.EventSearchResultDTO> searchEventByCategory(
+            @Parameter(description = "애니메이션 장르 (ALL, ROMANCE, ACTION, FANTASY, THRILLER, SPORTS)", example = "ALL") @RequestParam(required = false) String genre,
+            @Parameter(description = "이벤트 상태 (IN_PROCESS, NOT_STARTED)") @RequestParam(required = false) String status,
+            @Parameter(description = "이벤트 종류 (ALL, POPUP_STORE, EXHIBITION, COLLABORATION_CAFE)") @RequestParam(required = false) String type,
+            @Parameter(description = "페이지 번호 (0부터 시작)", example = "0") @RequestParam Integer page,
+            @RequestParam Integer size) {
+        return ApiResponse.onSuccess(EventConverter.toEventSearchResultDTO(eventCustomService.searchEventByCategory(genre, status, type, page, size)));
     }
 }
