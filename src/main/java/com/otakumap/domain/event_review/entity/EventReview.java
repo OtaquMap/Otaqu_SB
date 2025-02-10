@@ -27,7 +27,7 @@ public class EventReview extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 50, nullable = false)
     private String title;
 
     @Column(columnDefinition = "text not null")
@@ -62,7 +62,7 @@ public class EventReview extends BaseEntity {
     private EventAnimation eventAnimation;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "place_id")
+    @JoinColumn(name = "route_id")
     private Route route;
 
     public void setPlaceList(List<EventReviewPlace> placeList) { this.placeList = placeList; }

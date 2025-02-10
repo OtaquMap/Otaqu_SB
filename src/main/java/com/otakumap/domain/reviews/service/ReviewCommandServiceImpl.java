@@ -9,9 +9,7 @@ import com.otakumap.domain.event_location.repository.EventLocationRepository;
 import com.otakumap.domain.event_review.entity.EventReview;
 import com.otakumap.domain.event_review.repository.EventReviewRepository;
 import com.otakumap.domain.image.service.ImageCommandService;
-import com.otakumap.domain.mapping.EventAnimation;
 import com.otakumap.domain.mapping.EventReviewPlace;
-import com.otakumap.domain.mapping.PlaceAnimation;
 import com.otakumap.domain.mapping.PlaceReviewPlace;
 import com.otakumap.domain.place.entity.Place;
 import com.otakumap.domain.place.repository.PlaceRepository;
@@ -21,7 +19,6 @@ import com.otakumap.domain.place_review.repository.PlaceReviewRepository;
 import com.otakumap.domain.reviews.converter.ReviewConverter;
 import com.otakumap.domain.reviews.dto.ReviewRequestDTO;
 import com.otakumap.domain.reviews.dto.ReviewResponseDTO;
-import com.otakumap.domain.route.converter.RouteConverter;
 import com.otakumap.domain.route.entity.Route;
 import com.otakumap.domain.route.repository.RouteRepository;
 import com.otakumap.domain.route_item.converter.RouteItemConverter;
@@ -133,7 +130,7 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
             placeReview.setPlaceList(placeReviewPlaces);
             placeReviewRepository.save(placeReview);
 
-            imageCommandService.uploadReviewImages(List.of(images), placeReview.getId());
+            imageCommandService.uploadReviewImages(List.of(images), placeReview.getId(), ItemType.PLACE);
             return ReviewConverter.toCreatedReviewDTO(placeReview.getId(), placeReview.getTitle());
 
         } else if (request.getReviewType() == ReviewRequestDTO.ItemType.EVENT) {
@@ -147,7 +144,7 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
             eventReview.setPlaceList(eventReviewPlaces);
             eventReviewRepository.save(eventReview);
 
-            imageCommandService.uploadReviewImages(List.of(images), eventReview.getId());
+            imageCommandService.uploadReviewImages(List.of(images), eventReview.getId(), ItemType.EVENT);
             return ReviewConverter.toCreatedReviewDTO(eventReview.getId(), eventReview.getTitle());
 
         } else {
