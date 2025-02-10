@@ -6,7 +6,6 @@ import com.otakumap.domain.hash_tag.dto.HashTagResponseDTO;
 import com.otakumap.domain.image.converter.ImageConverter;
 import com.otakumap.domain.mapping.PlaceReviewPlace;
 import com.otakumap.domain.place.entity.Place;
-import com.otakumap.domain.place_review.dto.PlaceReviewRequestDTO;
 import com.otakumap.domain.place_review.dto.PlaceReviewResponseDTO;
 import com.otakumap.domain.place_review.entity.PlaceReview;
 import com.otakumap.domain.user.entity.User;
@@ -24,16 +23,6 @@ public class PlaceReviewConverter {
                 .createdAt(LocalDateTime.now())
                 .build();
     }
-
-//    public static PlaceReview toPlaceReview(PlaceReviewRequestDTO.ReviewCreateRequestDTO request, User user, List<PlaceReviewPlace> placeReviewPlaces) {
-//        return PlaceReview.builder()
-//                .user(user)
-//                .placeList(placeReviewPlaces)
-//                .title(request.getTitle())
-//                .content(request.getContent())
-//                .view(0L)
-//                .build();
-//    }
 
     // PlaceReview -> PlaceReviewDTO 변환
     public static PlaceReviewResponseDTO.PlaceReviewDTO toPlaceReviewDTO(PlaceReview placeReview) {

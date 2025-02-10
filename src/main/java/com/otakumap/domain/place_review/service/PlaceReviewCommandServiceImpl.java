@@ -3,7 +3,6 @@ package com.otakumap.domain.place_review.service;
 import com.otakumap.domain.place.entity.Place;
 import com.otakumap.domain.place.repository.PlaceRepository;
 import com.otakumap.domain.place_review.converter.PlaceReviewConverter;
-import com.otakumap.domain.place_review.dto.PlaceReviewRequestDTO;
 import com.otakumap.domain.place_review.entity.PlaceReview;
 import com.otakumap.domain.place_review.repository.PlaceReviewRepository;
 import com.otakumap.domain.user.entity.User;
@@ -23,22 +22,6 @@ public class PlaceReviewCommandServiceImpl implements PlaceReviewCommandService 
     private final PlaceReviewRepository placeReviewRepository;
     private final PlaceRepository placeRepository;
     private final UserRepository userRepository;
-
-//    @Override
-//    @Transactional
-//    public PlaceReview createReview(PlaceReviewRequestDTO.ReviewCreateRequestDTO request) {
-//        User user = userRepository.findById(request.getUserId())
-//                .orElseThrow(() -> new UserHandler(ErrorStatus.USER_NOT_FOUND));
-//
-//        List<Place> places = placeRepository.findAllById(request.getPlaceIds());
-//        if (places.isEmpty()) {
-//            throw new PlaceHandler(ErrorStatus.PLACE_NOT_FOUND);
-//        }
-//
-//        PlaceReview placeReview = PlaceReviewConverter.toPlaceReview(request, user, places);
-//
-//        return placeReviewRepository.save(placeReview);
-//    }
 
     @Override
     @Transactional

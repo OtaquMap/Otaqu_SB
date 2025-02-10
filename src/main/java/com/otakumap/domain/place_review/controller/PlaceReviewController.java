@@ -18,15 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class PlaceReviewController {
-    private final PlaceReviewCommandService placeReviewCommandService;
     private final PlaceReviewQueryService placeReviewQueryService;
-
-//    @PostMapping("/review")
-//    @Operation(summary = "리뷰 작성")
-//    public ApiResponse<PlaceReviewResponseDTO.ReviewCreateResponseDTO> createReview(@RequestBody @Valid PlaceReviewRequestDTO.ReviewCreateRequestDTO request) {
-//        PlaceReview placeReview = placeReviewCommandService.createReview(request);
-//        return ApiResponse.onSuccess(PlaceReviewConverter.toReviewCreateResponseDTO(placeReview));
-//    }
 
     @GetMapping("/places/{placeId}/reviews")
     @Operation(summary = "특정 장소의 전체 후기 조회", description = "특정 장소의 후기들을 조회합니다")
