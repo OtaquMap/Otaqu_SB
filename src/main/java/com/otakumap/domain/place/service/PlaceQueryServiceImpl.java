@@ -5,10 +5,12 @@ import com.otakumap.domain.place.DTO.PlaceResponseDTO;
 import com.otakumap.domain.place.entity.Place;
 import com.otakumap.domain.place_animation.repository.PlaceAnimationRepository;
 import com.otakumap.domain.place_like.repository.PlaceLikeRepository;
+import com.otakumap.domain.route.repository.RouteRepository;
 import com.otakumap.domain.route_item.repository.RouteItemRepository;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.PlaceHandler;
+import com.otakumap.global.apiPayload.exception.handler.RouteHandler;
 import jakarta.transaction.Transactional;
 import com.otakumap.domain.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ public class PlaceQueryServiceImpl implements PlaceQueryService {
     private final PlaceAnimationRepository placeAnimationRepository;
     private final RouteItemRepository routeItemRepository;
     private final PlaceLikeRepository placeLikeRepository;
+    private final RouteRepository routeRepository;
 
     @Override
     public boolean isPlaceExist(Long placeId) {
@@ -39,6 +42,12 @@ public class PlaceQueryServiceImpl implements PlaceQueryService {
     @Override
     @Transactional
     public PlaceResponseDTO.PlaceDetailDTO getPlaceDetail(User user, Long routeId, Long placeId) {
+        // routeId가 존재하는지 먼저 확인
+        boolean routeExists = routeRepository.existsById(routeId);
+        if (!routeExists) {
+            throw new RouteHandler(ErrorStatus.ROUTE_NOT_FOUND);
+        }
+
         // RouteItem을 통해 Place 조회
         Place place = routeItemRepository.findPlaceByRouteIdAndPlaceId(routeId, placeId)
                 .orElseThrow(() -> new PlaceHandler(ErrorStatus.PLACE_NOT_FOUND));
