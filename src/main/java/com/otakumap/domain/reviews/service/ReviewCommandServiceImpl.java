@@ -21,11 +21,11 @@ import com.otakumap.domain.place_review_place.repository.PlaceReviewPlaceReposit
 import com.otakumap.domain.reviews.converter.ReviewConverter;
 import com.otakumap.domain.reviews.dto.ReviewRequestDTO;
 import com.otakumap.domain.reviews.dto.ReviewResponseDTO;
+import com.otakumap.domain.reviews.enums.ReviewType;
 import com.otakumap.domain.route.entity.Route;
 import com.otakumap.domain.route.repository.RouteRepository;
 import com.otakumap.domain.route_item.converter.RouteItemConverter;
 import com.otakumap.domain.route_item.entity.RouteItem;
-import com.otakumap.domain.route_item.enums.ItemType;
 import com.otakumap.domain.route_item.repository.RouteItemRepository;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
@@ -76,7 +76,8 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
         return routeDTOs.stream()
                 .map(routeDTO -> {
                     Place place = findOrSavePlace(routeDTO);
-                    RouteItem routeItem = RouteItemConverter.toRouteItem(routeDTO, place, route);
+                    RouteItem routeItem = RouteItemConverter.toRouteItem(routeDTO.getOrder(), place);
+                    routeItem.setRoute(route);
                     associateAnimationWithPlaceOrEvent(place, animation, getItemType(place));
                     return routeItem;
                 })
@@ -89,13 +90,13 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
     }
 
     // 장소인지 이벤트인지 확인
-    private ItemType getItemType(Place place) {
-        return eventLocationRepository.existsByLatitudeAndLongitude(place.getLat().toString(), place.getLng().toString()) ? ItemType.EVENT : ItemType.PLACE;
+    private ReviewType getItemType(Place place) {
+        return eventLocationRepository.existsByLatitudeAndLongitude(place.getLat().toString(), place.getLng().toString()) ? ReviewType.EVENT : ReviewType.PLACE;
     }
 
     // 장소 또는 이벤트에 애니메이션을 연결
-    private void associateAnimationWithPlaceOrEvent(Place place, Animation animation, ItemType itemType) {
-        if (itemType == ItemType.PLACE) {
+    private void associateAnimationWithPlaceOrEvent(Place place, Animation animation, ReviewType itemType) {
+        if (itemType == ReviewType.PLACE) {
             placeAnimationRepository.save(ReviewConverter.toPlaceAnimation(place, animation));
         } else {
             // Place에 해당하는 Event 찾기
@@ -121,11 +122,11 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
         List<RouteItem> routeItems = routeItemRepository.findByRouteId(route.getId());
 
         List<Place> places = routeItems.stream()
-                .map(routeItem -> placeRepository.findById(routeItem.getItemId())
+                .map(routeItem -> placeRepository.findById(routeItem.getPlace().getId())
                         .orElseThrow(() -> new PlaceHandler(ErrorStatus.PLACE_NOT_FOUND)))
                 .collect(Collectors.toList());
 
-        if (request.getReviewType() == ReviewRequestDTO.ItemType.PLACE) {
+        if (request.getReviewType() == ReviewType.PLACE) {
             // 먼저 PlaceReview를 저장
             PlaceReview placeReview = ReviewConverter.toPlaceReview(request, user, new ArrayList<>(), route);
             placeReview = placeReviewRepository.save(placeReview);
@@ -138,10 +139,10 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
             placeReview.setPlaceList(placeReviewPlaces);
             placeReview = placeReviewRepository.save(placeReview);
 
-            imageCommandService.uploadReviewImages(List.of(images), placeReview.getId(), ItemType.PLACE);
+            imageCommandService.uploadReviewImages(List.of(images), placeReview.getId(), ReviewType.PLACE);
             return ReviewConverter.toCreatedReviewDTO(placeReview.getId(), placeReview.getTitle());
 
-        } else if (request.getReviewType() == ReviewRequestDTO.ItemType.EVENT) {
+        } else if (request.getReviewType() == ReviewType.EVENT) {
             // 먼저 EventReview를 저장
             EventReview eventReview = ReviewConverter.toEventReview(request, user, new ArrayList<>(), route);
             eventReview = eventReviewRepository.save(eventReview);
@@ -154,7 +155,7 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
             eventReview.setPlaceList(eventReviewPlaces);
             eventReview = eventReviewRepository.save(eventReview);
 
-            imageCommandService.uploadReviewImages(List.of(images), eventReview.getId(), ItemType.EVENT);
+            imageCommandService.uploadReviewImages(List.of(images), eventReview.getId(), ReviewType.EVENT);
             return ReviewConverter.toCreatedReviewDTO(eventReview.getId(), eventReview.getTitle());
 
         } else {

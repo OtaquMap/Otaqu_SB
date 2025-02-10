@@ -1,5 +1,6 @@
 package com.otakumap.domain.reviews.dto;
 
+import com.otakumap.domain.reviews.enums.ReviewType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -17,7 +18,7 @@ public class ReviewRequestDTO {
         private String content;
 
         @NotNull(message = "후기 종류를 입력해주세요. (place/event)")
-        private ItemType reviewType;
+        private ReviewType reviewType;
 
         @NotNull(message = "애니메이션 id를 입력해주세요.")
         private Long animeId;
@@ -42,9 +43,5 @@ public class ReviewRequestDTO {
 
         @NotNull(message = "order를 입력해주세요.")
         private Integer order;
-    }
-
-    public enum ItemType {
-        PLACE, EVENT
     }
 }

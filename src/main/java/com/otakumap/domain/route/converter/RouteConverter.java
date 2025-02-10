@@ -1,14 +1,8 @@
 package com.otakumap.domain.route.converter;
 
-import com.otakumap.domain.place.entity.Place;
-import com.otakumap.domain.reviews.dto.ReviewRequestDTO;
 import com.otakumap.domain.route.dto.RouteResponseDTO;
 import com.otakumap.domain.route.entity.Route;
 import com.otakumap.domain.route_item.converter.RouteItemConverter;
-import com.otakumap.domain.route_item.entity.RouteItem;
-import com.otakumap.domain.route_item.enums.ItemType;
-
-import java.util.List;
 import com.otakumap.domain.route_item.entity.RouteItem;
 
 import java.util.List;

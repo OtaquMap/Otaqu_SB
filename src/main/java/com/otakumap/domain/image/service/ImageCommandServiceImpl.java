@@ -7,7 +7,7 @@ import com.otakumap.domain.image.entity.Image;
 import com.otakumap.domain.image.repository.ImageRepository;
 import com.otakumap.domain.place_review.entity.PlaceReview;
 import com.otakumap.domain.place_review.repository.PlaceReviewRepository;
-import com.otakumap.domain.route_item.enums.ItemType;
+import com.otakumap.domain.reviews.enums.ReviewType;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.ImageHandler;
 import com.otakumap.global.apiPayload.exception.handler.ReviewHandler;
@@ -39,18 +39,18 @@ public class ImageCommandServiceImpl implements ImageCommandService {
 
     @Override
     @Transactional
-    public List<Image> uploadReviewImages(List<MultipartFile> files, Long reviewId, ItemType reviewType) {
+    public List<Image> uploadReviewImages(List<MultipartFile> files, Long reviewId, ReviewType reviewType) {
         return files.stream()
                 .map(file -> {
                     String keyName = amazonS3Util.generateReviewKeyName();
                     String fileUrl = amazonS3Util.uploadFile(keyName, file);
                     Image image = ImageConverter.toImage((keyName.split("/")[1]), keyName, fileUrl);
 
-                    if (reviewType == ItemType.EVENT) {
+                    if (reviewType == ReviewType.EVENT) {
                         EventReview eventReview = eventReviewRepository.findById(reviewId)
                                 .orElseThrow(() -> new ReviewHandler(ErrorStatus.REVIEW_NOT_FOUND));
                         image.setEventReview(eventReview);
-                    } else if (reviewType == ItemType.PLACE) {
+                    } else if (reviewType == ReviewType.PLACE) {
                         PlaceReview placeReview = placeReviewRepository.findById(reviewId)
                                 .orElseThrow(() -> new ReviewHandler(ErrorStatus.REVIEW_NOT_FOUND));
                         image.setPlaceReview(placeReview);
