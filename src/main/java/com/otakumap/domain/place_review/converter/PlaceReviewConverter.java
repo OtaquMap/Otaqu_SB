@@ -15,15 +15,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class PlaceReviewConverter {
-    public static PlaceReviewResponseDTO.ReviewCreateResponseDTO toReviewCreateResponseDTO(PlaceReview placeReview) {
-        return PlaceReviewResponseDTO.ReviewCreateResponseDTO.builder()
-                .reviewId(placeReview.getId())
-                .title(placeReview.getTitle())
-                .content(placeReview.getContent())
-                .createdAt(LocalDateTime.now())
-                .build();
-    }
-
     // PlaceReview -> PlaceReviewDTO 변환
     public static PlaceReviewResponseDTO.PlaceReviewDTO toPlaceReviewDTO(PlaceReview placeReview) {
 

@@ -1,7 +1,6 @@
 package com.otakumap.domain.place_review.controller;
 
 import com.otakumap.domain.place_review.converter.PlaceReviewConverter;
-import com.otakumap.domain.place_review.dto.PlaceReviewRequestDTO;
 import com.otakumap.domain.place_review.dto.PlaceReviewResponseDTO;
 import com.otakumap.domain.place_review.entity.PlaceReview;
 import com.otakumap.domain.place_review.service.PlaceReviewCommandService;
