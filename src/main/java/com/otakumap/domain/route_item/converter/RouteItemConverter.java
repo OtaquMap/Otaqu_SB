@@ -16,33 +16,12 @@ public class RouteItemConverter {
                 .build();
     }
 
-//    public static RouteItemResponseDTO.RouteItemDTO toRouteItemDTO(RouteItem routeItem) {
-//        return RouteItemResponseDTO.RouteItemDTO.builder()
-//                .routeItemId(routeItem.getId())
-//                .name(routeItem.getName())
-//                .itemId(routeItem.getItemId())
-//                .itemType(routeItem.getItemType())
-//                .itemOrder(routeItem.getItemOrder())
-//                .build();
-//    }
-
     public static RouteItemResponseDTO.RouteItemDTO toRouteItemDTO(RouteItem routeItem) {
         return RouteItemResponseDTO.RouteItemDTO.builder()
                 .routeItemId(routeItem.getId())
                 .name(routeItem.getPlace().getName())
                 .placeId(routeItem.getPlace().getId())
                 .itemOrder(routeItem.getItemOrder())
-                .build();
-    }
-
-    public static RouteItem toRouteItem(ReviewRequestDTO.RouteDTO routeDTO, Place place, Route route) {
-        return RouteItem.builder()
-                .name(routeDTO.getName())
-                .itemOrder(routeDTO.getOrder())
-                .itemId(place.getId())
-                .itemType(ItemType.PLACE)
-                .route(route)
-                .place(place)
                 .build();
     }
 }

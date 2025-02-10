@@ -20,7 +20,7 @@ public class PlaceReviewConverter {
 
         return PlaceReviewResponseDTO.PlaceReviewDTO.builder()
                 .reviewId(placeReview.getId())
-                .placeIds(placeReview.getPlaceList().stream().map(prp -> prp.getPlace().getId()).collect(Collectors.toList()))
+                .placeIds(placeReview.getPlaceList().stream().map(prp -> prp.getPlace().getId()).collect(Collectors.toList())) // 해령: placeId -> placeIds로 변경
                 .title(placeReview.getTitle())
                 .content(placeReview.getContent())
                 .view(placeReview.getView())

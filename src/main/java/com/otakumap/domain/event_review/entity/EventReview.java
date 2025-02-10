@@ -5,7 +5,6 @@ import com.otakumap.domain.image.entity.Image;
 import com.otakumap.domain.mapping.EventAnimation;
 import com.otakumap.domain.mapping.EventReviewPlace;
 import com.otakumap.domain.route.entity.Route;
-import com.otakumap.domain.route.entity.Route;
 import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.common.BaseEntity;
 import jakarta.persistence.*;

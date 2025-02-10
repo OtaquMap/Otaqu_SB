@@ -24,13 +24,6 @@ public class RouteConverter {
                 .build();
     }
 
-//    public static Route toRoute(String name, List<RouteItem> routeItems) {
-//        return Route.builder()
-//                .name(name)
-//                .routeItems(routeItems)
-//                .build();
-//    }
-
     public static Route toRoute(String name, List<RouteItem> routeItems) {
         Route route = Route.builder()
                 .name(name)

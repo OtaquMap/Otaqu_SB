@@ -1,15 +1,11 @@
 package com.otakumap.domain.place_review.controller;
 
-import com.otakumap.domain.place_review.converter.PlaceReviewConverter;
 import com.otakumap.domain.place_review.dto.PlaceReviewResponseDTO;
-import com.otakumap.domain.place_review.entity.PlaceReview;
-import com.otakumap.domain.place_review.service.PlaceReviewCommandService;
 import com.otakumap.domain.place_review.service.PlaceReviewQueryService;
 import com.otakumap.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
