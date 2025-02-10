@@ -15,7 +15,7 @@ public class ReviewConverter {
         return ReviewResponseDTO.Top7ReviewPreViewDTO.builder()
                 .id(eventReview.getId())
                 .title(eventReview.getTitle())
-                .reviewImage(eventReview.getImages() != null ?
+                .reviewImage(eventReview.getImages() != null && !eventReview.getImages().isEmpty() ?
                         ImageConverter.toImageDTO(eventReview.getImages().get(0)) :
                         null) // 나중에 수정
                 .view(eventReview.getView())
@@ -28,7 +28,7 @@ public class ReviewConverter {
         return ReviewResponseDTO.Top7ReviewPreViewDTO.builder()
                 .id(eventReview.getId())
                 .title(eventReview.getTitle())
-                .reviewImage(eventReview.getImages() != null ?
+                .reviewImage(eventReview.getImages() != null && !eventReview.getImages().isEmpty() ?
                         ImageConverter.toImageDTO(eventReview.getImages().get(0)) :
                         null) // 나중에 수정
                 .view(eventReview.getView())
@@ -43,7 +43,7 @@ public class ReviewConverter {
                 .id(eventReview.getEvent().getId())
                 .title(eventReview.getTitle())
                 .content(eventReview.getContent())
-                .reviewImage(ImageConverter.toImageDTO(eventReview.getImages().get(0))) // 나중에 수정
+                .reviewImage(ImageConverter.toImageDTO(!eventReview.getImages().isEmpty() ? eventReview.getImages().get(0) : null))
                 .view(eventReview.getView())
                 .createdAt(eventReview.getCreatedAt())
                 .type("event")
@@ -56,14 +56,14 @@ public class ReviewConverter {
                 .id(placeReview.getPlace().getId())
                 .title(placeReview.getTitle())
                 .content(placeReview.getContent())
-                .reviewImage(ImageConverter.toImageDTO(placeReview.getImages().get(0))) // 나중에 수정
+                .reviewImage(ImageConverter.toImageDTO(!placeReview.getImages().isEmpty() ? placeReview.getImages().get(0) : null))
                 .view(placeReview.getView())
                 .createdAt(placeReview.getCreatedAt())
                 .type("place")
                 .build();
     }
 
-    public static ReviewResponseDTO.ReviewDetailDTO toPlaceReviewDetailDTO(PlaceReview placeReview, Route route) {
+    public static ReviewResponseDTO.ReviewDetailDTO toPlaceReviewDetailDTO(PlaceReview placeReview) {
         return ReviewResponseDTO.ReviewDetailDTO.builder()
                 .reviewId(placeReview.getId())
                 .animationName(placeReview.getPlaceAnimation().getAnimation().getName() != null ? placeReview.getPlaceAnimation().getAnimation().getName() : null)
@@ -77,11 +77,11 @@ public class ReviewConverter {
                 .userName(placeReview.getUser().getName())
                 .profileImage(ImageConverter.toImageDTO(placeReview.getUser().getProfileImage()))
                 .createdAt(placeReview.getCreatedAt())
-                .route(RouteConverter.toRouteDTO(route))
+                .route(RouteConverter.toRouteDTO(placeReview.getRoute()))
                 .build();
     }
 
-    public static ReviewResponseDTO.ReviewDetailDTO toEventReviewDetailDTO(EventReview eventReview, Route route) {
+    public static ReviewResponseDTO.ReviewDetailDTO toEventReviewDetailDTO(EventReview eventReview) {
         return ReviewResponseDTO.ReviewDetailDTO.builder()
                 .reviewId(eventReview.getId())
                 .animationName(eventReview.getEventAnimation().getAnimation().getName() != null ? eventReview.getEventAnimation().getAnimation().getName() : null)
@@ -95,7 +95,7 @@ public class ReviewConverter {
                 .userName(eventReview.getUser().getName())
                 .profileImage(ImageConverter.toImageDTO(eventReview.getUser().getProfileImage()))
                 .createdAt(eventReview.getCreatedAt())
-                .route(RouteConverter.toRouteDTO(route))
+                .route(RouteConverter.toRouteDTO(eventReview.getRoute()))
                 .build();
     }
 }

@@ -68,17 +68,18 @@ public class PlaceReviewConverter {
                                                                                            List<PlaceReviewResponseDTO.AnimationReviewGroupDTO> animationGroups,
                                                                                            Float avgRating) {
 
-        List<HashTagResponseDTO.HashTagDTO> hashTagDTOs = place.getPlaceHashTagList()
-                .stream()
-                .map(placeHashTag -> HashTagConverter.toHashTagDTO(placeHashTag.getHashTag()))
-                .toList();
+        // place_hashtag -> place_animation_hashtag 변경에 따라 일단 주석 처리
+        //List<HashTagResponseDTO.HashTagDTO> hashTagDTOs = place.getPlaceHashTagList()
+        //        .stream()
+        //        .map(placeHashTag -> HashTagConverter.toHashTagDTO(placeHashTag.getHashTag()))
+        //        .toList();
 
         return PlaceReviewResponseDTO.PlaceAnimationReviewDTO.builder()
                 .placeId(place.getId())
                 .placeName(place.getName())
                 .animationGroups(animationGroups)
                 .totalReviews(totalReviews)
-                .hashTags(hashTagDTOs)
+                //.hashTags(hashTagDTOs)
                 .avgRating(avgRating)
                 .build();
     }

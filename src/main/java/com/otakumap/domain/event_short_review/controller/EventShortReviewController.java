@@ -40,7 +40,8 @@ public class EventShortReviewController {
     @Operation(summary = "이벤트 한 줄 리뷰 목록 조회", description = "특정 이벤트의 한 줄 리뷰 목록을 불러옵니다.")
     @GetMapping("/events/{eventId}/short-reviews")
     @Parameters({
-            @Parameter(name = "eventId", description = "특정 이벤트의 Id")
+            @Parameter(name = "eventId", description = "특정 이벤트의 아이디입니다."),
+            @Parameter(name = "page", description = "페이지 번호입니다. 0부터 시작합니다.", example = "0")
     })
     public ApiResponse<EventShortReviewResponseDTO.EventShortReviewListDTO> getEventShortReviewList(@PathVariable(name = "eventId") Long eventId, @RequestParam(name = "page")Integer page) {
         return ApiResponse.onSuccess(EventShortReviewConverter.toEventShortReviewListDTO(eventShortReviewCommandService.getEventShortReviewsByEventId(eventId, page)));
