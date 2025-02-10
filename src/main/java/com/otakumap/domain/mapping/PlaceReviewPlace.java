@@ -24,10 +24,7 @@ public class PlaceReviewPlace extends BaseEntity {
     @JoinColumn(name = "place_id")
     private Place place;
 
-    public void setPlaceReview(PlaceReview placeReview) {
-        this.placeReview = placeReview;
-        placeReview.getPlaceList().add(this);
-    }
+    public void setPlaceReview(PlaceReview placeReview) { this.placeReview = placeReview; }
 
     public void setPlace(Place place) { this.place = place; }
 }

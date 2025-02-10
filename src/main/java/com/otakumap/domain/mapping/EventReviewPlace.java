@@ -23,4 +23,6 @@ public class EventReviewPlace extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_id")
     private Place place;
+
+    public void setEventReview(EventReview eventReview) { this.eventReview = eventReview; }
 }
