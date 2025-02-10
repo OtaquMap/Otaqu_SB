@@ -40,4 +40,8 @@ public class PlaceShortReview extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_animation_id")
     private PlaceAnimation placeAnimation;
+
+    public void updateLikes(Long likes) { this.likes = likes; }
+
+    public void updateDislikes(Long dislikes) { this.dislikes = dislikes; }
 }
