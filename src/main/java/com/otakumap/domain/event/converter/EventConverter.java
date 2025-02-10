@@ -3,12 +3,10 @@ package com.otakumap.domain.event.converter;
 import com.otakumap.domain.event.dto.EventResponseDTO;
 import com.otakumap.domain.event.entity.Event;
 import com.otakumap.domain.event_location.converter.EventLocationConverter;
-import com.otakumap.domain.hash_tag.converter.HashTagConverter;
-import com.otakumap.domain.hash_tag.entity.HashTag;
+import com.otakumap.domain.hash_tag.dto.HashTagResponseDTO;
 import com.otakumap.domain.image.converter.ImageConverter;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class EventConverter {
 
@@ -38,15 +36,14 @@ public class EventConverter {
                 .build();
     }
 
-    public static EventResponseDTO.SearchedEventInfoDTO toSearchedEventInfoDTO(Event event, Boolean isFavorite, List<HashTag> hashTags) {
+    public static EventResponseDTO.SearchedEventInfoDTO toSearchedEventInfoDTO(Event event, Boolean isFavorite, String animationTitle, List<HashTagResponseDTO.HashTagDTO> hashTags) {
 
         return EventResponseDTO.SearchedEventInfoDTO.builder()
                 .eventId(event.getId())
                 .name(event.getName())
                 .isFavorite(isFavorite)
-                .hashTags(hashTags.stream()
-                        .map(HashTagConverter::toHashTagDTO)
-                        .collect(Collectors.toList()))
+                .animationTitle(animationTitle)
+                .hashTags(hashTags)
                 .build();
     }
 }
