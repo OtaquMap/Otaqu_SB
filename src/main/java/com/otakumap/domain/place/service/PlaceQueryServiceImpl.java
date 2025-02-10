@@ -2,6 +2,7 @@ package com.otakumap.domain.place.service;
 
 import com.otakumap.domain.mapping.PlaceAnimation;
 import com.otakumap.domain.place.DTO.PlaceResponseDTO;
+import com.otakumap.domain.place.converter.PlaceConverter;
 import com.otakumap.domain.place.entity.Place;
 import com.otakumap.domain.place_animation.repository.PlaceAnimationRepository;
 import com.otakumap.domain.place_like.repository.PlaceLikeRepository;
@@ -17,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -54,29 +54,15 @@ public class PlaceQueryServiceImpl implements PlaceQueryService {
 
         // 애니메이션 관련 정보 조회
         List<PlaceAnimation> placeAnimations = placeAnimationRepository.findByPlaceId(placeId);
-        List<String> animeNames = placeAnimations.stream()
-                .map(placeAnimation -> placeAnimation.getAnimation().getName())
-                .collect(Collectors.toList());
+        PlaceResponseDTO.PlaceAnimationListDTO animationListDTO = PlaceConverter.toPlaceAnimationListDTO(placeAnimations);
 
         // 해시태그 정보 조회
-        List<String> hashtags = placeAnimations.stream()
-                .flatMap(placeAnimation -> placeAnimation.getPlaceAnimationHashTags().stream())
-                .map(placeAnimationHashTag -> placeAnimationHashTag.getHashTag().getName())
-                .collect(Collectors.toList());
+        List<String> hashtags = PlaceConverter.toPlaceHashtagsDTO(placeAnimations);
 
 
         // 특정 사용자가 해당 Place를 좋아요 했는지 여부 확인
         boolean isLiked = placeLikeRepository.findByPlaceIdAndUserId(placeId, user.getId()).isPresent();
 
-        return PlaceResponseDTO.PlaceDetailDTO.builder()
-                .id(place.getId())
-                .name(place.getName())
-                .latitude(place.getLat())
-                .longitude(place.getLng())
-                .isFavorite(place.getIsFavorite())
-                .isLiked(isLiked)
-                .animeName(animeNames)
-                .hashtags(hashtags)
-                .build();
+        return PlaceConverter.toPlaceDetailDTO(place, animationListDTO, hashtags, isLiked);
     }
 }

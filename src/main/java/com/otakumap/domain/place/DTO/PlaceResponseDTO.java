@@ -38,7 +38,7 @@ public class PlaceResponseDTO {
         private Double longitude;
         private Boolean isFavorite;
         private Boolean isLiked;
-        private List<String> animeName;
+        private PlaceResponseDTO.PlaceAnimationListDTO animationListDTO;
         private List<String> hashtags;
     }
 
