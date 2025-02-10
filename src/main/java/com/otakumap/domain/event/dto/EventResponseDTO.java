@@ -51,6 +51,7 @@ public class EventResponseDTO {
         Long eventId;
         String name;
         Boolean isFavorite;
+        private String animationTitle;
         List<HashTagResponseDTO.HashTagDTO> hashTags;
     }
 }
