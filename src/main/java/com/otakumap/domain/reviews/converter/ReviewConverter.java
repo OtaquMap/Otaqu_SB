@@ -130,6 +130,7 @@ public class ReviewConverter {
                 .user(user)
                 .placeList(eventReviewPlaces)
                 .route(route)
+                .rating(0F)
                 .build();
     }
 
