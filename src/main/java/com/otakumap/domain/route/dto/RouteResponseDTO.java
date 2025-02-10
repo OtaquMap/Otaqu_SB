@@ -1,5 +1,6 @@
 package com.otakumap.domain.route.dto;
 
+import com.otakumap.domain.place.DTO.PlaceResponseDTO;
 import com.otakumap.domain.route_item.dto.RouteItemResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,5 +18,14 @@ public class RouteResponseDTO {
     public static class RouteDTO {
         Long routeId;
         List<RouteItemResponseDTO.RouteItemDTO> routeItems;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class RouteDetailDTO {
+        private Long routeId;
+        private List<PlaceResponseDTO.PlaceDTO> places;
     }
 }

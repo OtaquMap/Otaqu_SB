@@ -41,4 +41,15 @@ public class PlaceResponseDTO {
         private List<String> animeName;
         private List<String> hashtags;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class PlaceDTO {
+        private Long id;
+        private String name;
+        private Double latitude;
+        private Double longitude;
+    }
 }
