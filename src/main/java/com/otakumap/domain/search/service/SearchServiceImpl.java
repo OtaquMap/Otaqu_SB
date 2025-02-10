@@ -1,5 +1,7 @@
 package com.otakumap.domain.search.service;
 
+import com.otakumap.domain.animation.converter.AnimationConverter;
+import com.otakumap.domain.animation.dto.AnimationResponseDTO;
 import com.otakumap.domain.event.converter.EventConverter;
 import com.otakumap.domain.event.dto.EventResponseDTO;
 import com.otakumap.domain.event.entity.Event;
@@ -8,10 +10,15 @@ import com.otakumap.domain.event_like.entity.EventLike;
 import com.otakumap.domain.event_like.repository.EventLikeRepository;
 import com.otakumap.domain.event_location.entity.EventLocation;
 import com.otakumap.domain.event_location.repository.EventLocationRepository;
-import com.otakumap.domain.hash_tag.entity.HashTag;
+import com.otakumap.domain.hash_tag.converter.HashTagConverter;
+import com.otakumap.domain.hash_tag.dto.HashTagResponseDTO;
 import com.otakumap.domain.mapping.EventHashTag;
 import com.otakumap.domain.mapping.repository.EventHashTagRepository;
+import com.otakumap.domain.place.DTO.PlaceResponseDTO;
+import com.otakumap.domain.place.converter.PlaceConverter;
 import com.otakumap.domain.place.entity.Place;
+import com.otakumap.domain.place.repository.PlaceRepository;
+import com.otakumap.domain.place_like.repository.PlaceLikeRepository;
 import com.otakumap.domain.search.converter.SearchConverter;
 import com.otakumap.domain.search.dto.SearchResponseDTO;
 import com.otakumap.domain.search.repository.SearchRepositoryCustom;
@@ -20,10 +27,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -35,6 +39,8 @@ public class SearchServiceImpl implements SearchService {
     private final EventLocationRepository eventLocationRepository;
     private final EventLikeRepository eventLikeRepository;
     private final EventHashTagRepository eventHashTagRepository;
+    private final PlaceLikeRepository placeLikeRepository;
+    private final PlaceRepository placeRepository;
 
     @Transactional(readOnly = true)
     @Override
@@ -59,40 +65,90 @@ public class SearchServiceImpl implements SearchService {
                         .distinct() // 중복 이벤트 제거
                         .toList();
 
-        // 위도,경도 조합으로 같은 것들끼리 그룹화
+        // 이벤트를 위치(위도, 경도) 기준으로 그룹화
         Map<String, List<Event>> groupedEvents = combinedEvents.stream()
                 .filter(event -> event.getEventLocation() != null)
-                .collect(Collectors.groupingBy(event -> {
-                    Double lat = event.getEventLocation().getLat();
-                    Double lng = event.getEventLocation().getLng();
-                    return lat + "," + lng;
-                }));
+                .collect(Collectors.groupingBy(event ->
+                        event.getEventLocation().getLat() + "," + event.getEventLocation().getLng()
+                ));
 
-        return groupedEvents.entrySet().stream()
-                .map(entry -> {
-                    String key = entry.getKey();  // "lat,lng" 형태의 키 값에서 위/경도 추출
-                    String[] parts = key.split(",");
-                    Double lat = Double.valueOf(parts[0]);
-                    Double lng = Double.valueOf(parts[1]);
+        // 장소들을 위치 기준으로 그룹화 (같은 위치에 여러 명소가 있을 수 있으므로 그룹화)
+        Map<String, List<Place>> groupedPlaces = safePlaces.stream()
+                .collect(Collectors.groupingBy(place -> place.getLat() + "," + place.getLng()));
 
-                    // 각 event를 DTO로 변환
-                    List<EventResponseDTO.SearchedEventInfoDTO> eventDTOs = entry.getValue().stream()
-                            .map(event -> {
-                                EventLike eventLike = eventLikeRepository.findByUserAndEvent(user, event);
-                                boolean isFavorite = eventLike != null && eventLike.getIsFavorite() == Boolean.TRUE;
+        // 만약 groupedEvents에는 존재하는 위치(key)가 groupedPlaces에 없다면,
+        // 해당 위치의 장소들을 조회해서 groupedPlaces에 추가
+        for (String key : groupedEvents.keySet()) {
+            if (!groupedPlaces.containsKey(key)) {
+                String[] parts = key.split(",");
+                Double lat = Double.valueOf(parts[0]);
+                Double lng = Double.valueOf(parts[1]);
 
-                                List<EventHashTag> eventHashTags = eventHashTagRepository.findByEvent(event);
-                                List<HashTag> hashTags = eventHashTags.stream()
-                                        .map(EventHashTag::getHashTag)
-                                        .collect(Collectors.toList());
+                List<Place> additionalPlaces = placeRepository.findByLatAndLng(lat, lng);
 
-                                return EventConverter.toSearchedEventInfoDTO(event, isFavorite, hashTags);
-                            })
-                            .collect(Collectors.toList());
+                if (additionalPlaces != null && !additionalPlaces.isEmpty()) {
+                    groupedPlaces.put(key, additionalPlaces);
+                }
+            }
+        }
 
-                    return SearchConverter.toSearchResultDTO(eventDTOs, lat, lng);
-                })
-                .toList();
+        // 모든 위치 키의 합집합
+        Set<String> allKeys = new HashSet<>();
+        allKeys.addAll(groupedEvents.keySet());
+        allKeys.addAll(groupedPlaces.keySet());
+
+        // 각 위치 키별로 이벤트와 장소 정보를 DTO로 변환하여 SearchResultDTO 생성
+        return allKeys.stream().map(key -> {
+            String[] parts = key.split(",");
+            Double lat = Double.valueOf(parts[0]);
+            Double lng = Double.valueOf(parts[1]);
+
+            // 해당 위치의 이벤트들을 DTO로 변환
+            List<EventResponseDTO.SearchedEventInfoDTO> eventDTOs = groupedEvents.getOrDefault(key, Collections.emptyList())
+                    .stream().map(event -> {
+                        EventLike eventLike = eventLikeRepository.findByUserAndEvent(user, event);
+                        boolean isFavorite = (eventLike != null && eventLike.getIsFavorite() == Boolean.TRUE);
+
+                        // 이벤트에 연결된 해시태그 조회
+                        List<EventHashTag> eventHashTags = eventHashTagRepository.findByEvent(event);
+                        List<HashTagResponseDTO.HashTagDTO> hashTags = eventHashTags.stream()
+                                .map(eht -> HashTagConverter.toHashTagDTO(eht.getHashTag()))
+                                .collect(Collectors.toList());
+
+                        // eventAnimationList를 이용해 애니메이션 제목을 추출 (여러 개가 있을 경우 콤마로 연결)
+                        String animationTitle = event.getEventAnimationList().stream()
+                                .map(ea -> ea.getAnimation().getName())
+                                .collect(Collectors.joining(", "));
+
+                        return EventConverter.toSearchedEventInfoDTO(event, isFavorite, animationTitle, hashTags);
+                    })
+                    .collect(Collectors.toList());
+
+            // 장소 DTO 변환
+            List<PlaceResponseDTO.SearchedPlaceInfoDTO> placeDTOs = groupedPlaces.getOrDefault(key, Collections.emptyList())
+                    .stream().map(place -> {
+                        // 각 장소의 모든 PlaceAnimation을 AnimationInfoDTO 리스트로 변환 (애니메이션별 좋아요 여부 계산)
+                        List<AnimationResponseDTO.AnimationInfoDTO> animationDTOs = place.getPlaceAnimationList().stream()
+                                .map(placeAnimation -> {
+                                    // 각 장소의 애니메이션별 좋아요 여부
+                                    boolean animationIsFavorite = placeLikeRepository.findByUserAndPlaceAnimation(user, placeAnimation)
+                                            .map(pl -> Boolean.TRUE.equals(pl.getIsFavorite()))
+                                            .orElse(false);
+
+                                    List<HashTagResponseDTO.HashTagDTO> hashTags = placeAnimation.getPlaceAnimationHashTags().stream()
+                                            .map(pah -> HashTagConverter.toHashTagDTO(pah.getHashTag()))
+                                            .collect(Collectors.toList());
+
+                                    return AnimationConverter.toAnimationInfoDTO(placeAnimation, animationIsFavorite, hashTags);
+                                })
+                                .collect(Collectors.toList());
+
+                        return PlaceConverter.toSearchedPlaceInfoDTO(place, animationDTOs);
+                    })
+                    .toList();
+
+            return SearchConverter.toSearchResultDTO(eventDTOs, placeDTOs, lat, lng);
+        }).collect(Collectors.toList());
     }
 
 }
