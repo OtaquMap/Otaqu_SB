@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface PlaceAnimationRepository extends JpaRepository<PlaceAnimation, Long> {
     Optional<PlaceAnimation> findByIdAndPlaceId(Long id, Long placeId);
     List<PlaceAnimation> findByPlaceId(Long placeId);
+    Optional<PlaceAnimation> findByPlaceIdAndAnimationId(Long placeId, Long animationId);
 }

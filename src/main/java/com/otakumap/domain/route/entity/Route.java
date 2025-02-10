@@ -15,7 +15,6 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Route extends BaseEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,9 +23,19 @@ public class Route extends BaseEntity {
     private String name;
 
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL)
-    private List<RouteLike> routeLikes;
+    private List<RouteLike> routeLikes = new ArrayList<>();
 
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RouteItem> routeItems = new ArrayList<>();
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setRouteItems(List<RouteItem> routeItems) {
+        if (!this.routeItems.isEmpty()) {
+            this.routeItems.clear();
+        }
+        this.routeItems.addAll(routeItems);
+    }
 }

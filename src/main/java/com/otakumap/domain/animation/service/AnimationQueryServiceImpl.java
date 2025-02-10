@@ -14,6 +14,11 @@ public class AnimationQueryServiceImpl implements AnimationQueryService {
     private final AnimationRepository animationRepository;
 
     @Override
+    public boolean existsById(Long animationId) {
+        return animationRepository.existsById(animationId);
+    }
+
+    @Override
     @Transactional
     public List<Animation> searchAnimation(String keyword) {
         return animationRepository.searchAnimationByKeyword(keyword);

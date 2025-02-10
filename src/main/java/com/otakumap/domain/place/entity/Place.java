@@ -56,4 +56,6 @@ public class Place extends BaseEntity {
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
     private List<EventReviewPlace> eventReviewList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RouteItem> routeItems = new ArrayList<>();
 }

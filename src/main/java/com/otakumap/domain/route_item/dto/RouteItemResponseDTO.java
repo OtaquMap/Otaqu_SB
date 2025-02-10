@@ -1,6 +1,5 @@
 package com.otakumap.domain.route_item.dto;
 
-import com.otakumap.domain.route_item.enums.ItemType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,8 +14,7 @@ public class RouteItemResponseDTO {
     public static class RouteItemDTO {
         Long routeItemId;
         String name;
-        Long itemId;
-        ItemType itemType;
+        Long placeId;
         Integer itemOrder;
     }
 }

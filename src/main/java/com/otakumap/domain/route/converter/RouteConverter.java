@@ -9,6 +9,9 @@ import com.otakumap.domain.route_item.entity.RouteItem;
 import com.otakumap.domain.route_item.enums.ItemType;
 
 import java.util.List;
+import com.otakumap.domain.route_item.entity.RouteItem;
+
+import java.util.List;
 
 public class RouteConverter {
 
@@ -21,10 +24,23 @@ public class RouteConverter {
                 .build();
     }
 
+//    public static Route toRoute(String name, List<RouteItem> routeItems) {
+//        return Route.builder()
+//                .name(name)
+//                .routeItems(routeItems)
+//                .build();
+//    }
+
     public static Route toRoute(String name, List<RouteItem> routeItems) {
-        return Route.builder()
+        Route route = Route.builder()
                 .name(name)
                 .routeItems(routeItems)
                 .build();
+
+        for (RouteItem item : routeItems) {
+            item.setRoute(route);
+        }
+
+        return route;
     }
 }

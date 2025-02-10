@@ -32,12 +32,18 @@ public class RouteItem extends BaseEntity {
     private Long itemId; // EventReview 또는 PlaceReview의 id
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "route_id")
+    @JoinColumn(name = "route_id", nullable = false)
     private Route route;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_id")
     private Place place;
 
-    public void setRoute(Route route) { this.route = route; }
+    public void setRoute(Route route) {
+        this.route = route;
+    }
+
+    public void setItemOrder(Integer itemOrder) {
+        this.itemOrder = itemOrder;
+    }
 }
