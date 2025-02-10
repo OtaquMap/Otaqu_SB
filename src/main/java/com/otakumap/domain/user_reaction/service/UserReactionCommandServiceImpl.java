@@ -23,35 +23,44 @@ public class UserReactionCommandServiceImpl implements UserReactionCommandServic
     public UserReaction reactToReview(User user, Long reviewId, int reactionType) {
         PlaceShortReview placeShortReview = placeShortReviewRepository.findById(reviewId).orElseThrow(() -> new ReviewHandler(ErrorStatus.PLACE_REVIEW_NOT_FOUND));
 
-        UserReaction userReaction = userReactionRepository.findByUserIdAndPlaceShortReviewId(user.getId(), reviewId).orElseGet(() -> null);
+        UserReaction userReaction = userReactionRepository.findByUserIdAndPlaceShortReviewId(user.getId(), reviewId).orElse(null);
 
-        if (reactionType == 0) { // dislike
-            if (userReaction == null || (!userReaction.isLiked() && !userReaction.isDisliked())) { // 원래 아무 반응도 없었던 경우
+        if (userReaction == null) {
+            if (reactionType == 0) { // dislike
                 userReaction = UserReactionConverter.toDislike(user, placeShortReview, true);
                 placeShortReview.updateDislikes(placeShortReview.getDislikes() + 1);
-            } else if (userReaction.isDisliked()) { // 원래 싫어요가 있었던 경우
-                userReaction.updateDisliked(false);
-                placeShortReview.updateDislikes(placeShortReview.getDislikes() - 1);
-            } else { // 원래 좋아요가 있었던 경우
-                userReaction.updateDisliked(true);
-                userReaction.updateLiked(false);
-                placeShortReview.updateDislikes(placeShortReview.getDislikes() + 1);
-                placeShortReview.updateLikes(placeShortReview.getLikes() - 1);
-            }
-        } else { // like
-            if (userReaction == null || (!userReaction.isLiked() && !userReaction.isDisliked())) {
+            } else { // like
                 userReaction = UserReactionConverter.toLike(user, placeShortReview, true);
                 placeShortReview.updateLikes(placeShortReview.getLikes() + 1);
-            } else if (userReaction.isLiked()) {
-                userReaction.updateLiked(false);
-                placeShortReview.updateLikes(placeShortReview.getLikes() - 1);
-            } else {
-                userReaction.updateLiked(true);
-                userReaction.updateDisliked(false);
-                placeShortReview.updateLikes(placeShortReview.getLikes() + 1);
-                placeShortReview.updateDislikes(placeShortReview.getDislikes() - 1);
+            }
+        } else {
+            if (reactionType == 0) { // dislike
+                if (!userReaction.isDisliked()) {
+                    userReaction.updateDisliked(true);
+                    userReaction.updateLiked(false);
+                    placeShortReview.updateDislikes(placeShortReview.getDislikes() + 1);
+                    if (userReaction.isLiked()) {
+                        placeShortReview.updateLikes(placeShortReview.getLikes() - 1);
+                    }
+                } else {
+                    userReaction.updateDisliked(false);
+                    placeShortReview.updateDislikes(placeShortReview.getDislikes() - 1);
+                }
+            } else { // like
+                if (!userReaction.isLiked()) {
+                    userReaction.updateLiked(true);
+                    userReaction.updateDisliked(false);
+                    placeShortReview.updateLikes(placeShortReview.getLikes() + 1);
+                    if (userReaction.isDisliked()) {
+                        placeShortReview.updateDislikes(placeShortReview.getDislikes() - 1);
+                    }
+                } else {
+                    userReaction.updateLiked(false);
+                    placeShortReview.updateLikes(placeShortReview.getLikes() - 1);
+                }
             }
         }
+
         placeShortReviewRepository.save(placeShortReview);
         return userReactionRepository.save(userReaction);
     }
