@@ -5,11 +5,6 @@ import com.otakumap.domain.event.entity.Event;
 import com.otakumap.domain.event_location.converter.EventLocationConverter;
 import com.otakumap.domain.hash_tag.dto.HashTagResponseDTO;
 import com.otakumap.domain.image.converter.ImageConverter;
-import org.springframework.data.domain.Page;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import java.util.List;
 
@@ -41,17 +36,8 @@ public class EventConverter {
                 .build();
     }
 
-    public static EventResponseDTO.EventSearchResultDTO toEventSearchResultDTO(Page<EventResponseDTO.EventDTO> events) {
-        return EventResponseDTO.EventSearchResultDTO.builder()
-                .events(events.getContent())
-                .pageNumber(events.getNumber())
-                .totalPages(events.getTotalPages())
-                .totalElements(events.getNumberOfElements())
-                .isLast(events.isLast())
-                .build();
-    }
-
     public static EventResponseDTO.SearchedEventInfoDTO toSearchedEventInfoDTO(Event event, Boolean isFavorite, String animationTitle, List<HashTagResponseDTO.HashTagDTO> hashTags) {
+
         return EventResponseDTO.SearchedEventInfoDTO.builder()
                 .eventId(event.getId())
                 .name(event.getName())
