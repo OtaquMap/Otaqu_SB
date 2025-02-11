@@ -33,8 +33,4 @@ public class Image extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_review_id")
     private EventReview eventReview;
-
-    public void setPlaceReview(PlaceReview placeReview) { this.placeReview = placeReview; }
-
-    public void setEventReview(EventReview eventReview) { this.eventReview = eventReview; }
 }

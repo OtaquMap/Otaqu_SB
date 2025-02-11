@@ -14,8 +14,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.otakumap.domain.mapping.QPlaceReviewPlace.placeReviewPlace;
-
 @Repository
 @RequiredArgsConstructor
 public class PlaceReviewRepositoryImpl implements PlaceReviewRepositoryCustom {
@@ -34,12 +32,10 @@ public class PlaceReviewRepositoryImpl implements PlaceReviewRepositoryCustom {
         OrderSpecifier<?>[] orderBy = getOrderSpecifier(placeReview, sort);
 
         return queryFactory.selectFrom(placeReview)
-//                .join(placeReview.place, place) // PlaceReview에서 Place로 조인
-                .join(placeReview.placeList, placeReviewPlace) // PlaceReview에서 PlaceReviewPlace로 조인
-                .join(placeReviewPlace.place, place) // PlaceReviewPlace에서 Place로 조인
+                .join(placeReview.place, place) // PlaceReview에서 Place로 조인
                 .join(place.placeAnimationList, placeAnimation) // Place에서 PlaceAnimation으로 조인
                 .join(placeAnimation.animation, animation) // PlaceAnimation에서 Animation으로 조인
-                .where(place.id.eq(placeId))
+                .where(placeReview.place.id.eq(placeId))
                 .orderBy(orderBy)
                 .fetch();
     }
