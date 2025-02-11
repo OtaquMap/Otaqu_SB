@@ -1,5 +1,6 @@
 package com.otakumap.domain.place.converter;
 
+import com.otakumap.domain.animation.dto.AnimationResponseDTO;
 import com.otakumap.domain.mapping.PlaceAnimation;
 import com.otakumap.domain.place.DTO.PlaceResponseDTO;
 import com.otakumap.domain.place.entity.Place;
@@ -60,5 +61,15 @@ public class PlaceConverter {
         return places.stream()
                 .map(PlaceConverter::toPlaceDTO)
                 .collect(Collectors.toList());
+    }
+
+    public static PlaceResponseDTO.SearchedPlaceInfoDTO toSearchedPlaceInfoDTO(Place place,
+                                                                               List<AnimationResponseDTO.AnimationInfoDTO> animationDTOs) {
+        return PlaceResponseDTO.SearchedPlaceInfoDTO.builder()
+                .placeId(place.getId())
+                .name(place.getName())
+                .animations(animationDTOs)
+                .build();
+
     }
 }

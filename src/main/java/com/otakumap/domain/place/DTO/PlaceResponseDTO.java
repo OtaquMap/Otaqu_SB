@@ -1,5 +1,6 @@
 package com.otakumap.domain.place.DTO;
 
+import com.otakumap.domain.animation.dto.AnimationResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -51,5 +52,15 @@ public class PlaceResponseDTO {
         private String name;
         private Double latitude;
         private Double longitude;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class SearchedPlaceInfoDTO {
+        Long placeId;
+        String name;
+        List<AnimationResponseDTO.AnimationInfoDTO> animations;
     }
 }

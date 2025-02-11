@@ -11,4 +11,6 @@ public interface PlaceLikeRepository extends JpaRepository<PlaceLike, Long> {
     boolean existsByUserAndPlaceAnimation(User user, PlaceAnimation placeAnimation);
     // 특정 Place와 연결된 PlaceLike가 존재하는지 확인
     Optional<PlaceLike> findByPlaceIdAndUserId(Long placeId, Long userId);
+
+    Optional<PlaceLike> findByUserAndPlaceAnimation(User user, PlaceAnimation placeAnimation);
 }
