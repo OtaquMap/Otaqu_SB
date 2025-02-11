@@ -4,6 +4,7 @@ import com.otakumap.domain.auth.jwt.annotation.CurrentUser;
 import com.otakumap.domain.notification.converter.NotificationConverter;
 import com.otakumap.domain.notification.dto.NotificationResponseDTO;
 import com.otakumap.domain.notification.entity.Notification;
+import com.otakumap.domain.notification.entity.enums.NotificationType;
 import com.otakumap.domain.notification.service.NotificationQueryService;
 import com.otakumap.domain.notification.service.NotificationCommandService;
 import com.otakumap.domain.user.entity.User;
@@ -43,5 +44,13 @@ public class NotificationController {
     public ApiResponse<SseEmitter> subscribe(@CurrentUser User user,
                                              @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId) {
         return ApiResponse.onSuccess(notificationCommandService.subscribe(user.getId(), lastEventId));
+    }
+
+    @PostMapping("/route-save")
+    @Operation(summary = "루트 저장 알림 전송 API", description = "타 사용자가 본인의 후기 게시글을 보고 루트를 저장했을 때 알림을 전송합니다.")
+    public ApiResponse<String> notifyRouteSave(@RequestBody List<User> users, @RequestParam String routeName) {
+        String message = String.format("Your route '%s' has been saved by another user!", routeName);
+        notificationCommandService.sendBatch(users, NotificationType.POST_SAVE, message, "/routes/" + routeName);
+        return ApiResponse.onSuccess("Notifications sent successfully.");
     }
 }

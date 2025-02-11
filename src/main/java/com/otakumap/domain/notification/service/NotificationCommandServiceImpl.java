@@ -1,5 +1,6 @@
 package com.otakumap.domain.notification.service;
 
+import com.otakumap.domain.notification.converter.NotificationConverter;
 import com.otakumap.domain.notification.entity.Notification;
 import com.otakumap.domain.notification.entity.enums.NotificationType;
 import com.otakumap.domain.notification.repository.EmitterRepository;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -65,7 +67,7 @@ public class NotificationCommandServiceImpl implements NotificationCommandServic
     @Override
     @Transactional
     public void send(User receiver, NotificationType notificationType, String content, String url) {
-        Notification notification = createNotification(receiver, notificationType, content, url);
+        Notification notification = NotificationConverter.toNotification(receiver, notificationType, content, url);
         notificationRepository.save(notification);
 
         String memberId = String.valueOf(receiver.getId());
@@ -77,14 +79,12 @@ public class NotificationCommandServiceImpl implements NotificationCommandServic
         });
     }
 
-    private Notification createNotification(User user, NotificationType notificationType, String message, String url) {
-        return Notification.builder()
-                .user(user)
-                .type(notificationType)
-                .message(message)
-                .url(url)
-                .isRead(false)
-                .build();
+    @Override
+    @Transactional
+    public void sendBatch(List<User> receivers, NotificationType notificationType, String content, String url) {
+        for (User receiver : receivers) {
+            send(receiver, notificationType, content, url);
+        }
     }
 
     private void sendToClient(SseEmitter emitter, String emitterId, Object data) {
