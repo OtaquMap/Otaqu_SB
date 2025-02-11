@@ -63,6 +63,6 @@ public class EventResponseDTO {
         String name;
         Boolean isLiked;
         private String animationTitle;
-        List<HashTagResponseDTO.HashTagDTO> hashTags
+        List<HashTagResponseDTO.HashTagDTO> hashTags;
     }
 }
