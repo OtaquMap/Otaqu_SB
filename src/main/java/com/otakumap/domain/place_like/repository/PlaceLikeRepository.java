@@ -3,15 +3,14 @@ package com.otakumap.domain.place_like.repository;
 import com.otakumap.domain.mapping.PlaceAnimation;
 import com.otakumap.domain.place_like.entity.PlaceLike;
 import com.otakumap.domain.user.entity.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.time.LocalDateTime;
+import java.util.Optional;
 
 public interface PlaceLikeRepository extends JpaRepository<PlaceLike, Long> {
-    Page<PlaceLike> findByUserIdAndIdLessThanOrderByIdDesc(Long userId, Long lastId, Pageable pageable);
-    Page<PlaceLike> findAllByUserIsOrderByCreatedAtDesc(User user, Pageable pageable);
-    Page<PlaceLike> findAllByUserIsAndCreatedAtLessThanOrderByCreatedAtDesc(User user, LocalDateTime createdAt, Pageable pageable);
     boolean existsByUserAndPlaceAnimation(User user, PlaceAnimation placeAnimation);
+    // 특정 Place와 연결된 PlaceLike가 존재하는지 확인
+    Optional<PlaceLike> findByPlaceIdAndUserId(Long placeId, Long userId);
+
+    Optional<PlaceLike> findByUserAndPlaceAnimation(User user, PlaceAnimation placeAnimation);
 }

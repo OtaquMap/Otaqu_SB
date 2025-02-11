@@ -1,6 +1,7 @@
 package com.otakumap.domain.event.dto;
 
 import com.otakumap.domain.event_location.dto.EventLocationResponseDTO;
+import com.otakumap.domain.hash_tag.dto.HashTagResponseDTO;
 import com.otakumap.domain.image.dto.ImageResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,5 +52,17 @@ public class EventResponseDTO {
         Integer totalPages;
         Integer totalElements;
         Boolean isLast;
+    }
+      
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class SearchedEventInfoDTO {
+        Long eventId;
+        String name;
+        Boolean isLiked;
+        private String animationTitle;
+        List<HashTagResponseDTO.HashTagDTO> hashTags
     }
 }
