@@ -143,7 +143,7 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
         List<Event> events = queryFactory.selectFrom(event)
                     .where(searchCondition)
                     .fetch();
-        events.sort(Comparator.comparing(Event::getEndDate)
+        events.sort(Comparator.comparing(Event::getEndDate).reversed()
                 .thenComparing(Event::getTitle));
 
 
