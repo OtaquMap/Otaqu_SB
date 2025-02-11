@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -47,11 +46,23 @@ public class EventResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class EventSearchResultDTO {
+        List<EventDTO> events;
+        Integer pageNumber;
+        Integer totalPages;
+        Integer totalElements;
+        Boolean isLast;
+    }
+      
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class SearchedEventInfoDTO {
         Long eventId;
         String name;
         Boolean isLiked;
         private String animationTitle;
-        List<HashTagResponseDTO.HashTagDTO> hashTags;
+        List<HashTagResponseDTO.HashTagDTO> hashTags
     }
 }
