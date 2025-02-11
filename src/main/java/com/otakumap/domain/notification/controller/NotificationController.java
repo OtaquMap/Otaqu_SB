@@ -40,7 +40,7 @@ public class NotificationController {
     }
 
     @GetMapping(value = "/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    @Operation(summary = "알림 전송", description = "알림을 전송합니다.")
+    @Operation(summary = "알림 전송 API 구현", description = "알림을 전송합니다.")
     public ApiResponse<SseEmitter> subscribe(@CurrentUser User user,
                                              @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId) {
         return ApiResponse.onSuccess(notificationCommandService.subscribe(user.getId(), lastEventId));
@@ -49,7 +49,7 @@ public class NotificationController {
     @PostMapping("/route-save")
     @Operation(summary = "루트 저장 알림 전송 API", description = "타 사용자가 본인의 후기 게시글을 보고 루트를 저장했을 때 알림을 전송합니다.")
     public ApiResponse<String> notifyRouteSave(@RequestBody List<User> users, @RequestParam String routeName) {
-        String message = String.format("Your route '%s' has been saved by another user!", routeName);
+        String message = String.format("당신의 루트 '%s'가 다른 사용자에 의해 저장되었습니다!", routeName);
         notificationCommandService.sendBatch(users, NotificationType.POST_SAVE, message, "/routes/" + routeName);
         return ApiResponse.onSuccess("Notifications sent successfully.");
     }
