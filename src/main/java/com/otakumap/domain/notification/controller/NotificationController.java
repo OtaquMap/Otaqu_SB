@@ -10,7 +10,9 @@ import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.List;
 
@@ -34,5 +36,12 @@ public class NotificationController {
             @CurrentUser User user, @PathVariable Long notificationId) {
         notificationCommandService.markAsRead(user.getId(), notificationId);
         return ApiResponse.onSuccess("알림이 읽음처리 되었습니다.");
+    }
+
+    @GetMapping(value = "/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @Operation(summary = "알림 전송", description = "알림을 전송합니다.")
+    public ApiResponse<SseEmitter> subscribe(@CurrentUser User user,
+                                             @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId) {
+        return ApiResponse.onSuccess(notificationCommandService.subscribe(user.getId(), lastEventId));
     }
 }
