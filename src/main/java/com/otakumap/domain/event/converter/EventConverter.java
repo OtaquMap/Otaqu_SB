@@ -41,7 +41,7 @@ public class EventConverter {
         return EventResponseDTO.SearchedEventInfoDTO.builder()
                 .eventId(event.getId())
                 .name(event.getName())
-                .isFavorite(isFavorite)
+                .isLiked(isFavorite)
                 .animationTitle(animationTitle)
                 .hashTags(hashTags)
                 .build();

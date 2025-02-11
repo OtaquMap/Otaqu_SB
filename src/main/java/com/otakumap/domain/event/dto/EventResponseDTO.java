@@ -50,7 +50,7 @@ public class EventResponseDTO {
     public static class SearchedEventInfoDTO {
         Long eventId;
         String name;
-        Boolean isFavorite;
+        Boolean isLiked;
         private String animationTitle;
         List<HashTagResponseDTO.HashTagDTO> hashTags;
     }

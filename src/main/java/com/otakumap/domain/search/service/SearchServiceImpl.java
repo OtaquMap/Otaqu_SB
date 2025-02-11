@@ -107,7 +107,7 @@ public class SearchServiceImpl implements SearchService {
             List<EventResponseDTO.SearchedEventInfoDTO> eventDTOs = groupedEvents.getOrDefault(key, Collections.emptyList())
                     .stream().map(event -> {
                         EventLike eventLike = eventLikeRepository.findByUserAndEvent(user, event);
-                        boolean isFavorite = (eventLike != null && eventLike.getIsFavorite() == Boolean.TRUE);
+                        boolean isLiked = (eventLike != null);
 
                         // 이벤트에 연결된 해시태그 조회
                         List<EventHashTag> eventHashTags = eventHashTagRepository.findByEvent(event);
@@ -120,7 +120,7 @@ public class SearchServiceImpl implements SearchService {
                                 .map(ea -> ea.getAnimation().getName())
                                 .collect(Collectors.joining(", "));
 
-                        return EventConverter.toSearchedEventInfoDTO(event, isFavorite, animationTitle, hashTags);
+                        return EventConverter.toSearchedEventInfoDTO(event, isLiked, animationTitle, hashTags);
                     })
                     .collect(Collectors.toList());
 
@@ -131,15 +131,13 @@ public class SearchServiceImpl implements SearchService {
                         List<AnimationResponseDTO.AnimationInfoDTO> animationDTOs = place.getPlaceAnimationList().stream()
                                 .map(placeAnimation -> {
                                     // 각 장소의 애니메이션별 좋아요 여부
-                                    boolean animationIsFavorite = placeLikeRepository.findByUserAndPlaceAnimation(user, placeAnimation)
-                                            .map(pl -> Boolean.TRUE.equals(pl.getIsFavorite()))
-                                            .orElse(false);
+                                    boolean isLiked = placeLikeRepository.existsByUserAndPlaceAnimation(user, placeAnimation);
 
                                     List<HashTagResponseDTO.HashTagDTO> hashTags = placeAnimation.getPlaceAnimationHashTags().stream()
                                             .map(pah -> HashTagConverter.toHashTagDTO(pah.getHashTag()))
                                             .collect(Collectors.toList());
 
-                                    return AnimationConverter.toAnimationInfoDTO(placeAnimation, animationIsFavorite, hashTags);
+                                    return AnimationConverter.toAnimationInfoDTO(placeAnimation, isLiked, hashTags);
                                 })
                                 .collect(Collectors.toList());
 
