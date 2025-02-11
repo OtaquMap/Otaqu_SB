@@ -64,6 +64,10 @@ public enum ErrorStatus implements BaseErrorCode {
     // 애니메이션 관련 에러
     ANIMATION_NOT_FOUND(HttpStatus.NOT_FOUND, "ANIMATION4001", "존재하지 않는 애니메이션입니다"),
     PLACE_ANIMATION_NOT_FOUND(HttpStatus.NOT_FOUND, "ANIMATION4002", "존재하지 않는 애니메이션입니다"),
+    ANIMATION_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "ANIMATION4003", "이미 존재하는 애니메이션입니다."),
+    ANIMATION_NAME_IS_EMPTY(HttpStatus.BAD_REQUEST, "ANIMATION4004", "애니메이션 이름이 비어있습니다."),
+    ANIMATION_NAME_LENGTH(HttpStatus.BAD_REQUEST, "ANIMATION4005", "애니메이션 이름은 2자 이상 50자 이하여야 합니다."),
+    ANIMATION_NAME_SPECIAL_CHARACTER(HttpStatus.BAD_REQUEST, "ANIMATION4006", "애니메이션 이름은 한글, 영문, 숫자 및 일부 특수문자(./-)만 포함할 수 있습니다."),
 
     // 루트 관련 에러
     ROUTE_NOT_FOUND(HttpStatus.NOT_FOUND, "ROUTE4001", "존재하지 않은 루트입니다."),
@@ -87,9 +91,13 @@ public enum ErrorStatus implements BaseErrorCode {
     // 여행 후기 관련 에러
     INVALID_REVIEW_TYPE(HttpStatus.BAD_REQUEST, "REVIEW4001", "유효하지 않은 후기 타입입니다."),
     INVALID_REVIEW_ID(HttpStatus.BAD_REQUEST, "REVIEW4002", "이벤트 후기와 장소 후기에 모두 존재하지 않는 후기 id 입니다."),
+    REVIEW_NOT_FOUND(HttpStatus.BAD_REQUEST, "REVIEW4003", "존재하지 않는 후기입니다."),
 
     // 이미지 관련 에러
-    INVALID_FOLDER(HttpStatus.BAD_REQUEST, "IMAGE4001", "유효하지 않은 폴더입니다.");
+    INVALID_FOLDER(HttpStatus.BAD_REQUEST, "IMAGE4001", "유효하지 않은 폴더입니다."),
+
+    // 검색 관련 에러
+    INVALID_SEARCH_KEYWORD(HttpStatus.BAD_REQUEST, "SEARCH4001", "유효하지 않은 검색어입니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
