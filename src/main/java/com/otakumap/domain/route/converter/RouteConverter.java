@@ -8,16 +8,6 @@ import com.otakumap.domain.route_item.entity.RouteItem;
 import java.util.List;
 
 public class RouteConverter {
-
-    public static RouteResponseDTO.RouteDTO toRouteDTO(Route route) {
-
-        return RouteResponseDTO.RouteDTO.builder()
-                .routeId(route.getId())
-                .routeItems(route.getRouteItems().stream()
-                        .map(RouteItemConverter::toRouteItemDTO).toList())
-                .build();
-    }
-
     public static Route toRoute(String name, List<RouteItem> routeItems) {
         Route route = Route.builder()
                 .name(name)
@@ -29,5 +19,14 @@ public class RouteConverter {
         }
 
         return route;
+    }
+
+
+    public static RouteResponseDTO.RouteDTO toRouteDTO(Route route) {
+        return RouteResponseDTO.RouteDTO.builder()
+                .routeId(route.getId())
+                .routeItems(route.getRouteItems().stream()
+                        .map(RouteItemConverter::toRouteItemDTO).toList())
+                .build();
     }
 }

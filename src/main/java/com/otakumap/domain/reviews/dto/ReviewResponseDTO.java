@@ -66,14 +66,4 @@ public class ReviewResponseDTO {
 
         RouteResponseDTO.RouteDTO route;
     }
-
-    @Builder
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class CreatedReviewDTO {
-        Long reviewId;
-        String title;
-        LocalDateTime createdAt;
-    }
 }

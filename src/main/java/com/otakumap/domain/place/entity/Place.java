@@ -1,8 +1,6 @@
 package com.otakumap.domain.place.entity;
 
-import com.otakumap.domain.mapping.EventReviewPlace;
 import com.otakumap.domain.mapping.PlaceAnimation;
-import com.otakumap.domain.mapping.PlaceReviewPlace;
 import com.otakumap.domain.place_short_review.entity.PlaceShortReview;
 import com.otakumap.domain.route_item.entity.RouteItem;
 import com.otakumap.global.common.BaseEntity;
@@ -25,7 +23,7 @@ public class Place extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 20)
     private String name;
 
     @Column(nullable = false)
@@ -46,12 +44,6 @@ public class Place extends BaseEntity {
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
     private List<PlaceAnimation> placeAnimationList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
-    private List<PlaceReviewPlace> placeReviewList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
-    private List<EventReviewPlace> eventReviewList = new ArrayList<>();
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RouteItem> routeItems = new ArrayList<>();

@@ -1,26 +1,18 @@
 package com.otakumap.domain.reviews.controller;
 
-import com.otakumap.domain.auth.jwt.annotation.CurrentUser;
-import com.otakumap.domain.reviews.dto.ReviewRequestDTO;
 import com.otakumap.domain.reviews.dto.ReviewResponseDTO;
 import com.otakumap.domain.reviews.enums.ReviewType;
-import com.otakumap.domain.reviews.service.ReviewCommandService;
 import com.otakumap.domain.reviews.service.ReviewQueryService;
-import com.otakumap.domain.user.entity.User;
 import com.otakumap.global.apiPayload.ApiResponse;
 import com.otakumap.global.validation.annotation.ValidReviewId;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.MediaType;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class ReviewController {
 
     private final ReviewQueryService reviewQueryService;
-    private final ReviewCommandService reviewCommandService;
 
     @GetMapping("/reviews/top7")
     @Operation(summary = "조회수 Top7 여행 후기 목록 조회", description = "조회수 Top7 여행 후기 목록을 조회합니다.")
@@ -74,14 +65,5 @@ public class ReviewController {
     public ApiResponse<ReviewResponseDTO.ReviewDetailDTO> getReviewDetail(@PathVariable @ValidReviewId Long reviewId, @RequestParam(defaultValue = "PLACE") ReviewType type) {
 
         return ApiResponse.onSuccess(reviewQueryService.getReviewDetail(reviewId, type));
-    }
-
-    @PostMapping(value = "/reviews", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    @Operation(summary = "여행 후기 작성", description = "여행 후기를 작성합니다. 장소, 이벤트 후기 중 하나만 작성할 수 있으며, 최소 1개 이상의 루트 아이템이 필요합니다.")
-    public ApiResponse<ReviewResponseDTO.CreatedReviewDTO> createReview(@Parameter(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
-                                                                       @RequestPart("request") @Valid ReviewRequestDTO.CreateDTO request,
-                                                                        @CurrentUser User user, @RequestPart("review images") MultipartFile[] images) {
-        ReviewResponseDTO.CreatedReviewDTO createdReview = reviewCommandService.createReview(request, user, images);
-        return ApiResponse.onSuccess(createdReview);
     }
 }
