@@ -1,7 +1,7 @@
 package com.otakumap.domain.animation.controller;
 
-import com.otakumap.domain.animation.DTO.AnimationRequestDTO;
-import com.otakumap.domain.animation.DTO.AnimationResponseDTO;
+import com.otakumap.domain.animation.dto.AnimationRequestDTO;
+import com.otakumap.domain.animation.dto.AnimationResponseDTO;
 import com.otakumap.domain.animation.converter.AnimationConverter;
 import com.otakumap.domain.animation.entity.Animation;
 import com.otakumap.domain.animation.service.AnimationCommandService;

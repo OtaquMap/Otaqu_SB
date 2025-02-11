@@ -1,4 +1,4 @@
-package com.otakumap.domain.animation.DTO;
+package com.otakumap.domain.animation.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
