@@ -40,6 +40,7 @@ public class SecurityConfig {
     private final String[] allowGetUrl = {
             "/api/events/**",
             "/api/reviews/**",
+            "/api/map/**",
     };
 
     @Bean
