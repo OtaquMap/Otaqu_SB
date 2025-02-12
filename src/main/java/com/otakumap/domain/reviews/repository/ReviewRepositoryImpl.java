@@ -4,11 +4,14 @@ import com.otakumap.domain.animation.entity.QAnimation;
 import com.otakumap.domain.event.entity.QEvent;
 import com.otakumap.domain.event_review.entity.EventReview;
 import com.otakumap.domain.event_review.entity.QEventReview;
+import com.otakumap.domain.mapping.PlaceReviewPlace;
 import com.otakumap.domain.mapping.QEventAnimation;
 import com.otakumap.domain.mapping.QPlaceAnimation;
+import com.otakumap.domain.mapping.QPlaceReviewPlace;
 import com.otakumap.domain.place.entity.QPlace;
 import com.otakumap.domain.place_review.entity.PlaceReview;
 import com.otakumap.domain.place_review.entity.QPlaceReview;
+import com.otakumap.domain.place_review_place.repository.PlaceReviewPlaceRepository;
 import com.otakumap.domain.reviews.converter.ReviewConverter;
 import com.otakumap.domain.reviews.dto.ReviewResponseDTO;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
@@ -33,6 +36,7 @@ import java.util.stream.Stream;
 public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
+    private final PlaceReviewPlaceRepository placeReviewPlaceRepository;
 
     @Override
     public Page<ReviewResponseDTO.SearchedReviewPreViewDTO> getReviewsByKeyword(String keyword, int page, int size, String sort) {
@@ -41,6 +45,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
         QEventAnimation eventAnimation = QEventAnimation.eventAnimation;
         QPlaceAnimation placeAnimation = QPlaceAnimation.placeAnimation;
         QAnimation animation = QAnimation.animation;
+        QPlaceReviewPlace placeReviewPlace = QPlaceReviewPlace.placeReviewPlace;
 
         // 이벤트 리뷰 검색 : EventReview 제목, 내용, 또는 연관된 애니메이션 이름
         BooleanBuilder eventCondition = createSearchCondition(eventReview.title, eventReview.content, eventAnimation.animation.name, keyword);
@@ -56,7 +61,8 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                 .fetch();
 
         List<PlaceReview> placeReviews = queryFactory.selectFrom(placeReview)
-//                .leftJoin(placeReview.place, QPlace.place) // 해령: placeReview와 place가 N:M 관계가 되어 주석 처리
+                .leftJoin(placeReviewPlace).on(placeReviewPlace.placeReview.eq(placeReview))
+                .leftJoin(placeReviewPlace.place, QPlace.place)
                 .leftJoin(QPlace.place.placeAnimationList, placeAnimation)
                 .leftJoin(placeAnimation.animation, animation)
                 .where(placeCondition)
@@ -69,7 +75,8 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
         }
 
         for(PlaceReview review : placeReviews) {
-            searchedReviews.add(ReviewConverter.toSearchedPlaceReviewPreviewDTO(review));
+            PlaceReviewPlace prp = placeReviewPlaceRepository.findByPlaceReview(review);
+            searchedReviews.add(ReviewConverter.toSearchedPlaceReviewPreviewDTO(review, prp.getId()));
         }
 
         if (searchedReviews.isEmpty()) {

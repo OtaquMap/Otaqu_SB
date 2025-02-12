@@ -4,7 +4,6 @@ import com.otakumap.domain.animation.entity.Animation;
 import com.otakumap.domain.event.entity.Event;
 import com.otakumap.domain.event_review.entity.EventReview;
 import com.otakumap.domain.image.converter.ImageConverter;
-import com.otakumap.domain.image.entity.Image;
 import com.otakumap.domain.mapping.EventAnimation;
 import com.otakumap.domain.mapping.EventReviewPlace;
 import com.otakumap.domain.mapping.PlaceAnimation;
@@ -13,15 +12,14 @@ import com.otakumap.domain.place.entity.Place;
 import com.otakumap.domain.place_review.entity.PlaceReview;
 import com.otakumap.domain.reviews.dto.ReviewRequestDTO;
 import com.otakumap.domain.reviews.dto.ReviewResponseDTO;
+import com.otakumap.domain.route.converter.RouteConverter;
+import com.otakumap.domain.route.entity.Route;
 import com.otakumap.domain.user.entity.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
-import com.otakumap.domain.route.converter.RouteConverter;
-import com.otakumap.domain.route.entity.Route;
-
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ReviewConverter {
 
@@ -64,11 +62,11 @@ public class ReviewConverter {
                 .build();
     }
 
-    public static ReviewResponseDTO.SearchedReviewPreViewDTO toSearchedPlaceReviewPreviewDTO(PlaceReview placeReview) {
+    public static ReviewResponseDTO.SearchedReviewPreViewDTO toSearchedPlaceReviewPreviewDTO(PlaceReview placeReview, Long placeId) {
+
         return ReviewResponseDTO.SearchedReviewPreViewDTO.builder()
                 .reviewId(placeReview.getId())
-//                .id(placeReview.getPlace().getId())
-                .id(placeReview.getPlaceList().get(0).getPlace().getId()) // 해령: 임시로 수정
+                .id(placeId)
                 .title(placeReview.getTitle())
                 .content(placeReview.getContent())
                 .reviewImage(ImageConverter.toImageDTO(!placeReview.getImages().isEmpty() ? placeReview.getImages().get(0) : null))
