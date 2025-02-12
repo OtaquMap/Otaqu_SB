@@ -33,6 +33,6 @@ public class RouteQueryServiceImpl implements RouteQueryService {
         // routeId로 Place 목록 조회
         List<PlaceResponseDTO.PlaceDTO> places = PlaceConverter.toPlaceDTOList(routeItemRepository.findPlacesByRouteId(routeId));
 
-        return new RouteResponseDTO.RouteDetailDTO(route.getId(), places);
+        return new RouteResponseDTO.RouteDetailDTO(route.getId(), route.getName(), places);
     }
 }
