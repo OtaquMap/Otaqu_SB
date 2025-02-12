@@ -8,12 +8,12 @@ import java.util.List;
 
 public class AnimationConverter {
 
-    public static AnimationResponseDTO.AnimationInfoDTO toAnimationInfoDTO(PlaceAnimation placeAnimation, Boolean isFavorite,
+    public static AnimationResponseDTO.AnimationInfoDTO toAnimationInfoDTO(PlaceAnimation placeAnimation, Boolean isLiked,
                                                                            List<HashTagResponseDTO.HashTagDTO> hashTags) {
         return AnimationResponseDTO.AnimationInfoDTO.builder()
                 .animationId(placeAnimation.getAnimation().getId())
                 .animationName(placeAnimation.getAnimation().getName())
-                .isFavorite(isFavorite)
+                .isLiked(isLiked)
                 .hashTags(hashTags)
                 .build();
     }

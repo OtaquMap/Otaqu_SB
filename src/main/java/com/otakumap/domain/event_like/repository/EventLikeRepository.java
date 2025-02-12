@@ -9,5 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface EventLikeRepository extends JpaRepository<EventLike, Long> {
-    EventLike findByUserAndEvent(User user, Event event);
+    Boolean existsByUserAndEvent(User user, Event event);
 }

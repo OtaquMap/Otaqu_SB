@@ -30,8 +30,14 @@ public class CurrentUserResolver implements HandlerMethodArgumentResolver {
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+
         if (authentication != null) {
-            PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+            Object principal = authentication.getPrincipal();
+            // principal이 PrincipalDetails 타입이 아니면 (문자열 "anonymousUser"인 경우) null 반환
+            if (!(principal instanceof PrincipalDetails)) {
+                return null;
+            }
+            PrincipalDetails principalDetails = (PrincipalDetails) principal;
             return userQueryService.getUserByEmail(principalDetails.getUsername());
         }
         return null;

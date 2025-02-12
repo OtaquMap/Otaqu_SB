@@ -6,7 +6,6 @@ import com.otakumap.domain.event.converter.EventConverter;
 import com.otakumap.domain.event.dto.EventResponseDTO;
 import com.otakumap.domain.event.entity.Event;
 import com.otakumap.domain.event.entity.enums.EventStatus;
-import com.otakumap.domain.event_like.entity.EventLike;
 import com.otakumap.domain.event_like.repository.EventLikeRepository;
 import com.otakumap.domain.event_location.entity.EventLocation;
 import com.otakumap.domain.event_location.repository.EventLocationRepository;
@@ -106,8 +105,10 @@ public class SearchServiceImpl implements SearchService {
             // 해당 위치의 이벤트들을 DTO로 변환
             List<EventResponseDTO.SearchedEventInfoDTO> eventDTOs = groupedEvents.getOrDefault(key, Collections.emptyList())
                     .stream().map(event -> {
-                        EventLike eventLike = eventLikeRepository.findByUserAndEvent(user, event);
-                        boolean isLiked = (eventLike != null);
+                        boolean isLiked = false;
+                        if(user != null) {
+                            isLiked = eventLikeRepository.existsByUserAndEvent(user, event);
+                        }
 
                         // 이벤트에 연결된 해시태그 조회
                         List<EventHashTag> eventHashTags = eventHashTagRepository.findByEvent(event);
@@ -130,8 +131,11 @@ public class SearchServiceImpl implements SearchService {
                         // 각 장소의 모든 PlaceAnimation을 AnimationInfoDTO 리스트로 변환 (애니메이션별 좋아요 여부 계산)
                         List<AnimationResponseDTO.AnimationInfoDTO> animationDTOs = place.getPlaceAnimationList().stream()
                                 .map(placeAnimation -> {
+                                    boolean isLiked = false;
                                     // 각 장소의 애니메이션별 좋아요 여부
-                                    boolean isLiked = placeLikeRepository.existsByUserAndPlaceAnimation(user, placeAnimation);
+                                    if (user != null) {
+                                        isLiked = placeLikeRepository.existsByUserAndPlaceAnimation(user, placeAnimation);
+                                    }
 
                                     List<HashTagResponseDTO.HashTagDTO> hashTags = placeAnimation.getPlaceAnimationHashTags().stream()
                                             .map(pah -> HashTagConverter.toHashTagDTO(pah.getHashTag()))
