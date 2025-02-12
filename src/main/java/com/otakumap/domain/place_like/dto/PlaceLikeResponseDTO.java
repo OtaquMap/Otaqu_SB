@@ -52,7 +52,7 @@ public class PlaceLikeResponseDTO {
         String animationName;
         Double lat;
         Double lng;
-        Boolean isFavorite;
+        Boolean isLiked;
         List<HashTagResponseDTO.HashTagDTO> hashtags;
     }
 }
