@@ -23,7 +23,9 @@ import com.otakumap.domain.search.converter.SearchConverter;
 import com.otakumap.domain.search.dto.SearchResponseDTO;
 import com.otakumap.domain.search.repository.SearchRepositoryCustom;
 import com.otakumap.domain.user.entity.User;
+import com.otakumap.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +33,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SearchServiceImpl implements SearchService {
@@ -41,6 +44,7 @@ public class SearchServiceImpl implements SearchService {
     private final EventHashTagRepository eventHashTagRepository;
     private final PlaceLikeRepository placeLikeRepository;
     private final PlaceRepository placeRepository;
+    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
     @Override
@@ -106,8 +110,11 @@ public class SearchServiceImpl implements SearchService {
             // 해당 위치의 이벤트들을 DTO로 변환
             List<EventResponseDTO.SearchedEventInfoDTO> eventDTOs = groupedEvents.getOrDefault(key, Collections.emptyList())
                     .stream().map(event -> {
-                        EventLike eventLike = eventLikeRepository.findByUserAndEvent(user, event);
-                        boolean isLiked = (eventLike != null);
+                        boolean isLiked = false;
+                        if(user != null) {
+                            EventLike eventLike = eventLikeRepository.findByUserAndEvent(user, event);
+                            isLiked = (eventLike != null);
+                        }
 
                         // 이벤트에 연결된 해시태그 조회
                         List<EventHashTag> eventHashTags = eventHashTagRepository.findByEvent(event);
@@ -130,8 +137,11 @@ public class SearchServiceImpl implements SearchService {
                         // 각 장소의 모든 PlaceAnimation을 AnimationInfoDTO 리스트로 변환 (애니메이션별 좋아요 여부 계산)
                         List<AnimationResponseDTO.AnimationInfoDTO> animationDTOs = place.getPlaceAnimationList().stream()
                                 .map(placeAnimation -> {
+                                    boolean isLiked = false;
                                     // 각 장소의 애니메이션별 좋아요 여부
-                                    boolean isLiked = placeLikeRepository.existsByUserAndPlaceAnimation(user, placeAnimation);
+                                    if (user != null) {
+                                        isLiked = placeLikeRepository.existsByUserAndPlaceAnimation(user, placeAnimation);
+                                    }
 
                                     List<HashTagResponseDTO.HashTagDTO> hashTags = placeAnimation.getPlaceAnimationHashTags().stream()
                                             .map(pah -> HashTagConverter.toHashTagDTO(pah.getHashTag()))
