@@ -4,17 +4,16 @@ import com.otakumap.domain.animation.entity.Animation;
 import com.otakumap.domain.hash_tag.converter.HashTagConverter;
 import com.otakumap.domain.hash_tag.dto.HashTagResponseDTO;
 import com.otakumap.domain.mapping.PlaceAnimation;
+import com.otakumap.domain.mapping.PlaceReviewPlace;
 import com.otakumap.domain.place.entity.Place;
 import com.otakumap.domain.place.repository.PlaceRepository;
 import com.otakumap.domain.place_review.converter.PlaceReviewConverter;
 import com.otakumap.domain.place_review.dto.PlaceReviewResponseDTO;
 import com.otakumap.domain.place_review.entity.PlaceReview;
 import com.otakumap.domain.place_review.repository.PlaceReviewRepository;
+import com.otakumap.domain.place_review_place.repository.PlaceReviewPlaceRepository;
 import com.otakumap.domain.place_short_review.entity.PlaceShortReview;
 import com.otakumap.domain.place_short_review.repository.PlaceShortReviewRepository;
-import com.otakumap.domain.route.entity.Route;
-import com.otakumap.domain.route_item.entity.RouteItem;
-import com.otakumap.domain.route_item.repository.RouteItemRepository;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.PlaceHandler;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -37,7 +33,7 @@ public class PlaceReviewQueryServiceImpl implements PlaceReviewQueryService {
     private final PlaceRepository placeRepository;
     private final PlaceReviewRepository placeReviewRepository;
     private final PlaceShortReviewRepository placeShortReviewRepository;
-    private final RouteItemRepository routeItemRepository;
+    private final PlaceReviewPlaceRepository placeReviewPlaceRepository;
 
     @Override
     public PlaceReviewResponseDTO.PlaceAnimationReviewDTO getReviewsByPlace(Long placeId, int page, int size, String sort) {
@@ -54,12 +50,11 @@ public class PlaceReviewQueryServiceImpl implements PlaceReviewQueryService {
         Float finalAvgRating = (float)(Math.round(avgRating * 10) / 10.0);
 
         // 전체 리뷰 리스트
-        List<RouteItem> routeItems = routeItemRepository.findAllByPlace(place);
-        List<Route> routes = routeItems.stream()
-                .map(RouteItem::getRoute)
+        List<PlaceReviewPlace> placeReviewPlaces = placeReviewPlaceRepository.findByPlace(place);
+        List<PlaceReview> allReviews = placeReviewPlaces.stream()
+                .map(prp -> placeReviewRepository.findById(prp.getPlaceReview().getId()))
+                .flatMap(Optional::stream)
                 .toList();
-        List<PlaceReview> allReviews = routes.stream()
-                .map(placeReviewRepository::findAllByRoute).toList();
 
         // 애니메이션별 해시태그
         List<PlaceAnimation> placeAnimations = allReviews.stream()
