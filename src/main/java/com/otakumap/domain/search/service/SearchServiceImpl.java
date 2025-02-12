@@ -23,9 +23,7 @@ import com.otakumap.domain.search.converter.SearchConverter;
 import com.otakumap.domain.search.dto.SearchResponseDTO;
 import com.otakumap.domain.search.repository.SearchRepositoryCustom;
 import com.otakumap.domain.user.entity.User;
-import com.otakumap.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +31,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SearchServiceImpl implements SearchService {
@@ -44,7 +41,6 @@ public class SearchServiceImpl implements SearchService {
     private final EventHashTagRepository eventHashTagRepository;
     private final PlaceLikeRepository placeLikeRepository;
     private final PlaceRepository placeRepository;
-    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
     @Override
