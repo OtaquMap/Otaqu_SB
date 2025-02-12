@@ -46,8 +46,14 @@ public class RouteQueryServiceImpl implements RouteQueryService {
                 .distinct()
                 .toList();
 
-        // 첫 번째 애니메이션 선택 (없으면 빈 문자열)
-        String animationName = animationNames.isEmpty() ? "" : animationNames.get(0);
+
+        // 관련된 애니메이션이 없으면 예외 발생
+        if (animationNames.isEmpty()) {
+            throw new RouteHandler(ErrorStatus.ROUTE_ANIMATION_NOT_FOUND);
+        }
+
+        // 첫 번째 애니메이션 선택
+        String animationName = animationNames.get(0);
 
         // PlaceDTO 변환
         List<PlaceResponseDTO.PlaceDTO> placeDTOs = PlaceConverter.toPlaceDTOList(places);
