@@ -18,7 +18,8 @@ public class CorsConfig {
         configuration.setAllowedOriginPatterns(Arrays.asList(
                 "http://localhost:3000",
                 "https://otakumap.netlify.app",
-                "https://deploy-preview-*--otakumap.netlify.app"  // 모든 프리뷰 URL 허용
+                "https://deploy-preview-*--otakumap.netlify.app", // 모든 프리뷰 URL 허용
+                "https://api.otakumap.site"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));

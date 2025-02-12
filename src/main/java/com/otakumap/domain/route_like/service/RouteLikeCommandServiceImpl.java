@@ -102,6 +102,7 @@ public class RouteLikeCommandServiceImpl implements RouteLikeCommandService {
 
         route.setName(request.getName());
         route.setRouteItems(updatedRouteItems);
-        return routeLikeRepository.save(RouteLikeConverter.toRouteLike(user, route));
+
+        return routeLikeRepository.findByUserAndRoute(user, route).orElseThrow(() -> new RouteHandler(ErrorStatus.ROUTE_LIKE_NOT_FOUND));
     }
 }
