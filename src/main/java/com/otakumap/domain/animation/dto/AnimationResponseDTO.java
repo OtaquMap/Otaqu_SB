@@ -16,7 +16,7 @@ public class AnimationResponseDTO {
     public static class AnimationInfoDTO {
         private Long animationId;
         private String animationName;
-        private Boolean isFavorite;
+        private Boolean isLiked;
         private List<HashTagResponseDTO.HashTagDTO> hashTags;
     }
 }
