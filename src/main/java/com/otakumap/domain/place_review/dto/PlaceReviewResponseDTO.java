@@ -15,20 +15,9 @@ public class PlaceReviewResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class ReviewCreateResponseDTO {
-        private Long reviewId;
-        private String title;
-        private String content;
-        LocalDateTime createdAt;
-    }
-
-    @Builder
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class PlaceReviewDTO {
         private Long reviewId;
-        private Long placeId;
+        private List<Long> placeIds; // 해령: ids로 수정
         private String title;
         private String content;
         private Long view;
