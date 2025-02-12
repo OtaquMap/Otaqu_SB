@@ -9,9 +9,13 @@ import com.otakumap.domain.place_review.entity.PlaceReview;
 import com.otakumap.domain.place_review.repository.PlaceReviewRepository;
 import com.otakumap.domain.place_short_review.entity.PlaceShortReview;
 import com.otakumap.domain.place_short_review.repository.PlaceShortReviewRepository;
+import com.otakumap.domain.route.entity.Route;
+import com.otakumap.domain.route_item.entity.RouteItem;
+import com.otakumap.domain.route_item.repository.RouteItemRepository;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.PlaceHandler;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -27,6 +32,7 @@ public class PlaceReviewQueryServiceImpl implements PlaceReviewQueryService {
     private final PlaceRepository placeRepository;
     private final PlaceReviewRepository placeReviewRepository;
     private final PlaceShortReviewRepository placeShortReviewRepository;
+    private final RouteItemRepository routeItemRepository;
 
     @Override
     public PlaceReviewResponseDTO.PlaceAnimationReviewDTO getReviewsByPlace(Long placeId, int page, int size, String sort) {
@@ -43,7 +49,12 @@ public class PlaceReviewQueryServiceImpl implements PlaceReviewQueryService {
         Float finalAvgRating = (float)(Math.round(avgRating * 10) / 10.0);
 
         // 전체 리뷰 리스트
-        List<PlaceReview> allReviews = placeReviewRepository.findAllReviewsByPlace(placeId, sort);
+        List<RouteItem> routeItems = routeItemRepository.findAllByPlace(place);
+        List<Route> routes = routeItems.stream()
+                .map(RouteItem::getRoute)
+                .toList();
+        List<PlaceReview> allReviews = routes.stream()
+                .map(placeReviewRepository::findAllByRoute).toList();
 
         // 애니메이션별로 그룹화
         Map<Animation, List<PlaceReview>> reviewsByAnimation = allReviews.stream()
