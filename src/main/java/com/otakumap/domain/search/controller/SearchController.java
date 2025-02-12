@@ -32,7 +32,7 @@ public class SearchController {
     @Parameters({
             @Parameter(name = "keyword", description = "검색 키워드입니다."),
     })
-    public ApiResponse<List<SearchResponseDTO.SearchResultDTO>> getSearchedPlaceInfoList(@CurrentUser User user, @RequestParam String keyword) {
+    public ApiResponse<List<SearchResponseDTO.SearchResultDTO>> getSearchedPlaceInfoList(@CurrentUser(required=false) User user, @RequestParam String keyword) {
 
         return ApiResponse.onSuccess(searchService.getSearchedResult(user, keyword));
     }
