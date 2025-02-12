@@ -6,7 +6,6 @@ import com.otakumap.domain.event.converter.EventConverter;
 import com.otakumap.domain.event.dto.EventResponseDTO;
 import com.otakumap.domain.event.entity.Event;
 import com.otakumap.domain.event.entity.enums.EventStatus;
-import com.otakumap.domain.event_like.entity.EventLike;
 import com.otakumap.domain.event_like.repository.EventLikeRepository;
 import com.otakumap.domain.event_location.entity.EventLocation;
 import com.otakumap.domain.event_location.repository.EventLocationRepository;
@@ -108,8 +107,7 @@ public class SearchServiceImpl implements SearchService {
                     .stream().map(event -> {
                         boolean isLiked = false;
                         if(user != null) {
-                            EventLike eventLike = eventLikeRepository.findByUserAndEvent(user, event);
-                            isLiked = (eventLike != null);
+                            isLiked = eventLikeRepository.existsByUserAndEvent(user, event);
                         }
 
                         // 이벤트에 연결된 해시태그 조회
