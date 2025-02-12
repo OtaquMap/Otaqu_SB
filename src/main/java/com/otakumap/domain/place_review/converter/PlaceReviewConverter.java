@@ -1,8 +1,6 @@
 package com.otakumap.domain.place_review.converter;
 
 import com.otakumap.domain.animation.entity.Animation;
-import com.otakumap.domain.hash_tag.converter.HashTagConverter;
-import com.otakumap.domain.hash_tag.dto.HashTagResponseDTO;
 import com.otakumap.domain.image.converter.ImageConverter;
 import com.otakumap.domain.place.entity.Place;
 import com.otakumap.domain.place_review.dto.PlaceReviewRequestDTO;
@@ -43,7 +41,7 @@ public class PlaceReviewConverter {
                 .content(placeReview.getContent())
                 .view(placeReview.getView())
                 .createdAt(placeReview.getCreatedAt())
-                .reviewImage(ImageConverter.toImageDTO(placeReview.getImages().get(0))) // 나중에 수정
+                .reviewImage(ImageConverter.toImageDTO(!placeReview.getImages().isEmpty() ? placeReview.getImages().get(0) : null)) // 나중에 수정
                 .type("place")
                 .build();
     }

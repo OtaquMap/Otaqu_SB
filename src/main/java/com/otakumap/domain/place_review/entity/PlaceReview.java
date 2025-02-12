@@ -35,10 +35,6 @@ public class PlaceReview extends BaseEntity {
     @Column(columnDefinition = "bigint default 0 not null")
     private Long view;
 
-//    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "image_id", referencedColumnName = "id")
-//    private Image image;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "placeReview")
     private List<Image> images = new ArrayList<>();
 
