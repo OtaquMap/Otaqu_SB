@@ -11,7 +11,6 @@ import com.otakumap.domain.image.dto.ImageResponseDTO;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.EventHandler;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -61,18 +60,25 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
     public ImageResponseDTO.ImageDTO getEventBanner() {
         QEvent event = QEvent.event;
 
-        Event targetEvent = queryFactory.selectFrom(event)
+        List<Long> targetEventIds = queryFactory.select(event.id)
                 .where(event.endDate.goe(LocalDate.now())
                         .and(event.startDate.loe(LocalDate.now()))
                         .and(event.thumbnailImage.isNotNull()))
-                .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
-                .fetchFirst();
+                .fetch();
 
-        if (targetEvent == null) {
+        Long targetEventId;
+        if(targetEventIds.isEmpty()) {
             return ImageResponseDTO.ImageDTO.builder()
-                    .fileUrl("default_banner_url")
-                    .build();
+                .fileUrl("default_banner_url")
+                .build();
+        } else if(targetEventIds.size() > 1) {
+            Collections.shuffle(targetEventIds);
         }
+        targetEventId = targetEventIds.get(0);
+
+        Event targetEvent = queryFactory.selectFrom(event)
+                .where(event.id.eq(targetEventId))
+                .fetchOne();
 
         return ImageConverter.toImageDTO((targetEvent)
                 .getThumbnailImage());
