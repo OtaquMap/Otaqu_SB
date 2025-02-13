@@ -4,14 +4,12 @@ import com.otakumap.domain.animation.entity.QAnimation;
 import com.otakumap.domain.event.entity.QEvent;
 import com.otakumap.domain.event_review.entity.EventReview;
 import com.otakumap.domain.event_review.entity.QEventReview;
-import com.otakumap.domain.mapping.PlaceReviewPlace;
 import com.otakumap.domain.mapping.QEventAnimation;
 import com.otakumap.domain.mapping.QPlaceAnimation;
 import com.otakumap.domain.mapping.QPlaceReviewPlace;
 import com.otakumap.domain.place.entity.QPlace;
 import com.otakumap.domain.place_review.entity.PlaceReview;
 import com.otakumap.domain.place_review.entity.QPlaceReview;
-import com.otakumap.domain.place_review_place.repository.PlaceReviewPlaceRepository;
 import com.otakumap.domain.reviews.converter.ReviewConverter;
 import com.otakumap.domain.reviews.dto.ReviewResponseDTO;
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
@@ -36,7 +34,6 @@ import java.util.stream.Stream;
 public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
-    private final PlaceReviewPlaceRepository placeReviewPlaceRepository;
 
     @Override
     public Page<ReviewResponseDTO.SearchedReviewPreViewDTO> getReviewsByKeyword(String keyword, int page, int size, String sort) {
@@ -75,8 +72,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
         }
 
         for(PlaceReview review : placeReviews) {
-            PlaceReviewPlace prp = placeReviewPlaceRepository.findByPlaceReview(review);
-            searchedReviews.add(ReviewConverter.toSearchedPlaceReviewPreviewDTO(review, prp.getId()));
+            searchedReviews.add(ReviewConverter.toSearchedPlaceReviewPreviewDTO(review));
         }
 
         if (searchedReviews.isEmpty()) {

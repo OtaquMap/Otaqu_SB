@@ -52,7 +52,6 @@ public class ReviewConverter {
     public static ReviewResponseDTO.SearchedReviewPreViewDTO toSearchedEventReviewPreviewDTO(EventReview eventReview) {
         return ReviewResponseDTO.SearchedReviewPreViewDTO.builder()
                 .reviewId(eventReview.getId())
-                .id(eventReview.getEvent().getId())
                 .title(eventReview.getTitle())
                 .content(eventReview.getContent())
                 .reviewImage(ImageConverter.toImageDTO(!eventReview.getImages().isEmpty() ? eventReview.getImages().get(0) : null))
@@ -62,11 +61,10 @@ public class ReviewConverter {
                 .build();
     }
 
-    public static ReviewResponseDTO.SearchedReviewPreViewDTO toSearchedPlaceReviewPreviewDTO(PlaceReview placeReview, Long placeId) {
+    public static ReviewResponseDTO.SearchedReviewPreViewDTO toSearchedPlaceReviewPreviewDTO(PlaceReview placeReview) {
 
         return ReviewResponseDTO.SearchedReviewPreViewDTO.builder()
                 .reviewId(placeReview.getId())
-                .id(placeId)
                 .title(placeReview.getTitle())
                 .content(placeReview.getContent())
                 .reviewImage(ImageConverter.toImageDTO(!placeReview.getImages().isEmpty() ? placeReview.getImages().get(0) : null))
