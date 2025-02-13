@@ -134,7 +134,11 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
             // 먼저 PlaceReview를 저장
             PlaceReview placeReview = ReviewConverter.toPlaceReview(request, user, new ArrayList<>(), route);
             placeReview = placeReviewRepository.save(placeReview);
-            associateAnimationWithPlaceOrEvent(places.get(0), animation, ReviewType.PLACE);
+
+            PlaceAnimation placeAnimation = associateAnimationWithPlaceOrEvent(places.get(0), animation, ReviewType.PLACE);
+            placeReview.setPlaceAnimation(placeAnimation);
+            placeReview = placeReviewRepository.save(placeReview);
+
             List<PlaceReviewPlace> placeReviewPlaces = ReviewConverter.toPlaceReviewPlaceList(places, placeReview);
             placeReviewPlaceRepository.saveAll(placeReviewPlaces);
 
