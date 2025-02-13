@@ -35,6 +35,7 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
         QEvent event = QEvent.event;
 
         List<Long> eventIds = queryFactory.select(event.id)
+                .from(event)
                 .where(event.endDate.goe(LocalDate.now())
                         .and(event.startDate.loe(LocalDate.now())))
                 .fetch();
@@ -61,6 +62,7 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
         QEvent event = QEvent.event;
 
         List<Long> targetEventIds = queryFactory.select(event.id)
+                .from(event)
                 .where(event.endDate.goe(LocalDate.now())
                         .and(event.startDate.loe(LocalDate.now()))
                         .and(event.thumbnailImage.isNotNull()))
