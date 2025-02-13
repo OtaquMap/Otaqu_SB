@@ -17,14 +17,12 @@ import com.otakumap.domain.place_short_review.repository.PlaceShortReviewReposit
 import com.otakumap.global.apiPayload.code.status.ErrorStatus;
 import com.otakumap.global.apiPayload.exception.handler.PlaceHandler;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -69,7 +67,6 @@ public class PlaceReviewQueryServiceImpl implements PlaceReviewQueryService {
 
                                 Collectors.flatMapping(
                                         pa -> pa.getPlaceAnimationHashTags().stream()
-                                                .peek(pah -> log.info("PlaceAnimation 정보 : {}, HashTag : {}", pa.getAnimation().getName(), pah.getHashTag().getName()))
                                                 .map(pah -> HashTagConverter.toHashTagDTO(pah.getHashTag())),
                                         Collectors.toList()
                                 )
