@@ -99,4 +99,11 @@ public class UserController {
         String profileImageUrl = userCommandService.updateProfileImage(user, profileImage);
         return ApiResponse.onSuccess("프로필 이미지가 성공적으로 변경되었습니다. URL: " + profileImageUrl);
     }
+
+    @PatchMapping("/email")
+    @Operation(summary = "이메일 변경 API", description = "이메일 변경을 위한 인증 및 중복 확인 기능입니다.")
+    public ApiResponse<String> changeEmail(@RequestBody @Valid UserRequestDTO.ChangeEmailDTO request, @CurrentUser User user) {
+        userCommandService.changeEmail(user, request);
+        return ApiResponse.onSuccess("이메일 변경이 성공적으로 완료되었습니다.");
+    }
 }
