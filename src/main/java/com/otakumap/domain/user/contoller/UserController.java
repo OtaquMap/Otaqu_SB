@@ -101,7 +101,7 @@ public class UserController {
     }
 
     @PatchMapping("/email")
-    @Operation(summary = "이메일 변경 API", description = "이메일 변경을 위한 인증 및 중복 확인 기능입니다.")
+    @Operation(summary = "이메일 변경 API", description = "이메일 변경을 위한 기능입니다. 중복 확인 및 인증 API를 먼저 사용한 후 이용해주세요.")
     public ApiResponse<String> changeEmail(@RequestBody @Valid UserRequestDTO.ChangeEmailDTO request, @CurrentUser User user) {
         userCommandService.changeEmail(user, request);
         return ApiResponse.onSuccess("이메일 변경이 성공적으로 완료되었습니다.");
