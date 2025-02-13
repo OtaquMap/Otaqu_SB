@@ -59,4 +59,6 @@ public class PlaceReview extends BaseEntity {
     private Route route;
 
     public void setPlaceList(List<PlaceReviewPlace> placeList) { this.placeList = placeList; }
+
+    public void setPlaceAnimation(PlaceAnimation placeAnimation) { this.placeAnimation = placeAnimation; }
 }
