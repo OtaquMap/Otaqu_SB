@@ -26,6 +26,8 @@ public class RouteResponseDTO {
     @AllArgsConstructor
     public static class RouteDetailDTO {
         private Long routeId;
+        private String routeName;
+        private String animationName;
         private List<PlaceResponseDTO.PlaceDTO> places;
     }
 }
